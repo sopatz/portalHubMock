@@ -1,15 +1,20 @@
 <!doctype html>
 <html lang="en">
 <!--
-  Holmes County GIS Hub: clickable site mockup (concept, Oct 29, 2026).
+  Holmes County GIS Hub: clickable site mockup (concept, Oct 29, 2026; layouts and colors added Nov 3, 2026).
   One self-contained file: open it in Edge or Chrome, edit it in VS Code or any text editor,
   share it by email, Teams or a file share. No server needed.
 
   Where to edit:
     - Site content (layers, collections, apps, groups): the "EDIT HERE" block in the main script below.
     - Page wording: the page functions in the same script (pageHome, pageApps, pageData, ...).
-    - Site colors: the --s-* variables under ".site" in the style block.
+    - Layouts: each layout's home page is a home... function (homeClassic, homeSearch, homeSide, homeTiles, homeMap);
+      the top bars are header() and headerTiles(), and the side menu is sideNav().
+    - Site colors: the --s-* variables under ".site" (Hub blue & gold) and the .site[data-colors="..."] blocks after it.
+      To add a color scheme, copy a block, rename it, and add a matching button under "Colors" further down.
     - Map shapes: the GEO script at the very end. It is generated from the county layers; don't hand-edit it.
+  Link to one design by adding #layout=tiles&colors=flag (for example) to the file's address.
+  The last layout and colors you picked are remembered in your browser.
   Fonts load from Google Fonts when online and fall back to Arial / Segoe UI offline.
   Full plan: 05_Hub_Concept_and_Recommendations.md.
 -->
@@ -61,13 +66,18 @@ code,.mono{font-family:var(--f-mono);font-size:.88em}
 main.wrap{padding-bottom:48px}
 
 /* prototype controls */
-.ctl{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:18px}
-.ctl .lbl{font-size:.85rem;color:var(--muted)}
+.ctl{display:grid;gap:10px;margin-bottom:18px}
+.ctl-row{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.ctl .lbl{font-size:.85rem;color:var(--muted);min-width:58px}
+.ctl-cap{margin:2px 0 0;font-size:.88rem;color:var(--ink2);display:grid;gap:2px;max-width:920px}
+.ctl-cap b{font-weight:600;color:var(--ink)}
 .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);gap:2px}
 .seg button{font:inherit;font-size:.9rem;border:0;background:transparent;color:var(--ink2);padding:7px 14px;border-radius:999px;cursor:pointer}
 .seg button[aria-checked="true"]{background:var(--blue);color:var(--on-blue)}
 .tgl{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--ink2);cursor:pointer}
 .tgl input{width:18px;height:18px;accent-color:var(--blue)}
+.seg .sw{display:inline-flex;vertical-align:-2px;margin-right:7px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(127,127,127,.4)}
+.seg .sw i{display:block;width:7px;height:13px}
 
 /* browser frame */
 .browser{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:0 18px 40px -24px rgba(10,30,50,.35)}
@@ -77,122 +87,173 @@ main.wrap{padding-bottom:48px}
 .btag{flex:none;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-family:var(--f-display);color:var(--note-ink);background:var(--note);border:1px solid var(--note-line);padding:3px 8px;border-radius:4px}
 
 /* ================= PROTOTYPE (always light: a picture of a web page) ================= */
+/* Colors: the .site block is "Hub blue & gold"; each .site[data-colors="..."] block below it overrides some values.
+   --s-pri links and buttons · --s-pri-d dark bands · --s-acc highlight (search button, staff rows, focus ring)
+   --s-hdr-* top bar · --s-hero-* home page banner · --s-foot-* footer · --s-map-* map previews */
 .site{
-  --s-bg:#ffffff; --s-soft:#f0f4f8; --s-ink:#16212e; --s-ink2:#45525f; --s-muted:#66727f; --s-line:#d4dce4;
-  --s-blue:#035691; --s-blue-d:#012f50; --s-blue-l:#e2eef8; --s-gold:#f0bf13; --s-gold-l:#fdf2cc; --s-gold-ink:#5c4600;
+  --s-bg:#ffffff; --s-soft:#f0f4f8; --s-ink:#16212e; --s-ink2:#45525f; --s-muted:#636f7c; --s-line:#d4dce4;
+  --s-pri:#035691; --s-pri-d:#012f50; --s-pri-l:#e2eef8;
+  --s-acc:#f0bf13; --s-on-acc:#012f50; --s-acc-l:#fdf2cc; --s-acc-ink:#5c4600; --s-acc-line:#e3c552;
+  --s-hdr-bg:var(--s-bg); --s-hdr-fg:var(--s-ink); --s-hdr-nav:var(--s-ink2); --s-hdr-mute:var(--s-muted); --s-hdr-line:var(--s-line);
+  --s-hdr-cur:var(--s-pri); --s-hdr-curtext:var(--s-pri); --s-signin-bg:var(--s-pri); --s-signin-fg:#ffffff;
+  --s-mark-bg:var(--s-pri-d); --s-mark-acc:var(--s-acc); --s-side-bg:var(--s-pri-d);
+  --s-hero-bg:#012f50; --s-hero-fg:#ffffff; --s-hero-ink:#cfe0ee; --s-hero-ey:#f0bf13; --s-hero-vl:#ffe48a; --s-hm-water:#6fb4e8; --s-hm-road:#f0bf13;
+  --s-foot-bg:#012f50; --s-foot-fg:#ffffff; --s-foot-ink:#cfe0ee; --s-foot-mute:#9fbad0;
+  --s-map-bg:#eef3f7; --s-map-water:#86bfe6; --s-map-road:#c99a00;
   --s-n-bg:#fff1b5; --s-n-ink:#463600; --s-n-line:#dcb93a;
   background:var(--s-bg);color:var(--s-ink);font-family:var(--f-body);font-size:15px;line-height:1.5;color-scheme:light;position:relative}
-.site a{color:var(--s-blue)}
+.site[data-colors="flag"]{ /* County flag: light blue field, gold sunrise, brown border */
+  --s-soft:#eef4fa; --s-ink:#13243a; --s-ink2:#3e5064; --s-muted:#5b6b7c; --s-line:#d3dde8;
+  --s-pri:#1e5f9c; --s-pri-d:#123d66; --s-pri-l:#e1edf8;
+  --s-acc:#f5c330; --s-on-acc:#123d66; --s-acc-l:#fdf1c9; --s-acc-ink:#5a4300; --s-acc-line:#e2bd4a;
+  --s-mark-bg:#5a3a1f;
+  --s-hero-bg:#cfe4f6; --s-hero-fg:#0f2f4f; --s-hero-ink:#2b4865; --s-hero-ey:#7b4a1c; --s-hero-vl:#6a4510; --s-hm-water:#2f78bd; --s-hm-road:#b9852a;
+  --s-foot-bg:#5a3a1f; --s-foot-fg:#ffffff; --s-foot-ink:#f2e6d6; --s-foot-mute:#dcc7ab;
+  --s-map-bg:#eef4fa; --s-map-water:#7fb3e0; --s-map-road:#c9962a }
+.site[data-colors="green"]{ /* County green: the county website's green menu bar and sunflower banner */
+  --s-soft:#f1f6ee; --s-ink:#182417; --s-ink2:#43523f; --s-muted:#5d6b59; --s-line:#d6e0d1;
+  --s-pri:#1a7a0c; --s-pri-d:#15501a; --s-pri-l:#e3f1dc;
+  --s-acc:#f2c21b; --s-on-acc:#15501a; --s-acc-l:#fdf3cc; --s-acc-ink:#594400; --s-acc-line:#e0c04a;
+  --s-hdr-bg:#1a7a0c; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#e6f3e0; --s-hdr-line:#15501a;
+  --s-hdr-cur:#f2c21b; --s-hdr-curtext:#ffffff; --s-signin-bg:#f2c21b; --s-signin-fg:#15501a; --s-mark-bg:#15501a;
+  --s-hero-bg:#15501a; --s-hero-fg:#ffffff; --s-hero-ink:#d6e9cf; --s-hero-ey:#f2c21b; --s-hero-vl:#ffe38a; --s-hm-water:#7cc0ea; --s-hm-road:#f2c21b;
+  --s-foot-bg:#1a7a0c; --s-foot-fg:#ffffff; --s-foot-ink:#ffffff; --s-foot-mute:#e6f3e0;
+  --s-map-bg:#f1f6ee; --s-map-water:#7fb8e0; --s-map-road:#c79c0a }
+.site[data-colors="barn"]{ /* Barn red & cream: red barns, hay and black buggies */
+  --s-bg:#fdfaf3; --s-soft:#f4ede0; --s-ink:#231c18; --s-ink2:#4d433c; --s-muted:#6b5f56; --s-line:#e2d8c8;
+  --s-pri:#9a2b1f; --s-pri-d:#5e1a13; --s-pri-l:#f6e3dc;
+  --s-acc:#e3a83a; --s-on-acc:#2a2320; --s-acc-l:#f8ecd0; --s-acc-ink:#5a3d06; --s-acc-line:#d9b062;
+  --s-mark-bg:#9a2b1f; --s-side-bg:#2a2320;
+  --s-hero-bg:#2a2320; --s-hero-fg:#fdfaf3; --s-hero-ink:#e6dccd; --s-hero-ey:#e3a83a; --s-hero-vl:#f3cf86; --s-hm-water:#8fb8d6; --s-hm-road:#e3a83a;
+  --s-foot-bg:#2a2320; --s-foot-fg:#ffffff; --s-foot-ink:#e6dccd; --s-foot-mute:#bfb2a2;
+  --s-map-bg:#f4ede0; --s-map-water:#8fb8d6; --s-map-road:#b8862a }
+.site[data-colors="slate"]{ /* Valley slate & rust: the county tourism site's slate, teal and rust, like the hills in fall */
+  --s-bg:#fbfaf7; --s-soft:#f1efe9; --s-ink:#1f2a33; --s-ink2:#46525c; --s-muted:#5f6973; --s-line:#dcd9d0;
+  --s-pri:#2b6964; --s-pri-d:#3b4a57; --s-pri-l:#e0eeec;
+  --s-acc:#b4501a; --s-on-acc:#ffffff; --s-acc-l:#f7e6da; --s-acc-ink:#6b2e0c; --s-acc-line:#dfa47f;
+  --s-hdr-bg:#3b4a57; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#c9d2da; --s-hdr-line:#2f3c47;
+  --s-hdr-cur:#f0a46e; --s-hdr-curtext:#ffffff; --s-signin-bg:#b4501a; --s-signin-fg:#ffffff; --s-mark-bg:#2b6964; --s-mark-acc:#f0a46e;
+  --s-hero-bg:#2f3c47; --s-hero-fg:#ffffff; --s-hero-ink:#d9e1e7; --s-hero-ey:#f0a46e; --s-hero-vl:#f6c59c; --s-hm-water:#8cc5d6; --s-hm-road:#e08a52;
+  --s-foot-bg:#2f3c47; --s-foot-fg:#ffffff; --s-foot-ink:#d9e1e7; --s-foot-mute:#aab6c0;
+  --s-map-bg:#f1efe9; --s-map-water:#8cc5d6; --s-map-road:#c06a35 }
+
+.site a{color:var(--s-pri)}
 :where(.site) button{font:inherit;color:inherit}
 .s-in{max-width:1080px;margin:0 auto;padding-inline:24px}
 .ic{width:1.15em;height:1.15em;flex:none;vertical-align:-.2em}
+.site .ey{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.16em;font-size:.78rem}
 
-.s-hdr{background:var(--s-bg);border-bottom:1px solid var(--s-line)}
+.s-hdr{background:var(--s-hdr-bg);border-bottom:1px solid var(--s-hdr-line)}
 .s-hdr .s-in{display:flex;align-items:center;gap:20px;min-height:64px;flex-wrap:wrap;padding-block:8px}
-.s-brand{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:0;text-align:left}
-.s-mark{width:38px;height:38px;border-radius:50%;background:var(--s-blue-d);display:grid;place-items:center;flex:none}
+.s-brand{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:0;text-align:left;color:var(--s-hdr-fg)}
+.s-mark{width:38px;height:38px;border-radius:50%;background:var(--s-mark-bg);display:grid;place-items:center;flex:none}
+.s-mark .m1{stroke:var(--s-mark-acc)}
+.s-mark .m2{stroke:#fff}
 .s-brand b{display:block;font-family:var(--f-display);font-weight:600;font-size:1.12rem;letter-spacing:.03em;line-height:1.1;text-transform:uppercase}
-.s-brand small{display:block;font-size:.75rem;color:var(--s-muted);letter-spacing:.02em}
+.s-brand small{display:block;font-size:.75rem;color:var(--s-hdr-mute);letter-spacing:.02em}
 .s-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;align-items:center}
-.s-nav button{background:none;border:0;padding:8px 11px;border-radius:6px;cursor:pointer;color:var(--s-ink2);font-weight:500;font-size:.93rem}
-.s-nav button:hover{background:var(--s-soft);color:var(--s-ink)}
-.s-nav button[aria-current="page"]{color:var(--s-blue);box-shadow:inset 0 -2px 0 var(--s-blue);border-radius:0}
+.s-nav button{background:none;border:0;padding:8px 11px;border-radius:6px;cursor:pointer;color:var(--s-hdr-nav);font-weight:500;font-size:.93rem}
+.s-nav button:hover{background:color-mix(in srgb,var(--s-hdr-nav) 9%,transparent);color:var(--s-hdr-fg)}
+.s-nav button[aria-current="page"]{color:var(--s-hdr-curtext);box-shadow:inset 0 -2px 0 var(--s-hdr-cur);border-radius:0}
 .s-nav .lockd{display:inline-flex;align-items:center;gap:5px}
-.s-signin{background:var(--s-blue)!important;color:#fff!important;border-radius:6px!important;padding:8px 14px!important;margin-left:6px}
+.s-signin{background:var(--s-signin-bg)!important;color:var(--s-signin-fg)!important;border:0;border-radius:6px!important;padding:8px 14px!important;margin-left:6px;cursor:pointer}
 .s-user{display:inline-flex;align-items:center;gap:8px;margin-left:6px;padding:4px 10px 4px 4px;border:1px solid var(--s-line);border-radius:999px;background:var(--s-bg);cursor:pointer}
-.s-user i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--s-gold);color:var(--s-blue-d);display:grid;place-items:center;font-weight:700;font-size:.78rem}
+.s-user i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--s-acc);color:var(--s-on-acc);display:grid;place-items:center;font-weight:700;font-size:.78rem}
 .s-user span{font-size:.82rem;color:var(--s-ink2);max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.s-heroband{background:var(--s-blue-d);color:#fff;overflow:hidden}
+.s-heroband{background:var(--s-hero-bg);color:var(--s-hero-fg);overflow:hidden}
 .s-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:center;padding-block:40px 36px}
-.s-hero .ey{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;color:var(--s-gold)}
+.s-hero .ey{color:var(--s-hero-ey)}
 .s-hero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.08;margin:10px 0 12px;text-wrap:balance}
-.s-hero p{color:#cfe0ee;max-width:470px}
-.s-search{display:flex;margin-top:22px;background:#fff;border-radius:8px;overflow:hidden;max-width:520px}
+.s-hero p{color:var(--s-hero-ink);max-width:470px}
+.s-search{display:flex;margin-top:22px;background:#fff;border-radius:8px;overflow:hidden;max-width:520px;box-shadow:0 0 0 1px color-mix(in srgb,var(--s-hero-fg) 20%,transparent)}
 .s-search input{flex:1;min-width:0;border:0;padding:13px 14px;font:inherit;color:var(--s-ink);background:#fff}
 .s-search input:focus{outline:none}
-.s-search:focus-within{outline:3px solid var(--s-gold)}
-.s-search button{border:0;background:var(--s-gold);color:var(--s-blue-d);padding:0 18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.s-pop{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:.82rem;color:#b9d0e3;align-items:center}
-.s-pop button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:999px;padding:3px 10px;cursor:pointer;font-size:.82rem}
-.s-pop button:hover{background:rgba(255,255,255,.2)}
+.s-search:focus-within{outline:3px solid var(--s-acc)}
+.s-search button{border:0;background:var(--s-acc);color:var(--s-on-acc);padding:0 18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.s-pop{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:.82rem;color:var(--s-hero-ink);align-items:center}
+.s-pop button{background:color-mix(in srgb,var(--s-hero-fg) 10%,transparent);border:1px solid color-mix(in srgb,var(--s-hero-fg) 22%,transparent);color:var(--s-hero-fg);border-radius:999px;padding:3px 10px;cursor:pointer;font-size:.82rem}
+.s-pop button:hover{background:color-mix(in srgb,var(--s-hero-fg) 20%,transparent)}
 .s-heromap{min-width:0}
 
 .map{display:block;width:100%;height:auto}
 .map .cty{fill:none;stroke-linejoin:round}
-.map.hero .twp path{fill:rgba(255,255,255,.035);stroke:rgba(255,255,255,.28);stroke-width:1}
-.map.hero .vil path{fill:rgba(240,191,19,.22);stroke:rgba(240,191,19,.55);stroke-width:.8}
-.map.hero .str{fill:none;stroke:#6fb4e8;stroke-width:.9;opacity:.6}
-.map.hero .rdc{fill:none;stroke:rgba(255,255,255,.16);stroke-width:.7}
-.map.hero .rdm{fill:none;stroke:#f0bf13;stroke-width:1.5;opacity:.9}
-.map.hero .cty{stroke:rgba(255,255,255,.8);stroke-width:2.2}
-.map.hero .tl{fill:rgba(255,255,255,.55);font-family:var(--f-display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-anchor:middle}
-.map.hero .vl{fill:#ffe48a;font-family:var(--f-body);font-size:13px;font-weight:600}
-.map.lite{background:#eef3f7}
-.map.lite .twp path{fill:#fbfcfd;stroke:#c3cfda;stroke-width:1}
-.map.lite .vil path{fill:#fdf2cc;stroke:#e0c25a;stroke-width:.8}
-.map.lite .str{fill:none;stroke:#86bfe6;stroke-width:.9}
-.map.lite .rdc{fill:none;stroke:#d5dde5;stroke-width:.8}
-.map.lite .rdm{fill:none;stroke:#c99a00;stroke-width:1.4}
-.map.lite .cty{stroke:#5b6b7a;stroke-width:1.8}
-.map.lite .tl{fill:#7b8794;font-family:var(--f-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-anchor:middle}
-.map.lite .vl{fill:#45525f;font-family:var(--f-body);font-size:12.5px;font-weight:600}
-.map .sg{fill:none;stroke:#035691;stroke-width:2;stroke-linecap:round}
+.map.hero .twp path{fill:color-mix(in srgb,var(--s-hero-fg) 4%,transparent);stroke:color-mix(in srgb,var(--s-hero-fg) 28%,transparent);stroke-width:1}
+.map.hero .vil path{fill:color-mix(in srgb,var(--s-acc) 22%,transparent);stroke:color-mix(in srgb,var(--s-acc) 55%,transparent);stroke-width:.8}
+.map.hero .str{fill:none;stroke:var(--s-hm-water);stroke-width:.9;opacity:.6}
+.map.hero .rdc{fill:none;stroke:color-mix(in srgb,var(--s-hero-fg) 16%,transparent);stroke-width:.7}
+.map.hero .rdm{fill:none;stroke:var(--s-hm-road);stroke-width:1.5;opacity:.9}
+.map.hero .cty{stroke:color-mix(in srgb,var(--s-hero-fg) 80%,transparent);stroke-width:2.2}
+.map.hero .tl{fill:color-mix(in srgb,var(--s-hero-fg) 55%,transparent);font-family:var(--f-display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-anchor:middle}
+.map.hero .vl{fill:var(--s-hero-vl);font-family:var(--f-body);font-size:13px;font-weight:600}
+.map.lite{background:var(--s-map-bg)}
+.map.lite .twp path{fill:color-mix(in srgb,var(--s-bg) 75%,#fff);stroke:color-mix(in srgb,var(--s-line) 70%,var(--s-muted));stroke-width:1}
+.map.lite .vil path{fill:var(--s-acc-l);stroke:var(--s-acc-line);stroke-width:.8}
+.map.lite .str{fill:none;stroke:var(--s-map-water);stroke-width:.9}
+.map.lite .rdc{fill:none;stroke:var(--s-line);stroke-width:.8}
+.map.lite .rdm{fill:none;stroke:var(--s-map-road);stroke-width:1.4}
+.map.lite .cty{stroke:var(--s-muted);stroke-width:1.8}
+.map.lite .tl{fill:var(--s-muted);font-family:var(--f-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-anchor:middle}
+.map.lite .vl{fill:var(--s-ink2);font-family:var(--f-body);font-size:12.5px;font-weight:600}
+.map .sg{fill:none;stroke:var(--s-pri);stroke-width:2;stroke-linecap:round}
 .map .sf{fill:none;stroke:#c2410c;stroke-width:2;stroke-dasharray:5 3}
-.map .mh{fill:none;stroke:#035691;stroke-width:3.2;stroke-linecap:round;opacity:.55}
-.map .ls{fill:#f0bf13;stroke:#012f50;stroke-width:1.4}
-.map .wt{fill:#012f50;stroke:#fff;stroke-width:1.2}
+.map .mh{fill:none;stroke:var(--s-pri);stroke-width:3.2;stroke-linecap:round;opacity:.55}
+.map .ls{fill:var(--s-acc);stroke:var(--s-pri-d);stroke-width:1.4}
+.map .wt{fill:var(--s-pri-d);stroke:#fff;stroke-width:1.2}
 .map.pick .twp path{cursor:pointer;transition:fill .15s}
-.map.pick .twp path:hover{fill:#e2eef8}
-.map.pick .twp path.sel{fill:#f0bf13;fill-opacity:.55;stroke:#012f50;stroke-width:2}
+.map.pick .twp path:hover{fill:var(--s-pri-l)}
+.map.pick .twp path.sel{fill:var(--s-acc);fill-opacity:.55;stroke:var(--s-pri-d);stroke-width:2}
+.map.pick .twp path:focus-visible{outline:none;stroke:var(--s-acc);stroke-width:3}
+.map.hero.pick .twp path:hover{fill:color-mix(in srgb,var(--s-hero-fg) 16%,transparent)}
+.map.hero.pick .twp path.sel{fill:var(--s-acc);fill-opacity:.5;stroke:var(--s-hero-fg);stroke-width:2}
 .map.pick .vil path,.map.pick text{pointer-events:none}
-.map.parc{background:#f6f8fa}
-.map.parc .pr{fill:none;stroke:#f3d873;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
-.map.parc .pp{fill:#fff;fill-opacity:.6;stroke:#6b7886;stroke-width:1.1}
-.map.parc .hl{fill:#f0bf13;fill-opacity:.55;stroke:#012f50;stroke-width:2.5}
+.map.parc{background:var(--s-map-bg)}
+.map.parc .pr{fill:none;stroke:color-mix(in srgb,var(--s-acc) 55%,#fff);stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+.map.parc .pp{fill:#fff;fill-opacity:.6;stroke:var(--s-muted);stroke-width:1.1}
+.map.parc .hl{fill:var(--s-acc);fill-opacity:.55;stroke:var(--s-pri-d);stroke-width:2.5}
 
 .s-main{padding-block:28px 40px;display:grid;gap:38px}
 .s-sec{display:grid;gap:14px}
 .s-sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .s-sec-h h2{font-family:var(--f-display);font-weight:500;font-size:1.45rem;letter-spacing:.01em;margin:0}
-.s-link{background:none;border:0;color:var(--s-blue);cursor:pointer;font-weight:600;display:inline-flex;gap:4px;align-items:center;padding:0}
+.s-link{background:none;border:0;color:var(--s-pri);cursor:pointer;font-weight:600;display:inline-flex;gap:4px;align-items:center;padding:0}
 .s-tasks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .s-task{display:grid;gap:8px;align-content:start;text-align:left;background:var(--s-bg);border:1px solid var(--s-line);border-radius:10px;padding:18px;cursor:pointer;transition:border-color .15s, box-shadow .15s}
-.s-task:hover{border-color:var(--s-blue);box-shadow:0 6px 18px -12px rgba(1,47,80,.6)}
-.s-task .ti{width:40px;height:40px;border-radius:8px;background:var(--s-blue-l);color:var(--s-blue);display:grid;place-items:center}
+.s-task:hover{border-color:var(--s-pri);box-shadow:0 6px 18px -12px color-mix(in srgb,var(--s-pri-d) 60%,transparent)}
+.s-task .ti{width:40px;height:40px;border-radius:8px;background:var(--s-pri-l);color:var(--s-pri);display:grid;place-items:center}
 .s-task .ti .ic{width:22px;height:22px}
 .s-task b{font-family:var(--f-display);font-weight:500;font-size:1.15rem;line-height:1.2}
 .s-task span{font-size:.88rem;color:var(--s-ink2)}
 .s-task.flash{animation:flash 1.4s ease 2}
-@keyframes flash{50%{box-shadow:0 0 0 4px var(--s-gold);border-color:var(--s-gold)}}
+@keyframes flash{50%{box-shadow:0 0 0 4px var(--s-acc);border-color:var(--s-acc)}}
 
 .s-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .s-card{display:grid;gap:6px;align-content:start;text-align:left;background:var(--s-bg);border:1px solid var(--s-line);border-radius:10px;padding:16px;cursor:pointer;min-width:0}
-.s-card:hover{border-color:var(--s-blue)}
+.s-card:hover{border-color:var(--s-pri)}
 .s-card b{font-weight:600;font-size:1rem;line-height:1.3}
 .s-card p{font-size:.88rem;color:var(--s-ink2);margin:0}
 .s-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.76rem;color:var(--s-muted);margin-top:2px}
 .s-pill{display:inline-flex;align-items:center;gap:4px;font-size:.74rem;padding:2px 8px;border-radius:999px;background:var(--s-soft);color:var(--s-ink2);white-space:nowrap}
-.s-pill.lk{background:var(--s-gold-l);color:var(--s-gold-ink)}
-.s-pill.bl{background:var(--s-blue-l);color:var(--s-blue)}
+.s-pill.lk{background:var(--s-acc-l);color:var(--s-acc-ink)}
+.s-pill.bl{background:var(--s-pri-l);color:var(--s-pri)}
 
-.s-staffrow{background:var(--s-gold-l);border:1px solid #edd47a;border-radius:12px;padding:18px;display:grid;gap:12px}
-.s-staffrow .s-card{border-color:#e9d48a}
+.s-staffrow{background:var(--s-acc-l);border:1px solid var(--s-acc-line);border-radius:12px;padding:18px;display:grid;gap:12px}
+.s-staffrow .s-card{border-color:var(--s-acc-line)}
 .s-signband{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:var(--s-soft);border-radius:10px;padding:14px 18px;font-size:.92rem;color:var(--s-ink2)}
-.s-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--s-blue);background:var(--s-blue);color:#fff;border-radius:6px;padding:8px 14px;font-weight:600;cursor:pointer;font-size:.9rem}
-.s-btn.ghost{background:var(--s-bg);color:var(--s-blue)}
+.s-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--s-pri);background:var(--s-pri);color:#fff;border-radius:6px;padding:8px 14px;font-weight:600;cursor:pointer;font-size:.9rem}
+.s-btn.ghost{background:var(--s-bg);color:var(--s-pri)}
 .s-btn[disabled]{opacity:.55;cursor:not-allowed}
 
 .s-list{display:grid;border:1px solid var(--s-line);border-radius:10px;overflow:hidden}
 .s-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:12px 16px;border-top:1px solid var(--s-line);background:var(--s-bg);text-align:left;cursor:pointer;width:100%;border-left:0;border-right:0;border-bottom:0}
 .s-row:first-child{border-top:0}
-.s-row:hover{background:#f7fafc}
+.s-row:hover{background:color-mix(in srgb,var(--s-soft) 60%,var(--s-bg))}
 .s-row b{font-weight:600}
 .s-row .r{font-size:.8rem;color:var(--s-muted);text-align:right;white-space:nowrap}
 
 .s-page-h{display:grid;gap:8px}
 .s-crumb{font-size:.82rem;color:var(--s-muted);display:flex;gap:6px;flex-wrap:wrap}
-.s-crumb button{background:none;border:0;padding:0;color:var(--s-blue);cursor:pointer;font-size:.82rem}
+.s-crumb button{background:none;border:0;padding:0;color:var(--s-pri);cursor:pointer;font-size:.82rem}
 .s-page-h h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.6rem,3.2vw,2.2rem);line-height:1.12;margin:0;text-wrap:balance}
 .s-page-h p{color:var(--s-ink2);max-width:720px}
 
@@ -202,27 +263,27 @@ main.wrap{padding-bottom:48px}
 .s-facets legend{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.1em;font-size:.76rem;color:var(--s-muted);margin-bottom:4px}
 .s-facets label{display:flex;gap:8px;align-items:center;cursor:pointer;color:var(--s-ink2)}
 .s-facets label span{margin-left:auto;font-size:.78rem;color:var(--s-muted);font-variant-numeric:tabular-nums}
-.s-facets input{accent-color:var(--s-blue)}
+.s-facets input{accent-color:var(--s-pri)}
 .s-qbar{display:flex;border:1px solid var(--s-line);border-radius:8px;overflow:hidden;margin-bottom:12px}
 .s-qbar input{flex:1;min-width:0;border:0;padding:10px 12px;font:inherit;background:#fff;color:var(--s-ink)}
-.s-qbar input:focus{outline:none}.s-qbar:focus-within{outline:3px solid var(--s-gold)}
+.s-qbar input:focus{outline:none}.s-qbar:focus-within{outline:3px solid var(--s-acc)}
 .s-qbar span{display:grid;place-items:center;padding:0 12px;color:var(--s-muted)}
 .s-count{font-size:.85rem;color:var(--s-muted);margin-bottom:8px}
 
 .s-item{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:start}
-.s-prev{border:1px solid var(--s-line);border-radius:10px;overflow:hidden;background:#eef3f7}
-.s-prev figcaption{font-size:.78rem;color:var(--s-muted);padding:8px 12px;border-top:1px solid var(--s-line);background:#fff}
+.s-prev{border:1px solid var(--s-line);border-radius:10px;overflow:hidden;background:var(--s-map-bg)}
+.s-prev figcaption{font-size:.78rem;color:var(--s-muted);padding:8px 12px;border-top:1px solid var(--s-line);background:var(--s-bg)}
 .s-tabs{display:flex;gap:2px;border-bottom:1px solid var(--s-line);flex-wrap:wrap}
 .s-tabs button{background:none;border:0;padding:9px 12px;cursor:pointer;color:var(--s-ink2);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
-.s-tabs button[aria-selected="true"]{color:var(--s-blue);border-bottom-color:var(--s-blue)}
+.s-tabs button[aria-selected="true"]{color:var(--s-pri);border-bottom-color:var(--s-pri)}
 .s-panel{padding-top:14px;display:grid;gap:12px}
 .s-dl{display:grid;gap:8px}
-.s-dlrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--s-line);border-radius:8px;padding:10px 12px;background:#fff}
+.s-dlrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--s-line);border-radius:8px;padding:10px 12px;background:var(--s-bg)}
 .s-dlrow b{font-weight:600;font-size:.92rem}
 .s-dlrow small{display:block;color:var(--s-muted);font-family:var(--f-mono);font-size:.74rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .s-url{display:flex;gap:0;border:1px solid var(--s-line);border-radius:8px;overflow:hidden}
 .s-url code{flex:1;min-width:0;padding:9px 10px;font-size:.76rem;background:var(--s-soft);overflow-x:auto;white-space:nowrap}
-.s-url button{border:0;border-left:1px solid var(--s-line);background:#fff;padding:0 12px;cursor:pointer;color:var(--s-blue);font-weight:600;font-size:.82rem}
+.s-url button{border:0;border-left:1px solid var(--s-line);background:var(--s-bg);padding:0 12px;cursor:pointer;color:var(--s-pri);font-weight:600;font-size:.82rem}
 .s-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:.88rem}
 .s-kv dt{color:var(--s-muted)}.s-kv dd{margin:0}
 .s-fields{width:100%;font-size:.84rem;border-collapse:collapse}
@@ -233,8 +294,8 @@ main.wrap{padding-bottom:48px}
 .s-incl td,.s-incl th{text-align:center}.s-incl td:first-child,.s-incl th:first-child{text-align:left}
 .s-incl td:first-child{font-family:var(--f-body);font-size:.86rem}
 .s-ck{color:#17703f;font-weight:700}.s-dash{color:#9aa5b1}
-.s-locked{border:1px dashed #d9b84a;background:var(--s-gold-l);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:.9rem;color:var(--s-gold-ink)}
-.s-edition{border:1px solid var(--s-line);border-radius:10px;padding:16px;display:grid;gap:10px;background:#fff}
+.s-locked{border:1px dashed var(--s-acc-line);background:var(--s-acc-l);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:.9rem;color:var(--s-acc-ink)}
+.s-edition{border:1px solid var(--s-line);border-radius:10px;padding:16px;display:grid;gap:10px;background:var(--s-bg)}
 .s-edition h3{font-family:var(--f-display);font-weight:500;font-size:1.15rem;margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
 .s-ws{display:grid;gap:16px}
@@ -243,17 +304,114 @@ main.wrap{padding-bottom:48px}
 .s-wsp header h3{font-family:var(--f-display);font-weight:500;font-size:1.15rem;margin:0}
 .s-wsp .s-grid{padding:14px}
 
-.s-foot{background:var(--s-blue-d);color:#cfe0ee;font-size:.86rem}
+.s-foot{background:var(--s-foot-bg);color:var(--s-foot-ink);font-size:.86rem}
 .s-foot .s-in{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px;padding-block:26px}
-.s-foot b{color:#fff;font-family:var(--f-display);font-weight:500;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem}
+.s-foot b{color:var(--s-foot-fg);font-family:var(--f-display);font-weight:500;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem}
 .s-foot p{margin-top:6px}
-.s-foot button{background:none;border:0;color:#cfe0ee;text-decoration:underline;cursor:pointer;padding:0;font-size:.86rem;text-align:left}
+.s-foot button{background:none;border:0;color:var(--s-foot-ink);text-decoration:underline;cursor:pointer;padding:0;font-size:.86rem;text-align:left}
 .s-foot .col{display:grid;gap:4px;align-content:start}
-.s-foot .s-legal{display:block;border-top:1px solid rgba(255,255,255,.15);padding-block:12px;font-size:.76rem;color:#9fbad0}
+.s-foot .s-legal{display:block;border-top:1px solid color-mix(in srgb,var(--s-foot-fg) 15%,transparent);padding-block:12px;font-size:.76rem;color:var(--s-foot-mute)}
 #browser{scroll-margin-top:72px}
 
+/* ---------- layout: Search first ---------- */
+.s-sf{background:var(--s-soft);border-bottom:1px solid var(--s-line)}
+.s-sf .s-in{padding-block:44px 34px;display:grid;justify-items:center;text-align:center;gap:6px}
+.s-sf .ey{color:var(--s-muted)}
+.s-sf h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.1;margin:4px 0 6px;text-wrap:balance}
+.s-sf .s-search{width:100%;max-width:680px;margin-top:10px;box-shadow:0 0 0 1px var(--s-line),0 12px 28px -20px color-mix(in srgb,var(--s-pri-d) 70%,transparent)}
+.s-sf .s-search input{padding:16px;font-size:1.05rem}
+.s-sf .s-pop{justify-content:center;color:var(--s-muted)}
+.s-sf .s-pop button{background:var(--s-bg);border-color:var(--s-line);color:var(--s-ink2)}
+.s-sf .s-pop button:hover{border-color:var(--s-pri);color:var(--s-pri);background:var(--s-bg)}
+.s-sf .pn{text-align:left;max-width:680px;margin-top:10px}
+.s-quick{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;margin-top:16px}
+.s-quick button{display:inline-flex;align-items:center;gap:8px;background:var(--s-bg);border:1px solid var(--s-line);border-radius:8px;padding:9px 14px;cursor:pointer;color:var(--s-ink);font-weight:600;font-size:.92rem}
+.s-quick button .ic{color:var(--s-pri)}
+.s-quick button:hover{border-color:var(--s-pri)}
+.s-cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.s-catb{display:flex;align-items:center;gap:12px;text-align:left;background:var(--s-bg);border:1px solid var(--s-line);border-radius:10px;padding:12px 14px;cursor:pointer;min-width:0}
+.s-catb:hover{border-color:var(--s-pri)}
+.s-catb .ti{width:38px;height:38px;border-radius:50%;background:var(--s-pri-l);color:var(--s-pri);display:grid;place-items:center;flex:none}
+.s-catb b{display:block;font-weight:600;font-size:.95rem;line-height:1.25}
+.s-catb small{display:block;color:var(--s-muted);font-size:.8rem}
+.s-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+
+/* ---------- layout: Side menu ---------- */
+.s-shell{display:grid;grid-template-columns:236px minmax(0,1fr);align-items:stretch}
+.s-side{background:var(--s-side-bg);color:#fff;padding:18px 14px 20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.s-side .s-brand{color:#fff}
+.s-side .s-brand b{font-size:1.02rem}
+.s-side .s-brand small{color:rgba(255,255,255,.75)}
+.s-side .s-mark,.s-hdr2-top .s-mark{background:rgba(255,255,255,.12)}
+.s-ssearch{display:flex;background:#fff;border-radius:8px;overflow:hidden}
+.s-ssearch input{flex:1;min-width:0;border:0;padding:9px 10px;font:inherit;font-size:.9rem;color:var(--s-ink);background:#fff}
+.s-ssearch input:focus{outline:none}
+.s-ssearch:focus-within{outline:3px solid var(--s-acc)}
+.s-ssearch button{border:0;background:var(--s-acc);color:var(--s-on-acc);padding:0 11px;cursor:pointer;display:grid;place-items:center}
+.s-snav{display:grid;gap:2px}
+.s-snav button{display:flex;align-items:center;gap:10px;background:none;border:0;border-radius:7px;padding:9px 10px;cursor:pointer;color:rgba(255,255,255,.92);font-weight:500;text-align:left}
+.s-snav button:hover{background:rgba(255,255,255,.1);color:#fff}
+.s-snav button[aria-current="page"]{background:var(--s-acc);color:var(--s-on-acc)}
+.s-side-h{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:rgba(255,255,255,.75);margin:4px 0 -10px 10px}
+.s-scats button{font-size:.86rem;padding:6px 10px}
+.s-side-foot{margin-top:auto;display:grid;gap:10px}
+.s-side .s-signin,.s-hdr2-top .s-signin{margin-left:0;background:var(--s-acc)!important;color:var(--s-on-acc)!important;font-weight:600}
+.s-side .s-user{margin-left:0;width:100%}
+.s-shell-main{min-width:0;display:flex;flex-direction:column}
+.s-shell-main #s-body{flex:1}
+.s-sidehero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center;background:var(--s-soft);border:1px solid var(--s-line);border-radius:14px;padding:24px 26px}
+.s-sidehero .ey{color:var(--s-muted)}
+.s-sidehero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;margin:8px 0 10px;text-wrap:balance}
+.s-sidehero p{color:var(--s-ink2)}
+.s-sidehero .map{border-radius:10px}
+
+/* ---------- layout: Big buttons ---------- */
+.s-hdr2-top{background:var(--s-pri-d);color:#fff}
+.s-hdr2-top .s-in{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;min-height:72px;padding-block:10px}
+.s-hdr2-top .s-brand{color:#fff}
+.s-hdr2-top .s-brand small{color:rgba(255,255,255,.78)}
+.s-hdr2-top .s-ssearch{margin-left:auto;width:min(340px,100%)}
+.s-hdr2-nav{background:var(--s-pri)}
+.s-hdr2-nav .s-in{display:flex;flex-wrap:wrap;gap:2px}
+.s-hdr2-nav button{background:none;border:0;color:#fff;padding:11px 14px;cursor:pointer;font-family:var(--f-display);font-size:1.02rem;letter-spacing:.05em;text-transform:uppercase}
+.s-hdr2-nav button:hover{background:rgba(0,0,0,.16)}
+.s-hdr2-nav button[aria-current="page"]{background:rgba(0,0,0,.24);box-shadow:inset 0 -3px 0 var(--s-acc)}
+.s-hdr2-nav .lockd{display:inline-flex;align-items:center;gap:5px}
+.s-tband{background:var(--s-soft);border-bottom:1px solid var(--s-line)}
+.s-tband .s-in{padding-block:32px 30px;display:grid;gap:16px}
+.s-tband h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.8rem,3.6vw,2.5rem);line-height:1.1;margin:0}
+.s-tband p{color:var(--s-ink2);margin-top:-8px}
+.s-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.s-tile{display:grid;gap:10px;align-content:start;justify-items:start;text-align:left;min-height:150px;background:var(--s-bg);border:1px solid var(--s-line);border-top:4px solid var(--s-pri);border-radius:10px;padding:18px;cursor:pointer;transition:background .15s,color .15s}
+.s-tile .ti{width:46px;height:46px;border-radius:50%;background:var(--s-pri-l);color:var(--s-pri);display:grid;place-items:center}
+.s-tile .ti .ic{width:24px;height:24px}
+.s-tile b{font-family:var(--f-display);font-weight:500;font-size:1.25rem;line-height:1.15}
+.s-tile span{font-size:.86rem;color:var(--s-ink2)}
+.s-tile:hover{background:var(--s-pri);border-color:var(--s-pri);color:#fff}
+.s-tile:hover span{color:#fff}
+.s-tile:hover .ti{background:rgba(255,255,255,.16);color:#fff}
+
+/* ---------- layout: Map first ---------- */
+.s-mf{background:var(--s-hero-bg);color:var(--s-hero-fg)}
+.s-mf>.s-in{padding-block:26px 28px;display:grid;gap:16px}
+.s-mf-top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
+.s-mf-top .ey{color:var(--s-hero-ey)}
+.s-mf-top h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.08;margin:6px 0 0}
+.s-mf-top .s-search{margin-top:0;flex:1 1 320px;max-width:460px}
+.s-mf-grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr);gap:20px;align-items:start}
+.s-mf-panel{background:var(--s-bg);color:var(--s-ink);border-radius:12px;padding:18px;display:grid;gap:12px;box-shadow:0 18px 40px -26px rgba(0,0,0,.55)}
+.s-mf-panel .ey{color:var(--s-muted);font-size:.74rem;letter-spacing:.14em}
+.s-mf-panel h2{font-family:var(--f-display);font-weight:500;font-size:1.45rem;margin:0}
+.s-mf-panel h2:focus{outline:none}
+.s-mf-panel p{font-size:.9rem;color:var(--s-ink2)}
+.s-mf-panel .s-row{grid-template-columns:auto minmax(0,1fr);padding:10px 12px}
+.s-mf-panel .s-row .ic{color:var(--s-pri);width:1.3em;height:1.3em}
+.s-twps{display:flex;flex-wrap:wrap;gap:6px}
+.s-twps button{background:var(--s-soft);border:1px solid var(--s-line);border-radius:999px;padding:4px 10px;cursor:pointer;font-size:.84rem;color:var(--s-ink2)}
+.s-twps button:hover{border-color:var(--s-pri);color:var(--s-pri)}
+
 /* planner notes */
-.pn{display:block;background:var(--s-n-bg);color:var(--s-n-ink);border:1px solid var(--s-n-line);border-radius:6px;padding:7px 10px 7px 30px;font-size:.8rem;line-height:1.4;position:relative;font-family:var(--f-body)}
+.pn{display:block;background:var(--s-n-bg);color:var(--s-n-ink);border:1px solid var(--s-n-line);border-radius:6px;padding:7px 10px 7px 30px;font-size:.8rem;line-height:1.4;position:relative;font-family:var(--f-body);text-align:left}
 .pn::before{content:"Note";position:absolute;left:0;top:0;bottom:0;width:22px;background:var(--s-n-line);color:var(--s-n-ink);writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.6rem;display:grid;place-items:center;border-radius:0 5px 5px 0}
 .site.no-notes .pn{display:none}
 .pn-inline{display:inline-block;margin-left:6px;vertical-align:middle}
@@ -264,15 +422,22 @@ main.wrap{padding-bottom:48px}
 @media (max-width:900px){
   .s-hero{grid-template-columns:1fr}
   .s-heromap{order:-1;max-width:560px}
-  .s-tasks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .s-tasks,.s-tiles,.s-cats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .s-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .s-cat,.s-item{grid-template-columns:1fr}
+  .s-cat,.s-item,.s-two,.s-mf-grid,.s-sidehero{grid-template-columns:1fr}
   .s-foot .s-in{grid-template-columns:1fr}
+  .s-shell{grid-template-columns:1fr}
+  .s-side{gap:10px;padding:12px 14px}
+  .s-snav{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto}
+  .s-side-h,.s-scats,.s-side .pn{display:none}
+  .s-side-foot{margin-top:0}
 }
 @media (max-width:560px){
   .s-in{padding-inline:14px}
-  .s-tasks,.s-grid{grid-template-columns:1fr}
+  .s-tasks,.s-grid,.s-tiles,.s-cats{grid-template-columns:1fr}
+  .s-tile{min-height:0}
   .s-nav{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
+  .s-hdr2-nav .s-in{flex-wrap:nowrap;overflow-x:auto}
   .s-user span{display:none}
   .btag{display:none}
 }
@@ -282,18 +447,36 @@ main.wrap{padding-bottom:48px}
 <body>
 <main class="wrap">
   <div class="page-h">
-    <div class="eyebrow">HubMigration · concept · October 29, 2026</div>
+    <div class="eyebrow">HubMigration · concept · October 29, 2026 · layouts and colors added November 3</div>
     <h1>Holmes County GIS Hub: site mockup</h1>
     <p>The proposed hub as an ArcGIS Enterprise Site on Portal. It's the same site in all three views: switch who's looking and watch the search results, rows, downloads and the Staff page change. Yellow notes explain how each part would be built. Layer names and counts are real; links and downloads are placeholders.</p>
+    <p>Layout and Colors switch the design. Any layout works with any colors. The colors would mostly go in Sites' own color settings (header, body, buttons and row backgrounds), and every scheme's text colors meet WCAG 2.1 AA contrast.</p>
   </div>
     <div class="ctl">
-      <span class="lbl" id="persona-lbl">View as</span>
+      <div class="ctl-row"><span class="lbl" id="persona-lbl">View as</span>
       <div class="seg" role="radiogroup" aria-labelledby="persona-lbl" id="persona">
         <button type="button" role="radio" aria-checked="true" data-p="public">Public visitor</button>
         <button type="button" role="radio" aria-checked="false" data-p="partner">Partner · fire district</button>
         <button type="button" role="radio" aria-checked="false" data-p="staff">County staff · Sanitary Engineer</button>
-      </div>
+      </div></div>
+      <div class="ctl-row"><span class="lbl" id="layout-lbl">Layout</span>
+      <div class="seg" role="radiogroup" aria-labelledby="layout-lbl" id="layout">
+        <button type="button" role="radio" aria-checked="true" data-v="classic" data-desc="Today’s concept. The menu runs across the top, then a banner with search beside the county map, then four task cards.">Classic</button>
+        <button type="button" role="radio" aria-checked="false" data-v="search" data-desc="One big search box with the four tasks as links under it, then data by category. The plainest layout and the least custom work in Sites.">Search first</button>
+        <button type="button" role="radio" aria-checked="false" data-v="side" data-desc="The menu, search and data categories stay in a sidebar on every page, like a staff app. Sites has no side-menu setting, so this is the most custom option.">Side menu</button>
+        <button type="button" role="radio" aria-checked="false" data-v="tiles" data-desc="Eight large “How can we help?” buttons, with search in a two-row header. Easiest for first-time and occasional visitors.">Big buttons</button>
+        <button type="button" role="radio" aria-checked="false" data-v="map" data-desc="A large county map. Pick a township to see its parcels, contours and districts beside the map.">Map first</button>
+      </div></div>
+      <div class="ctl-row"><span class="lbl" id="colors-lbl">Colors</span>
+      <div class="seg" role="radiogroup" aria-labelledby="colors-lbl" id="colors">
+        <button type="button" role="radio" aria-checked="true" data-v="blue" data-desc="Today’s AGOL hub colors, kept for continuity."><span class="sw" aria-hidden="true"><i style="background:#012f50"></i><i style="background:#035691"></i><i style="background:#f0bf13"></i></span>Hub blue &amp; gold</button>
+        <button type="button" role="radio" aria-checked="false" data-v="flag" data-desc="From the county flag: its light blue field, gold sunrise and brown border."><span class="sw" aria-hidden="true"><i style="background:#cfe4f6"></i><i style="background:#1e5f9c"></i><i style="background:#f5c330"></i><i style="background:#5a3a1f"></i></span>County flag</button>
+        <button type="button" role="radio" aria-checked="false" data-v="green" data-desc="From the county website (co.holmes.oh.us): its green menu bar and sunflower banner."><span class="sw" aria-hidden="true"><i style="background:#15501a"></i><i style="background:#1a7a0c"></i><i style="background:#f2c21b"></i></span>County green</button>
+        <button type="button" role="radio" aria-checked="false" data-v="barn" data-desc="From the landscape: red barns, hay and black buggies on cream."><span class="sw" aria-hidden="true"><i style="background:#2a2320"></i><i style="background:#9a2b1f"></i><i style="background:#e3a83a"></i><i style="background:#fdfaf3"></i></span>Barn red &amp; cream</button>
+        <button type="button" role="radio" aria-checked="false" data-v="slate" data-desc="From the Amish Country tourism site (visitamishcountry.com): slate, teal and rust, like the hills in fall."><span class="sw" aria-hidden="true"><i style="background:#3b4a57"></i><i style="background:#2b6964"></i><i style="background:#b4501a"></i></span>Valley slate &amp; rust</button>
+      </div></div>
       <label class="tgl"><input type="checkbox" id="notes-toggle" checked> Show planner notes</label>
+      <p class="ctl-cap" id="style-cap" aria-live="polite"></p>
     </div>
     <div class="browser" id="browser">
       <div class="bbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><div class="addr" id="addr">gis.co.holmes.oh.us/portal/apps/sites/#/hub</div><span class="btag">Concept · sample links</span></div>
@@ -321,8 +504,16 @@ const I = {
   plug: sv('<path d="M9 7l-5 5 5 5"/><path d="M15 7l5 5-5 5"/>'),
   arrow: sv('<path d="M5 12h13M13 7l5 5-5 5"/>'),
   map: sv('<path d="M9 5L3.5 7v12.5L9 17.5l6 2 5.5-2V5L15 7z"/><path d="M9 5v12.5M15 7v12.5"/>'),
+  pin: sv('<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>'),
+  bound: sv('<path d="M4.5 4.5h15v15h-15z" stroke-dasharray="3 2.4"/><path d="M4.5 12h15M12 4.5v15"/>'),
+  road: sv('<path d="M8.5 3.5L4.5 20.5M15.5 3.5l4 17"/><path d="M12 4.5v3M12 10.5v3M12 16.5v3"/>'),
+  drop: sv('<path d="M12 3.5s6 6.6 6 10.8a6 6 0 0 1-12 0C6 10.1 12 3.5 12 3.5z"/>'),
+  leaf: sv('<path d="M5 19c0-8 5-13.5 14-14 0 9-5 14-14 14z"/><path d="M5 19l7.5-7.5"/>'),
+  mountain: sv('<path d="M3 19.5l6.5-11 4 6.5 2.5-3.5 5 8z"/>'),
+  photo: sv('<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 16l5-5 4 4 2.5-2.5 5.5 5.5"/><circle cx="15.5" cy="9.5" r="1.5"/>'),
+  help: sv('<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.6"/><path d="M12 17.2h.01"/>'),
 };
-const markSVG = `<svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><path d="M6 27c6-5 10-5 14-2s9 3 14-1" fill="none" stroke="#f0bf13" stroke-width="2.4" stroke-linecap="round"/><path d="M6 20c6-5 10-5 14-2s9 3 14-1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".75"/><path d="M8 13c5-4 9-4 12-2s8 2 12-1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".45"/></svg>`;
+const markSVG = `<svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><path class="m1" d="M6 27c6-5 10-5 14-2s9 3 14-1" fill="none" stroke-width="2.4" stroke-linecap="round"/><path class="m2" d="M6 20c6-5 10-5 14-2s9 3 14-1" fill="none" stroke-width="2" stroke-linecap="round" opacity=".75"/><path class="m2" d="M8 13c5-4 9-4 12-2s8 2 12-1" fill="none" stroke-width="1.6" stroke-linecap="round" opacity=".45"/></svg>`;
 
 /* ======================================================================
    EDIT HERE: the content of the mockup lives in the lists below.
@@ -332,7 +523,8 @@ const markSVG = `<svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="tr
                       then {aud: group key (omit for public), d: description, pop: 1 = popular}
    COLS               the 8 collections (layers, staff edition, update, users)
    APPS               one A(...) per app: id, title, description, Apps-page section, kind, audience, note
-   Page wording is in the page functions further down (search for "function page").
+   TASKS / TILES      the home page's task cards and big buttons (just above the home page functions)
+   Page wording is in the page functions further down (search for "function page" and "function home").
    Yellow planner notes are the pn(...) calls; delete one to remove that note.
    ====================================================================== */
 /* ---------- people & groups ---------- */
@@ -436,7 +628,7 @@ const APPS = [
 const APPSEC = [['property','Property & land'],['permits','Permits & applications'],['roads','Roads & bridges'],['data','Data tools'],['stories','Stories']];
 
 /* ---------- state ---------- */
-const st = {p:'public', page:'home', arg:null, q:'', facets:{cat:new Set(), upd:new Set(), acc:new Set()}, tab:'download', twp:'Berlin'};
+const st = {p:'public', page:'home', arg:null, q:'', facets:{cat:new Set(), upd:new Set(), acc:new Set()}, tab:'download', twp:'Berlin', layout:'classic', colors:'blue', mtwp:null};
 const can = aud => PERSONAS[st.p].groups.includes(aud);
 const signedIn = () => st.p !== 'public';
 const visData = () => DATA.filter(d => can(d.aud));
@@ -448,9 +640,10 @@ const VIL_NUDGE = {Baltic:[-8,-8,'end'], Loudonville:[10,6,'start'], Killbuck:[8
 function mapSVG(o){
   o = o || {};
   const vb = GEO.viewBox.join(' ');
-  const cls = ['map', o.style || 'lite', o.pick ? 'pick' : ''].join(' ');
+  const pickable = o.pick != null && o.pick !== false;
+  const cls = ['map', o.style || 'lite', pickable ? 'pick' : ''].join(' ');
   let s = `<svg class="${cls}" viewBox="${vb}" role="img" aria-label="${esc(o.label || 'Map of Holmes County townships')}">`;
-  s += '<g class="twp">' + GEO.townships.map(t => `<path d="${t.d}" data-twp="${esc(t.n)}"${o.pick===t.n?' class="sel"':''}${o.pick?` tabindex="0" role="button" aria-label="${esc(t.n)} Township"`:''}/>`).join('') + '</g>';
+  s += '<g class="twp">' + GEO.townships.map(t => `<path d="${t.d}" data-twp="${esc(t.n)}"${o.pick===t.n?' class="sel"':''}${pickable?` tabindex="0" role="button" aria-label="${esc(t.n)} Township"`:''}/>`).join('') + '</g>';
   s += '<g class="vil">' + GEO.villages.map(v => `<path d="${v.d}"/>`).join('') + '</g>';
   if (o.croads) s += `<path class="rdc" d="${GEO.roads_county}"/>`;
   if (o.streams !== false) s += `<path class="str" d="${GEO.streams}"/>`;
@@ -484,16 +677,38 @@ function toast(msg){ const t = site.querySelector('.s-toast'); if(!t) return; t.
 const ADDR = {home:'', apps:'/pages/apps', data:'/search', dataset:'/datasets/', collections:'/pages/collections', collection:'/pages/collections/', developers:'/pages/developers', help:'/pages/help', staff:'/pages/staff'};
 
 /* ---------- chrome ---------- */
-function header(){
-  const nav = [['home','Home'],['apps','Apps'],['data','Data'],['collections','Collections'],['developers','Developers'],['help','Help']];
-  if (signedIn()) nav.push(['staff','Staff']);
-  const cur = {dataset:'data', collection:'collections'}[st.page] || st.page;
+const NAV = [['home','Home','home'],['apps','Apps','app'],['data','Data','layers'],['collections','Collections','dl'],['developers','Developers','plug'],['help','Help','help']];
+function navItems(){ const nav = NAV.slice(); if (signedIn()) nav.push(['staff','Staff','lock']); return nav; }
+const curNav = () => ({dataset:'data', collection:'collections'}[st.page] || st.page);
+const navBtn = ([k,l]) => `<button data-go="${k}"${curNav()===k?' aria-current="page"':''}>${k==='staff'?`<span class="lockd">${I.lock}${l}</span>`:l}</button>`;
+const brand = () => `<button class="s-brand" data-go="home" aria-label="Holmes County GIS Hub home"><span class="s-mark">${markSVG}</span><span><b>Holmes County GIS Hub</b><small>Maps · Apps · Data</small></span></button>`;
+function userBtn(){
   const P = PERSONAS[st.p];
+  return signedIn() ? `<button class="s-user" data-act="signout" title="Sign out"><i>${P.ini}</i><span>${esc(P.acct)}</span></button>` : `<button class="s-signin" data-act="signin">Sign in</button>`;
+}
+const miniSearch = (id, form) => `<form class="s-ssearch" data-form="${form}" role="search"><label for="${id}" style="position:absolute;left:-9999px">Search</label><input id="${id}" type="search" placeholder="Search data and apps" autocomplete="off"><button type="submit" aria-label="Search">${I.search}</button></form>`;
+function header(){
+  if (st.layout === 'tiles') return headerTiles();
   return `<header class="s-hdr"><div class="s-in">
-    <button class="s-brand" data-go="home" aria-label="Holmes County GIS Hub home"><span class="s-mark">${markSVG}</span><span><b>Holmes County GIS Hub</b><small>Maps · Apps · Data</small></span></button>
-    <nav class="s-nav" aria-label="Site">${nav.map(([k,l]) => `<button data-go="${k}"${cur===k?' aria-current="page"':''}>${k==='staff'?`<span class="lockd">${I.lock}${l}</span>`:l}</button>`).join('')}
-    ${signedIn() ? `<button class="s-user" data-act="signout" title="Sign out"><i>${P.ini}</i><span>${esc(P.acct)}</span></button>` : `<button class="s-signin" data-act="signin">Sign in</button>`}
+    ${brand()}
+    <nav class="s-nav" aria-label="Site">${navItems().map(navBtn).join('')}
+    ${userBtn()}
     </nav></div></header>`;
+}
+function headerTiles(){
+  return `<header><div class="s-hdr2-top"><div class="s-in">${brand()}${miniSearch('s-hdr-q','hdr')}${userBtn()}</div></div>
+    <nav class="s-hdr2-nav" aria-label="Site"><div class="s-in">${navItems().map(navBtn).join('')}</div></nav></header>`;
+}
+function sideNav(){
+  const catNow = st.page === 'data' && st.facets.cat.size === 1 ? [...st.facets.cat][0] : null;
+  return `<aside class="s-side">
+    ${brand()}
+    ${miniSearch('s-side-q','side')}
+    <nav class="s-snav" aria-label="Site">${navItems().map(([k,l,ic]) => `<button data-go="${k}"${curNav()===k?' aria-current="page"':''}>${I[ic]}${l}</button>`).join('')}</nav>
+    <div class="s-side-h" id="s-side-cats">Data by category</div>
+    <nav class="s-snav s-scats" aria-labelledby="s-side-cats">${visCats().map(([k,l]) => `<button data-catgo="${k}"${catNow===k?' aria-current="page"':''}>${I[CAT_IC[k]]}${esc(l)}</button>`).join('')}</nav>
+    <div class="s-side-foot">${userBtn()}${pn('Sites has no side-menu setting. This needs custom header HTML and CSS on every page: possible, but the most custom of the five layouts and the most likely to need rework after the 12.x upgrade.')}</div>
+  </aside>`;
 }
 function footer(){
   return `<footer class="s-foot"><div class="s-in">
@@ -524,36 +739,119 @@ function myTools(){
     <div class="s-grid">${apps.map(appCard).join('')}${col?`<button class="s-card" data-col="${col.id}"><b>${esc(col.t)}: ${esc(col.staff.t)}</b><p>Everything in the public collection plus ${col.adds.map(i=>DI[i].t.toLowerCase()).join(', ')}.</p><div class="s-meta"><span class="s-pill lk">${I.lock}${esc(GROUPS[col.staff.grp])}</span></div></button>`:''}</div>
     ${pn('A row set to “Limit to group” (this department’s group). Other departments’ rows exist on the same page but never render for this account.')}</section>`;
 }
-function pageHome(){
-  const tasks = [
-    ['home','Look up a property','Owner, value, sales and aerials for any parcel.','app:gisonline','t-prop'],
-    ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address applications.','apps:permits','t-permit'],
-    ['dl','Download data','Single layers or ready-made collections, refreshed nightly.','collections',''],
-    ['plug','Connect from ArcGIS Pro or QGIS','Live service URLs and the open data feed.','developers','']];
-  const popular = ['gisonline','luvc','sts','paving','roadrec','plats'].map(id => APPS.find(a=>a.id===id));
-  const recent = ['parcels','address','grav','ortho2026','precincts'].map(id=>DI[id]);
-  return `<div class="s-heroband"><div class="s-in s-hero">
-      <div><div class="ey">Holmes County, Ohio</div><h1>Maps, apps and data for Holmes County</h1>
-      <p>Look up a property, apply for a permit, or download the county's GIS data. It all comes from the county's own GIS and is updated as it changes.</p>
-      <form class="s-search" data-form="hero" role="search"><label for="s-hero-q" class="sr" style="position:absolute;left:-9999px">Search</label><input id="s-hero-q" type="search" placeholder="Search data and apps: parcels, sewer, precincts…" autocomplete="off"><button type="submit">${I.search}Search</button></form>
-      <div class="s-pop">Popular: ${['Parcels','Address points','Sewer','Contours','Precincts'].map(q=>`<button data-q="${q}">${q}</button>`).join('')}</div>
-      ${pn('Sites search card. It searches the site catalog as the visitor, so signed-in accounts also find what their groups can see.')}</div>
-      <div class="s-heromap">${mapSVG({style:'hero',croads:true,label:'Holmes County: 14 townships and 7 villages, with state routes and streams'})}</div>
-    </div></div>
-    <div class="s-in s-main">
-      <section class="s-sec" aria-label="What do you need?"><div class="s-sec-h"><h2>What do you need?</h2></div>
-        <div class="s-tasks">${tasks.map(([ic,t,d,go,cl])=>`<button class="s-task ${cl}" data-task="${go}"><span class="ti">${I[ic]}</span><b>${t}</b><span>${d}</span></button>`).join('')}</div>
-        ${pn('Four task cards instead of the current 11 department categories. Most visitors arrive with a task, not a department in mind.')}</section>
-      ${signedIn() ? myTools() : `<div class="s-signband"><span><b>County staff and partners:</b> sign in to see your department's tools and restricted data on these same pages.</span><button class="s-btn ghost" data-act="signin">${I.lock}Sign in</button></div>`}
+/* ---------- home page: shared pieces, then one function per layout ---------- */
+const TASKS = [
+  ['home','Look up a property','Owner, value, sales and aerials for any parcel.','app:gisonline','t-prop'],
+  ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address applications.','apps:permits','t-permit'],
+  ['dl','Download data','Single layers or ready-made collections, refreshed nightly.','collections',''],
+  ['plug','Connect from ArcGIS Pro or QGIS','Live service URLs and the open data feed.','developers','']];
+const TILES = [
+  ['home','Look up a property','Owner, value, sales and aerials','app:gisonline'],
+  ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address','apps:permits'],
+  ['bound','Find my districts','Township, precinct, school and tax district','catgo:boundaries'],
+  ['road','Roads & bridges','Road records, paving plans and weight limits','apps:roads'],
+  ['dl','Download data','Single layers or whole collections','collections'],
+  ['photo','Aerial photos & contours','2026 imagery and 2-ft contours by township','collection:elevation'],
+  ['plug','Connect from Pro or QGIS','Live service URLs and the open data feed','developers'],
+  ['help','Help & contact','Questions, accounts and terms of use','help']];
+const POPULAR = ['gisonline','luvc','sts','paving','roadrec','plats'];
+const RECENT = ['parcels','address','grav','ortho2026','precincts'];
+const CAT_IC = {property:'home', addresses:'pin', boundaries:'bound', roads:'road', sewer:'drop', environment:'leaf', elevation:'mountain', permits:'clip'};
+const visCats = () => CATEGORIES.filter(([k]) => visData().some(d => d.cat === k));
+const catBtn = ([k,l]) => { const n = visData().filter(d => d.cat === k).length;
+  return `<button class="s-catb" data-catgo="${k}"><span class="ti">${I[CAT_IC[k]]}</span><span><b>${esc(l)}</b><small>${n} dataset${n===1?'':'s'}</small></span></button>`; };
+const appRow = a => `<button class="s-row" data-app="${a.id}"><div><b>${esc(a.t)}</b><div class="s-meta"><span>${esc(a.d)}</span></div></div><div class="r">${esc(a.kind)}</div></button>`;
+const heroSearch = ph => `<form class="s-search" data-form="hero" role="search"><label for="s-hero-q" class="sr" style="position:absolute;left:-9999px">Search</label><input id="s-hero-q" type="search" placeholder="${ph || 'Search data and apps: parcels, sewer, precincts…'}" autocomplete="off"><button type="submit">${I.search}Search</button></form>`;
+const popChips = () => `<div class="s-pop">Popular: ${['Parcels','Address points','Sewer','Contours','Precincts'].map(q=>`<button data-q="${q}">${q}</button>`).join('')}</div>`;
+const signBand = () => `<div class="s-signband"><span><b>County staff and partners:</b> sign in to see your department's tools and restricted data on these same pages.</span><button class="s-btn ghost" data-act="signin">${I.lock}Sign in</button></div>`;
+function homeTasks(){
+  return `<section class="s-sec" aria-label="What do you need?"><div class="s-sec-h"><h2>What do you need?</h2></div>
+        <div class="s-tasks">${TASKS.map(([ic,t,d,go,cl])=>`<button class="s-task ${cl}" data-task="${go}"><span class="ti">${I[ic]}</span><b>${t}</b><span>${d}</span></button>`).join('')}</div>
+        ${pn('Four task cards instead of the current 11 department categories. Most visitors arrive with a task, not a department in mind.')}</section>`;
+}
+function homeRest(){
+  const popular = POPULAR.map(id => APPS.find(a=>a.id===id));
+  const recent = RECENT.map(id=>DI[id]);
+  return `${signedIn() ? myTools() : signBand()}
       <section class="s-sec"><div class="s-sec-h"><h2>Popular apps</h2><button class="s-link" data-go="apps">All apps ${I.arrow}</button></div>
         <div class="s-grid">${popular.map(appCard).join('')}</div></section>
       <section class="s-sec"><div class="s-sec-h"><h2>Data collections</h2><button class="s-link" data-go="collections">All 8 collections ${I.arrow}</button></div>
         <div class="s-grid">${['property','sewer','addresses'].map(id=>colCard(CI[id])).join('')}</div>
         ${pn('Gallery card of the collections’ File Geodatabase items (tag: collection). Each collection page is a Sites page.')}</section>
       <section class="s-sec"><div class="s-sec-h"><h2>Recently updated</h2><button class="s-link" data-go="data">Browse all data ${I.arrow}</button></div>
-        <div class="s-list">${recent.map(dataRow).join('')}</div></section>
+        <div class="s-list">${recent.map(dataRow).join('')}</div></section>`;
+}
+function homeClassic(){
+  return `<div class="s-heroband"><div class="s-in s-hero">
+      <div><div class="ey">Holmes County, Ohio</div><h1>Maps, apps and data for Holmes County</h1>
+      <p>Look up a property, apply for a permit, or download the county's GIS data. It all comes from the county's own GIS and is updated as it changes.</p>
+      ${heroSearch()}
+      ${popChips()}
+      ${pn('Sites search card. It searches the site catalog as the visitor, so signed-in accounts also find what their groups can see.')}</div>
+      <div class="s-heromap">${mapSVG({style:'hero',croads:true,label:'Holmes County: 14 townships and 7 villages, with state routes and streams'})}</div>
+    </div></div>
+    <div class="s-in s-main">${homeTasks()}${homeRest()}</div>`;
+}
+function homeSearch(){
+  const popular = POPULAR.map(id => APPS.find(a=>a.id===id));
+  return `<div class="s-sf"><div class="s-in">
+      <div class="ey">Holmes County GIS Hub</div><h1>What are you looking for?</h1>
+      ${heroSearch('Try “parcels”, “sewer”, “precincts” or an app name')}
+      ${popChips()}
+      <div class="s-quick">${TASKS.map(([ic,t,,go])=>`<button data-task="${go}">${I[ic]}${t}</button>`).join('')}</div>
+      ${pn('A search card in a plain row, with the four tasks as a text card of links. The least custom work of the five layouts, and it suits visitors who already know what they want.')}
+    </div></div>
+    <div class="s-in s-main">
+      <section class="s-sec"><div class="s-sec-h"><h2>Browse data by category</h2><button class="s-link" data-go="data">All data ${I.arrow}</button></div>
+        <div class="s-cats">${visCats().map(catBtn).join('')}</div>
+        ${pn('Sites’ category card: one icon per category, each opening the search filtered to it. Same 8 categories as the Data page filter; a category shows only when the visitor can see something in it, so the public sees 7 (Health & Permits is all group-only).')}</section>
+      ${signedIn() ? myTools() : signBand()}
+      <div class="s-two">
+        <section class="s-sec"><div class="s-sec-h"><h2>Popular apps</h2><button class="s-link" data-go="apps">All apps ${I.arrow}</button></div><div class="s-list">${popular.map(appRow).join('')}</div></section>
+        <section class="s-sec"><div class="s-sec-h"><h2>Recently updated</h2><button class="s-link" data-go="data">All data ${I.arrow}</button></div><div class="s-list">${RECENT.map(id=>dataRow(DI[id])).join('')}</div></section>
+      </div>
     </div>`;
 }
+function homeSide(){
+  return `<div class="s-in s-main">
+    <div class="s-sidehero"><div><div class="ey">Holmes County, Ohio</div><h1>Maps, apps and data for Holmes County</h1>
+      <p>Look up a property, apply for a permit, or download the county's GIS data. Search and every part of the site are in the menu on the left.</p></div>
+      <div>${mapSVG({croads:true,label:'Holmes County: 14 townships and 7 villages'})}</div></div>
+    ${homeTasks()}${homeRest()}</div>`;
+}
+function homeTiles(){
+  return `<div class="s-tband"><div class="s-in">
+      <h1>How can we help?</h1><p>Pick what you'd like to do, or search at the top of the page.</p>
+      <div class="s-tiles">${TILES.map(([ic,t,d,go])=>`<button class="s-tile" data-task="${go}"><span class="ti">${I[ic]}</span><b>${t}</b><span>${d}</span></button>`).join('')}</div>
+      ${pn('Eight big buttons as one row of Sites cards with links. Plain words and large targets suit first-time and occasional visitors. The two-row header with a search box probably needs a short custom header; check it against Sites’ header settings during the build.')}
+    </div></div>
+    <div class="s-in s-main">${homeRest()}</div>`;
+}
+function homeMap(){
+  return `<div class="s-mf"><div class="s-in">
+      <div class="s-mf-top"><div><div class="ey">Holmes County, Ohio</div><h1>Explore the county by map</h1></div>${heroSearch()}</div>
+      <div class="s-mf-grid"><div id="mf-map">${mapSVG({style:'hero',croads:true,pick:st.mtwp||'',label:'Map of Holmes County. Choose a township to see its data'})}</div>
+      <div class="s-mf-panel" id="mf-panel">${mfPanel()}</div></div>
+      ${pn('A full-width row with an embedded map (an Instant App or Experience Builder page in an embed card). In the real site, clicking a township would act inside that app, so this side panel is an approximation.')}
+    </div></div>
+    <div class="s-in s-main">${homeTasks()}${homeRest()}</div>`;
+}
+function mfPanel(){
+  if (!st.mtwp) return `<div class="ey">Start here</div><h2 tabindex="-1">Pick a township</h2><p>Click the map, or choose one:</p>
+    <div class="s-twps">${GEO.townships.map(t=>t.n).sort().map(n=>`<button data-twpgo="${esc(n)}">${esc(n)}</button>`).join('')}</div>`;
+  const n = st.mtwp;
+  const rows = [
+    ['home','Parcels & property records','GIS On-Line, zoomed to this township',`data-act="ext" data-what="GIS On-Line zoomed to ${esc(n)} Township"`],
+    ['mountain','2-ft contours',`HolmesCo_Contours_${slug(n)}.gdb.zip`,`data-twpcont="${esc(n)}"`],
+    ['bound','Voting precincts & polling places','Precinct boundaries and where to vote','data-ds="precincts"'],
+    ['bound','School districts','Which district serves which area','data-ds="schools"'],
+    ['pin','Address points','Every addressed structure and site','data-ds="address"']];
+  return `<div class="ey">Township</div><h2 tabindex="-1">${esc(n)} Township</h2>
+    <div class="s-list">${rows.map(([ic,t,d,attr])=>`<button class="s-row" ${attr}>${I[ic]}<div><b>${t}</b><div class="s-meta"><span>${esc(d)}</span></div></div></button>`).join('')}</div>
+    <div><button class="s-link" data-twpgo="">Choose another township</button></div>`;
+}
+const HOMES = {classic:homeClassic, search:homeSearch, side:homeSide, tiles:homeTiles, map:homeMap};
+function pageHome(){ return (HOMES[st.layout] || homeClassic)(); }
 function pageApps(){
   const f = st.arg;
   const secs = APPSEC.filter(([k]) => !f || k === f);
@@ -652,10 +950,10 @@ function pageCollection(){
   const rows = layers.concat(mine ? adds : []).map(d=>`<tr><td>${can(d.aud)?`<button class="s-link" data-ds="${d.id}" style="font-weight:500">${esc(d.t)}</button>`:esc(d.t)}</td><td>${esc(d.g)}</td><td style="font-variant-numeric:tabular-nums">${d.n?fmt(d.n):'–'}</td><td>${d.aud==='public'?'<span class="s-ck">✓</span>':'<span class="s-dash">–</span>'}</td>${hasStaff?'<td><span class="s-ck">✓</span></td>':''}</tr>`).join('') + hidden;
   return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<button data-go="collections">Collections</button>›<span>${esc(c.t)}</span></div><h1>${esc(c.t)}</h1><p>${esc(c.why)}</p>
     <div class="s-meta"><span class="s-pill bl">${nLayers(c)} layers</span><span>Refreshed ${esc(c.upd.toLowerCase())}</span><span>· For ${esc(c.users.toLowerCase())}</span></div></div>
-    <div class="s-item"><figure class="s-prev" style="margin:0">${mapHtml}<figcaption>${c.id==='sewer'?'Gravity mains (blue), force mains (dashed), lift stations (gold), treatment plants (squares)':'Preview'}</figcaption></figure>
+    <div class="s-item"><figure class="s-prev" style="margin:0">${mapHtml}<figcaption>${c.id==='sewer'?'Gravity mains (solid), force mains (dashed), lift stations (circles), treatment plants (squares)':'Preview'}</figcaption></figure>
     <div style="display:grid;gap:14px">
       <div class="s-edition"><h3>Public edition</h3>${editionBlock(c,false)}</div>
-      ${hasStaff ? (mine ? `<div class="s-edition" style="border-color:#e3c552;background:var(--s-gold-l)"><h3>${esc(c.staff.t)} <span class="s-pill lk">${I.lock}${esc(GROUPS[c.staff.grp])}</span></h3><p style="font-size:.88rem;color:var(--s-ink2)">Adds ${adds.map(d=>d.t.toLowerCase()).join(', ')}.</p>${editionBlock(c,true)}${pn('Same job, second export from the department database. The file item is shared only to this group, so Portal enforces it.')}</div>`
+      ${hasStaff ? (mine ? `<div class="s-edition" style="border-color:var(--s-acc-line);background:var(--s-acc-l)"><h3>${esc(c.staff.t)} <span class="s-pill lk">${I.lock}${esc(GROUPS[c.staff.grp])}</span></h3><p style="font-size:.88rem;color:var(--s-ink2)">Adds ${adds.map(d=>d.t.toLowerCase()).join(', ')}.</p>${editionBlock(c,true)}${pn('Same job, second export from the department database. The file item is shared only to this group, so Portal enforces it.')}</div>`
         : `<div class="s-locked"><b>${I.lock} ${esc(c.staff.t)}</b><span>Adds restricted layers for the ${esc(GROUPS[c.staff.grp])}. ${signedIn()?'Your account isn’t in that group.':'Sign in with an account in that group to download it.'}</span>${signedIn()?'':`<div><button class="s-btn ghost" data-act="signin">Sign in</button></div>`}</div>`) : ''}
       <div class="s-edition"><h3>Live service</h3><div class="s-url"><code>https://gis.co.holmes.oh.us/server/rest/services/Hub/${SVC[c.id]||'Snapshot'}/FeatureServer</code><button data-act="copy">Copy</button></div><p style="font-size:.85rem;color:var(--s-muted)">One multi-layer service. Each layer is also available at /FeatureServer/&lt;n&gt;.</p></div>
     </div></div>
@@ -714,7 +1012,12 @@ function pageStaff(){
 /* ---------- render & routing ---------- */
 const PAGES = {home:pageHome, apps:pageApps, data:pageData, dataset:pageDataset, collections:pageCollections, collection:pageCollection, developers:pageDevelopers, help:pageHelp, staff:pageStaff};
 function render(scroll){
-  site.innerHTML = header() + `<div id="s-body">${PAGES[st.page]()}</div>` + footer() + '<div class="s-toast" role="status" aria-live="polite"></div>';
+  site.dataset.layout = st.layout; site.dataset.colors = st.colors;
+  const body = `<div id="s-body">${PAGES[st.page]()}</div>`;
+  site.innerHTML = (st.layout === 'side'
+      ? `<div class="s-shell">${sideNav()}<div class="s-shell-main">${body}${footer()}</div></div>`
+      : header() + body + footer())
+    + '<div class="s-toast" role="status" aria-live="polite"></div>';
   const extra = ADDR[st.page] + (['dataset','collection'].includes(st.page) ? st.arg : '');
   document.getElementById('addr').textContent = 'gis.co.holmes.oh.us/portal/apps/sites/#/hub' + extra;
   if (scroll){ const b = document.getElementById('browser'); const top = b.getBoundingClientRect().top; if (top < 0 || top > innerHeight * .6) b.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}); }
@@ -724,6 +1027,8 @@ function go(page, arg, opts){
   if (page === 'dataset') st.tab = (opts && opts.tab) || 'download';
   render(true);
 }
+function goCat(k){ st.q = ''; st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); st.facets.cat.add(k); go('data'); }
+function pickTwp(n){ st.mtwp = n; render(false); const h = site.querySelector('#mf-panel h2'); if (h) h.focus({preventScroll:true}); }
 function setPersona(p, quiet){
   st.p = p;
   document.querySelectorAll('#persona button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.p === p)));
@@ -739,15 +1044,20 @@ site.addEventListener('click', e => {
   if (t.matches('path[data-twp]')) { const fig = document.getElementById('twp-fig');
     if (fig && fig.contains(t)) { st.twp = ds.twp; fig.querySelectorAll('path.sel').forEach(p=>p.classList.remove('sel')); t.classList.add('sel');
       document.getElementById('twp-name').textContent = st.twp; document.getElementById('twp-file').textContent = `HolmesCo_Contours_${slug(st.twp)}.gdb.zip`; }
+    const mf = document.getElementById('mf-map');
+    if (mf && mf.contains(t)) pickTwp(ds.twp);
     return; }
   if (ds.go) return go(ds.go);
   if (ds.ds) return go('dataset', ds.ds);
   if (ds.col) return go('collection', ds.col);
+  if (ds.catgo) return goCat(ds.catgo);
+  if (ds.twpgo !== undefined) return pickTwp(ds.twpgo || null);
+  if (ds.twpcont) { st.twp = ds.twpcont; return go('collection', 'elevation'); }
   if (ds.tab) { st.tab = ds.tab; return render(false); }
   if (ds.apps !== undefined) return go('apps', ds.apps || null);
   if (ds.q) { st.q = ds.q; st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); return go('data'); }
   if (ds.app) { const a = APPS.find(x=>x.id===ds.app); return toast(`Concept only: this card would open ${a.t}.`); }
-  if (ds.task) { const [k,v] = ds.task.split(':'); if (k==='app') return toast('Concept only: this would open GIS On-Line at gis.co.holmes.oh.us/holmests.'); return go(k, v); }
+  if (ds.task) { const [k,v] = ds.task.split(':'); if (k==='app') return toast('Concept only: this would open GIS On-Line at gis.co.holmes.oh.us/holmests.'); if (k==='catgo') return goCat(v); return go(k, v); }
   if (ds.act === 'signin') return setPersona('staff');
   if (ds.act === 'signout') return setPersona('public');
   if (ds.act === 'dl') return toast(`Concept only: this would download ${ds.what}.`);
@@ -764,22 +1074,51 @@ site.addEventListener('keydown', e => {
 site.addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target.dataset.form; const inp = e.target.querySelector('input');
-  st.q = inp.value; if (f === 'hero') { st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); go('data'); }
+  st.q = inp.value; if (f !== 'data') { st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); go('data'); }
   else { render(false); const i = document.getElementById('s-data-q'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
 });
 site.addEventListener('change', e => {
   const c = e.target; if (!c.dataset || !c.dataset.facet) return;
   const set = st.facets[c.dataset.facet]; c.checked ? set.add(c.value) : set.delete(c.value); render(false);
 });
-document.getElementById('persona').addEventListener('click', e => { const b = e.target.closest('button[data-p]'); if (b && b.dataset.p !== st.p) setPersona(b.dataset.p); });
-document.getElementById('persona').addEventListener('keydown', e => {
-  if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
-  const btns = [...document.querySelectorAll('#persona button')]; let i = btns.findIndex(b => b.dataset.p === st.p);
-  i = (i + (e.key === 'ArrowRight' ? 1 : btns.length - 1)) % btns.length; setPersona(btns[i].dataset.p); btns[i].focus();
-});
+
+/* ---------- the switches above the mockup: View as, Layout, Colors ---------- */
+function radios(id, key, pick){
+  const g = document.getElementById(id);
+  const btns = () => [...g.querySelectorAll('button[role="radio"]')];
+  g.addEventListener('click', e => { const b = e.target.closest('button[role="radio"]'); if (b) pick(b.dataset[key]); });
+  g.addEventListener('keydown', e => {
+    if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
+    const bs = btns(); let i = bs.findIndex(b => b.getAttribute('aria-checked') === 'true');
+    i = (i + (e.key === 'ArrowRight' ? 1 : bs.length - 1)) % bs.length; pick(bs[i].dataset[key]); bs[i].focus();
+  });
+  return v => btns().forEach(b => b.setAttribute('aria-checked', String(b.dataset[key] === v)));
+}
+radios('persona', 'p', p => { if (p !== st.p) setPersona(p); });
+const markLayout = radios('layout', 'v', v => { if (v !== st.layout) setStyle(v, null); });
+const markColors = radios('colors', 'v', v => { if (v !== st.colors) setStyle(null, v); });
+const optBtn = (id, v) => document.querySelector(`#${id} button[data-v="${CSS.escape(v)}"]`);
+function setStyle(layout, colors){
+  if (layout) st.layout = layout;
+  if (colors) st.colors = colors;
+  markLayout(st.layout); markColors(st.colors);
+  const line = (what, id, v) => { const b = optBtn(id, v); return `<span><b>${what} · ${esc(b.textContent.trim())}:</b> ${esc(b.dataset.desc)}</span>`; };
+  document.getElementById('style-cap').innerHTML = line('Layout', 'layout', st.layout) + line('Colors', 'colors', st.colors);
+  try { localStorage.setItem('hubLayout', st.layout); localStorage.setItem('hubColors', st.colors); } catch(_){}
+  try { history.replaceState(null, '', '#layout=' + st.layout + '&colors=' + st.colors); } catch(_){}
+  render(false);
+}
 document.getElementById('notes-toggle').addEventListener('change', e => { site.classList.toggle('no-notes', !e.target.checked); try { localStorage.setItem('hubNotes', e.target.checked ? '1' : '0'); } catch(_){} });
 try { if (localStorage.getItem('hubNotes') === '0') { document.getElementById('notes-toggle').checked = false; site.classList.add('no-notes'); } } catch(_){}
-document.addEventListener('DOMContentLoaded', () => render(false));
+document.addEventListener('DOMContentLoaded', () => {
+  let l = 'classic', c = 'blue';
+  try { l = localStorage.getItem('hubLayout') || l; c = localStorage.getItem('hubColors') || c; } catch(_){}
+  const h = new URLSearchParams(location.hash.slice(1));
+  l = h.get('layout') || l; c = h.get('colors') || c;
+  if (!optBtn('layout', l)) l = 'classic';
+  if (!optBtn('colors', c)) c = 'blue';
+  setStyle(l, c);
+});
 })();
 </script>
 <!-- Generated map shapes (townships, villages, roads, streams, sewer, sample parcels). Don't hand-edit. -->

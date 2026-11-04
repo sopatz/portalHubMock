@@ -12,6 +12,8 @@
       the top bars are header() and headerTiles(), and the side menu is sideNav().
     - Site colors: the --s-* variables under ".site" (Hub blue & gold) and the .site[data-colors="..."] blocks after it.
       To add a color scheme, copy a block, rename it, and add a matching button under "Colors" further down.
+    - Logo: the hidden SVG right after <body>, converted from the official files in "Holmes County GIS logos".
+      Its colors in each scheme are the --s-logo-* variables (lt = on light backgrounds, dk = on dark ones).
     - Map shapes: the GEO script at the very end. It is generated from the county layers; don't hand-edit it.
   Link to one design by adding #layout=tiles&colors=flag (for example) to the file's address.
   The last layout and colors you picked are remembered in your browser.
@@ -22,6 +24,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Holmes County Hub Mockup</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2267.87 10.02 69.78 49.75%22%3E%3Cpath fill=%22%23639DC7%22 d=%22M134.9 58.893C135.147 59.228 135.53 59.405 135.917 59.405C136.178 59.405 136.442 59.325 136.668 59.157C137.23 58.741 137.348 57.949 136.932 57.388L107.283 17.341C106.869 16.779 106.077 16.661 105.515 17.077C104.953 17.493 104.835 18.285 105.252 18.846ZM130.757 59.157C131.319 58.741 131.437 57.949 131.02 57.388L105.517 22.943C105.101 22.381 104.31 22.265 103.749 22.679C103.187 23.095 103.069 23.887 103.485 24.448L128.989 58.893C129.237 59.228 129.619 59.405 130.006 59.405C130.267 59.405 130.53 59.324 130.757 59.157M124.094 59.405C124.355 59.405 124.619 59.324 124.845 59.156C125.407 58.741 125.525 57.949 125.109 57.388L103.554 28.277C103.138 27.715 102.347 27.597 101.786 28.013C101.224 28.428 101.106 29.221 101.522 29.782L123.077 58.893C123.325 59.228 123.707 59.405 124.094 59.405M99.43 32.819C98.868 33.234 98.75 34.026 99.167 34.587L117.166 58.893C117.415 59.228 117.796 59.405 118.183 59.405C118.445 59.405 118.708 59.324 118.935 59.156C119.496 58.741 119.614 57.949 119.198 57.388L101.198 33.082C100.782 32.521 99.991 32.402 99.43 32.819M113.287 57.388L98.149 36.953C97.733 36.391 96.943 36.272 96.381 36.689C95.82 37.105 95.702 37.896 96.118 38.457L111.255 58.893C111.504 59.228 111.885 59.405 112.272 59.405C112.533 59.405 112.797 59.324 113.024 59.156C113.585 58.741 113.702 57.949 113.287 57.388M69.601 59.465C69.983 59.465 70.36 59.293 70.608 58.965L89.227 34.487C89.65 33.93 89.543 33.138 88.986 32.715C88.431 32.291 87.637 32.4 87.215 32.956L68.596 57.434C68.173 57.989 68.28 58.784 68.837 59.206C69.065 59.38 69.334 59.465 69.601 59.465M90.201 36.881L74.568 57.435C74.145 57.99 74.253 58.784 74.809 59.206C75.037 59.38 75.306 59.465 75.573 59.465C75.955 59.465 76.332 59.292 76.58 58.965L92.213 38.412C92.636 37.856 92.529 37.063 91.973 36.64C91.416 36.217 90.623 36.326 90.201 36.881M94.91 40.629C94.354 40.206 93.56 40.314 93.138 40.87L80.54 57.434C80.117 57.99 80.225 58.783 80.781 59.206C81.01 59.38 81.278 59.464 81.545 59.464C81.927 59.464 82.304 59.292 82.552 58.965L95.151 42.401C95.574 41.845 95.466 41.051 94.91 40.629M96.083 44.85L86.556 57.375C86.133 57.931 86.241 58.724 86.797 59.147C87.026 59.321 87.295 59.405 87.561 59.405C87.943 59.405 88.32 59.233 88.568 58.906L98.095 46.381C98.518 45.825 98.411 45.032 97.855 44.609C97.298 44.187 96.505 44.295 96.083 44.85M99.027 48.83L92.483 57.434C92.06 57.99 92.167 58.783 92.724 59.206C92.952 59.38 93.221 59.464 93.488 59.464C93.869 59.464 94.247 59.292 94.495 58.965L101.039 50.361C101.462 49.805 101.355 49.012 100.799 48.589C100.242 48.166 99.449 48.274 99.027 48.83M102.144 52.583L98.454 57.434C98.032 57.99 98.139 58.784 98.695 59.206C98.924 59.38 99.194 59.464 99.46 59.464C99.841 59.464 100.218 59.292 100.467 58.965L104.156 54.114C104.579 53.558 104.472 52.765 103.916 52.342C103.359 51.919 102.566 52.028 102.144 52.583M105.432 59.465C105.814 59.465 106.191 59.293 106.439 58.965L107.274 57.867C107.697 57.312 107.59 56.519 107.033 56.096C106.477 55.675 105.685 55.782 105.262 56.337L104.427 57.434C104.004 57.989 104.111 58.784 104.668 59.206C104.896 59.38 105.165 59.465 105.432 59.465%22/%3E%3Cpath fill=%22%2300204E%22 d=%22M90.635 21.317C88.221 16.688 92.875 12.035 97.503 14.448C98.211 14.818 98.81 15.398 99.189 16.101C100.378 18.3 99.981 20.696 98.431 22.245C96.882 23.794 94.487 24.191 92.287 23.002C91.585 22.623 91.004 22.025 90.635 21.317M96.515 33.257C99.11 29.184 103.349 22.026 103.35 18.743C103.349 14.099 99.572 10.322 94.929 10.322C92.607 10.322 90.502 11.266 88.978 12.791C87.453 14.316 86.509 16.421 86.509 18.742C86.509 22.026 90.749 29.184 93.343 33.257C94.082 34.416 95.776 34.416 96.515 33.257%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@400;500;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
@@ -96,7 +99,9 @@ main.wrap{padding-bottom:48px}
   --s-acc:#f0bf13; --s-on-acc:#012f50; --s-acc-l:#fdf2cc; --s-acc-ink:#5c4600; --s-acc-line:#e3c552;
   --s-hdr-bg:var(--s-bg); --s-hdr-fg:var(--s-ink); --s-hdr-nav:var(--s-ink2); --s-hdr-mute:var(--s-muted); --s-hdr-line:var(--s-line);
   --s-hdr-cur:var(--s-pri); --s-hdr-curtext:var(--s-pri); --s-signin-bg:var(--s-pri); --s-signin-fg:#ffffff;
-  --s-mark-bg:var(--s-pri-d); --s-mark-acc:var(--s-acc); --s-side-bg:var(--s-pri-d);
+  --s-side-bg:var(--s-pri-d);
+  --s-logo-lt-ink:#00204e; --s-logo-lt-acc:#639dc7; --s-logo-dk-ink:#ffffff; --s-logo-dk-acc:#639dc7;
+  --s-logo-hdr-ink:var(--s-logo-lt-ink); --s-logo-hdr-acc:var(--s-logo-lt-acc);
   --s-hero-bg:#012f50; --s-hero-fg:#ffffff; --s-hero-ink:#cfe0ee; --s-hero-ey:#f0bf13; --s-hero-vl:#ffe48a; --s-hm-water:#6fb4e8; --s-hm-road:#f0bf13;
   --s-foot-bg:#012f50; --s-foot-fg:#ffffff; --s-foot-ink:#cfe0ee; --s-foot-mute:#9fbad0;
   --s-map-bg:#eef3f7; --s-map-water:#86bfe6; --s-map-road:#c99a00;
@@ -106,7 +111,7 @@ main.wrap{padding-bottom:48px}
   --s-soft:#eef4fa; --s-ink:#13243a; --s-ink2:#3e5064; --s-muted:#5b6b7c; --s-line:#d3dde8;
   --s-pri:#1e5f9c; --s-pri-d:#123d66; --s-pri-l:#e1edf8;
   --s-acc:#f5c330; --s-on-acc:#123d66; --s-acc-l:#fdf1c9; --s-acc-ink:#5a4300; --s-acc-line:#e2bd4a;
-  --s-mark-bg:#5a3a1f;
+  --s-logo-dk-acc:#f5c330;
   --s-hero-bg:#cfe4f6; --s-hero-fg:#0f2f4f; --s-hero-ink:#2b4865; --s-hero-ey:#7b4a1c; --s-hero-vl:#6a4510; --s-hm-water:#2f78bd; --s-hm-road:#b9852a;
   --s-foot-bg:#5a3a1f; --s-foot-fg:#ffffff; --s-foot-ink:#f2e6d6; --s-foot-mute:#dcc7ab;
   --s-map-bg:#eef4fa; --s-map-water:#7fb3e0; --s-map-road:#c9962a }
@@ -115,7 +120,8 @@ main.wrap{padding-bottom:48px}
   --s-pri:#1a7a0c; --s-pri-d:#15501a; --s-pri-l:#e3f1dc;
   --s-acc:#f2c21b; --s-on-acc:#15501a; --s-acc-l:#fdf3cc; --s-acc-ink:#594400; --s-acc-line:#e0c04a;
   --s-hdr-bg:#1a7a0c; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#e6f3e0; --s-hdr-line:#15501a;
-  --s-hdr-cur:#f2c21b; --s-hdr-curtext:#ffffff; --s-signin-bg:#f2c21b; --s-signin-fg:#15501a; --s-mark-bg:#15501a;
+  --s-hdr-cur:#f2c21b; --s-hdr-curtext:#ffffff; --s-signin-bg:#f2c21b; --s-signin-fg:#15501a;
+  --s-logo-lt-ink:#000000; --s-logo-lt-acc:#8fd300; --s-logo-dk-acc:#8fd300; --s-logo-hdr-ink:var(--s-logo-dk-ink); --s-logo-hdr-acc:var(--s-logo-dk-acc);
   --s-hero-bg:#15501a; --s-hero-fg:#ffffff; --s-hero-ink:#d6e9cf; --s-hero-ey:#f2c21b; --s-hero-vl:#ffe38a; --s-hm-water:#7cc0ea; --s-hm-road:#f2c21b;
   --s-foot-bg:#1a7a0c; --s-foot-fg:#ffffff; --s-foot-ink:#ffffff; --s-foot-mute:#e6f3e0;
   --s-map-bg:#f1f6ee; --s-map-water:#7fb8e0; --s-map-road:#c79c0a }
@@ -123,7 +129,8 @@ main.wrap{padding-bottom:48px}
   --s-bg:#fdfaf3; --s-soft:#f4ede0; --s-ink:#231c18; --s-ink2:#4d433c; --s-muted:#6b5f56; --s-line:#e2d8c8;
   --s-pri:#9a2b1f; --s-pri-d:#5e1a13; --s-pri-l:#f6e3dc;
   --s-acc:#e3a83a; --s-on-acc:#2a2320; --s-acc-l:#f8ecd0; --s-acc-ink:#5a3d06; --s-acc-line:#d9b062;
-  --s-mark-bg:#9a2b1f; --s-side-bg:#2a2320;
+  --s-side-bg:#2a2320;
+  --s-logo-lt-ink:#2a2320; --s-logo-lt-acc:#9a2b1f; --s-logo-dk-ink:#fdfaf3; --s-logo-dk-acc:#e3a83a;
   --s-hero-bg:#2a2320; --s-hero-fg:#fdfaf3; --s-hero-ink:#e6dccd; --s-hero-ey:#e3a83a; --s-hero-vl:#f3cf86; --s-hm-water:#8fb8d6; --s-hm-road:#e3a83a;
   --s-foot-bg:#2a2320; --s-foot-fg:#ffffff; --s-foot-ink:#e6dccd; --s-foot-mute:#bfb2a2;
   --s-map-bg:#f4ede0; --s-map-water:#8fb8d6; --s-map-road:#b8862a }
@@ -132,7 +139,8 @@ main.wrap{padding-bottom:48px}
   --s-pri:#2b6964; --s-pri-d:#3b4a57; --s-pri-l:#e0eeec;
   --s-acc:#b4501a; --s-on-acc:#ffffff; --s-acc-l:#f7e6da; --s-acc-ink:#6b2e0c; --s-acc-line:#dfa47f;
   --s-hdr-bg:#3b4a57; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#c9d2da; --s-hdr-line:#2f3c47;
-  --s-hdr-cur:#f0a46e; --s-hdr-curtext:#ffffff; --s-signin-bg:#b4501a; --s-signin-fg:#ffffff; --s-mark-bg:#2b6964; --s-mark-acc:#f0a46e;
+  --s-hdr-cur:#f0a46e; --s-hdr-curtext:#ffffff; --s-signin-bg:#b4501a; --s-signin-fg:#ffffff;
+  --s-logo-lt-ink:#3b4a57; --s-logo-lt-acc:#b4501a; --s-logo-dk-acc:#f0a46e; --s-logo-hdr-ink:var(--s-logo-dk-ink); --s-logo-hdr-acc:var(--s-logo-dk-acc);
   --s-hero-bg:#2f3c47; --s-hero-fg:#ffffff; --s-hero-ink:#d9e1e7; --s-hero-ey:#f0a46e; --s-hero-vl:#f6c59c; --s-hm-water:#8cc5d6; --s-hm-road:#e08a52;
   --s-foot-bg:#2f3c47; --s-foot-fg:#ffffff; --s-foot-ink:#d9e1e7; --s-foot-mute:#aab6c0;
   --s-map-bg:#f1efe9; --s-map-water:#8cc5d6; --s-map-road:#c06a35 }
@@ -145,12 +153,13 @@ main.wrap{padding-bottom:48px}
 
 .s-hdr{background:var(--s-hdr-bg);border-bottom:1px solid var(--s-hdr-line)}
 .s-hdr .s-in{display:flex;align-items:center;gap:20px;min-height:64px;flex-wrap:wrap;padding-block:8px}
-.s-brand{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:0;text-align:left;color:var(--s-hdr-fg)}
-.s-mark{width:38px;height:38px;border-radius:50%;background:var(--s-mark-bg);display:grid;place-items:center;flex:none}
-.s-mark .m1{stroke:var(--s-mark-acc)}
-.s-mark .m2{stroke:#fff}
-.s-brand b{display:block;font-family:var(--f-display);font-weight:600;font-size:1.12rem;letter-spacing:.03em;line-height:1.1;text-transform:uppercase}
-.s-brand small{display:block;font-size:.75rem;color:var(--s-hdr-mute);letter-spacing:.02em}
+.s-brand{display:flex;align-items:center;gap:11px;background:none;border:0;cursor:pointer;padding:0;text-align:left;color:var(--s-hdr-fg);--lg-ink:var(--s-logo-hdr-ink);--lg-acc:var(--s-logo-hdr-acc)}
+.lg{display:block;flex:none}
+.lg-i{width:52px;height:37px}
+.lg-w{width:150px;height:22px}
+.s-bt{display:grid;gap:5px}
+.s-brand small{display:block;font-size:.7rem;color:var(--s-hdr-mute);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.lg-f{width:176px;height:80px;margin-bottom:10px}
 .s-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;align-items:center}
 .s-nav button{background:none;border:0;padding:8px 11px;border-radius:6px;cursor:pointer;color:var(--s-hdr-nav);font-weight:500;font-size:.93rem}
 .s-nav button:hover{background:color-mix(in srgb,var(--s-hdr-nav) 9%,transparent);color:var(--s-hdr-fg)}
@@ -207,6 +216,8 @@ main.wrap{padding-bottom:48px}
 .map.hero.pick .twp path:hover{fill:color-mix(in srgb,var(--s-hero-fg) 16%,transparent)}
 .map.hero.pick .twp path.sel{fill:var(--s-acc);fill-opacity:.5;stroke:var(--s-hero-fg);stroke-width:2}
 .map.pick .vil path,.map.pick text{pointer-events:none}
+.map .pinm{--lg-ink:var(--s-acc);stroke:var(--s-pri-d);stroke-width:1.4px;paint-order:stroke;pointer-events:none}
+.map.hero .pinm{stroke:var(--s-hero-fg)}
 .map.parc{background:var(--s-map-bg)}
 .map.parc .pr{fill:none;stroke:color-mix(in srgb,var(--s-acc) 55%,#fff);stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
 .map.parc .pp{fill:#fff;fill-opacity:.6;stroke:var(--s-muted);stroke-width:1.1}
@@ -316,7 +327,7 @@ main.wrap{padding-bottom:48px}
 /* ---------- layout: Search first ---------- */
 .s-sf{background:var(--s-soft);border-bottom:1px solid var(--s-line)}
 .s-sf .s-in{padding-block:44px 34px;display:grid;justify-items:center;text-align:center;gap:6px}
-.s-sf .ey{color:var(--s-muted)}
+.s-sf .lg-big{width:250px;height:113px;margin-bottom:10px;--lg-ink:var(--s-logo-lt-ink);--lg-acc:var(--s-logo-lt-acc)}
 .s-sf h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.1;margin:4px 0 6px;text-wrap:balance}
 .s-sf .s-search{width:100%;max-width:680px;margin-top:10px;box-shadow:0 0 0 1px var(--s-line),0 12px 28px -20px color-mix(in srgb,var(--s-pri-d) 70%,transparent)}
 .s-sf .s-search input{padding:16px;font-size:1.05rem}
@@ -340,9 +351,10 @@ main.wrap{padding-bottom:48px}
 .s-shell{display:grid;grid-template-columns:236px minmax(0,1fr);align-items:stretch}
 .s-side{background:var(--s-side-bg);color:#fff;padding:18px 14px 20px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .s-side .s-brand{color:#fff}
-.s-side .s-brand b{font-size:1.02rem}
-.s-side .s-brand small{color:rgba(255,255,255,.75)}
-.s-side .s-mark,.s-hdr2-top .s-mark{background:rgba(255,255,255,.12)}
+.s-side .lg-i{width:44px;height:31px}
+.s-side .lg-w{width:132px;height:19.5px}
+.s-side .s-brand small{color:rgba(255,255,255,.75);letter-spacing:.05em}
+.s-side .s-brand,.s-hdr2-top .s-brand,.s-foot{--lg-ink:var(--s-logo-dk-ink);--lg-acc:var(--s-logo-dk-acc)}
 .s-ssearch{display:flex;background:#fff;border-radius:8px;overflow:hidden}
 .s-ssearch input{flex:1;min-width:0;border:0;padding:9px 10px;font:inherit;font-size:.9rem;color:var(--s-ink);background:#fff}
 .s-ssearch input:focus{outline:none}
@@ -439,12 +451,16 @@ main.wrap{padding-bottom:48px}
   .s-nav{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
   .s-hdr2-nav .s-in{flex-wrap:nowrap;overflow-x:auto}
   .s-user span{display:none}
+  .lg-i{width:42px;height:30px}
+  .lg-w{width:124px;height:18px}
   .btag{display:none}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<!-- Holmes County GIS logo, converted from the official vector file ("Holmes County GIS logos" folder). Pin and text use --lg-ink, stripes and divider use --lg-acc; the --s-logo-* variables set them per color scheme. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><path id="lg-p-pin" d="M90.635 21.317C88.221 16.688 92.875 12.035 97.503 14.448C98.211 14.818 98.81 15.398 99.189 16.101C100.378 18.3 99.981 20.696 98.431 22.245C96.882 23.794 94.487 24.191 92.287 23.002C91.585 22.623 91.004 22.025 90.635 21.317M96.515 33.257C99.11 29.184 103.349 22.026 103.35 18.743C103.349 14.099 99.572 10.322 94.929 10.322C92.607 10.322 90.502 11.266 88.978 12.791C87.453 14.316 86.509 16.421 86.509 18.742C86.509 22.026 90.749 29.184 93.343 33.257C94.082 34.416 95.776 34.416 96.515 33.257"/><path id="lg-p-str" d="M134.9 58.893C135.147 59.228 135.53 59.405 135.917 59.405C136.178 59.405 136.442 59.325 136.668 59.157C137.23 58.741 137.348 57.949 136.932 57.388L107.283 17.341C106.869 16.779 106.077 16.661 105.515 17.077C104.953 17.493 104.835 18.285 105.252 18.846ZM130.757 59.157C131.319 58.741 131.437 57.949 131.02 57.388L105.517 22.943C105.101 22.381 104.31 22.265 103.749 22.679C103.187 23.095 103.069 23.887 103.485 24.448L128.989 58.893C129.237 59.228 129.619 59.405 130.006 59.405C130.267 59.405 130.53 59.324 130.757 59.157M124.094 59.405C124.355 59.405 124.619 59.324 124.845 59.156C125.407 58.741 125.525 57.949 125.109 57.388L103.554 28.277C103.138 27.715 102.347 27.597 101.786 28.013C101.224 28.428 101.106 29.221 101.522 29.782L123.077 58.893C123.325 59.228 123.707 59.405 124.094 59.405M99.43 32.819C98.868 33.234 98.75 34.026 99.167 34.587L117.166 58.893C117.415 59.228 117.796 59.405 118.183 59.405C118.445 59.405 118.708 59.324 118.935 59.156C119.496 58.741 119.614 57.949 119.198 57.388L101.198 33.082C100.782 32.521 99.991 32.402 99.43 32.819M113.287 57.388L98.149 36.953C97.733 36.391 96.943 36.272 96.381 36.689C95.82 37.105 95.702 37.896 96.118 38.457L111.255 58.893C111.504 59.228 111.885 59.405 112.272 59.405C112.533 59.405 112.797 59.324 113.024 59.156C113.585 58.741 113.702 57.949 113.287 57.388M69.601 59.465C69.983 59.465 70.36 59.293 70.608 58.965L89.227 34.487C89.65 33.93 89.543 33.138 88.986 32.715C88.431 32.291 87.637 32.4 87.215 32.956L68.596 57.434C68.173 57.989 68.28 58.784 68.837 59.206C69.065 59.38 69.334 59.465 69.601 59.465M90.201 36.881L74.568 57.435C74.145 57.99 74.253 58.784 74.809 59.206C75.037 59.38 75.306 59.465 75.573 59.465C75.955 59.465 76.332 59.292 76.58 58.965L92.213 38.412C92.636 37.856 92.529 37.063 91.973 36.64C91.416 36.217 90.623 36.326 90.201 36.881M94.91 40.629C94.354 40.206 93.56 40.314 93.138 40.87L80.54 57.434C80.117 57.99 80.225 58.783 80.781 59.206C81.01 59.38 81.278 59.464 81.545 59.464C81.927 59.464 82.304 59.292 82.552 58.965L95.151 42.401C95.574 41.845 95.466 41.051 94.91 40.629M96.083 44.85L86.556 57.375C86.133 57.931 86.241 58.724 86.797 59.147C87.026 59.321 87.295 59.405 87.561 59.405C87.943 59.405 88.32 59.233 88.568 58.906L98.095 46.381C98.518 45.825 98.411 45.032 97.855 44.609C97.298 44.187 96.505 44.295 96.083 44.85M99.027 48.83L92.483 57.434C92.06 57.99 92.167 58.783 92.724 59.206C92.952 59.38 93.221 59.464 93.488 59.464C93.869 59.464 94.247 59.292 94.495 58.965L101.039 50.361C101.462 49.805 101.355 49.012 100.799 48.589C100.242 48.166 99.449 48.274 99.027 48.83M102.144 52.583L98.454 57.434C98.032 57.99 98.139 58.784 98.695 59.206C98.924 59.38 99.194 59.464 99.46 59.464C99.841 59.464 100.218 59.292 100.467 58.965L104.156 54.114C104.579 53.558 104.472 52.765 103.916 52.342C103.359 51.919 102.566 52.028 102.144 52.583M105.432 59.465C105.814 59.465 106.191 59.293 106.439 58.965L107.274 57.867C107.697 57.312 107.59 56.519 107.033 56.096C106.477 55.675 105.685 55.782 105.262 56.337L104.427 57.434C104.004 57.989 104.111 58.784 104.668 59.206C104.896 59.38 105.165 59.465 105.432 59.465"/><path id="lg-p-txt" d="M22.793 75.455L17.079 75.455L17.079 69.094L12.76 69.094L12.76 85.897L17.079 85.897L17.079 79.344L22.793 79.344L22.793 85.897L27.114 85.897L27.114 69.094L22.793 69.094ZM40.315 80.987C39.674 81.827 38.746 82.248 37.531 82.248C36.314 82.248 35.386 81.827 34.745 80.987C34.106 80.148 33.786 78.983 33.786 77.495C33.786 76.007 34.106 74.843 34.745 74.003C35.386 73.162 36.314 72.743 37.531 72.743C38.746 72.743 39.674 73.162 40.315 74.003C40.955 74.843 41.275 76.007 41.275 77.495C41.275 78.983 40.955 80.148 40.315 80.987M41.767 69.862C40.559 69.19 39.146 68.854 37.531 68.854C35.914 68.854 34.502 69.19 33.294 69.862C32.085 70.534 31.146 71.518 30.474 72.814C29.802 74.111 29.465 75.671 29.465 77.495C29.465 79.32 29.802 80.88 30.474 82.175C31.146 83.472 32.085 84.456 33.294 85.129C34.502 85.8 35.914 86.136 37.531 86.136C39.146 86.136 40.559 85.8 41.767 85.129C42.975 84.456 43.916 83.472 44.588 82.175C45.259 80.88 45.595 79.32 45.595 77.495C45.595 75.671 45.259 74.111 44.588 72.814C43.916 71.518 42.975 70.534 41.767 69.862M52.269 69.094L47.948 69.094L47.948 85.897L59.518 85.897L59.518 82.008L52.269 82.008ZM71.375 79.896L71.255 79.896L67.582 69.094L61.534 69.094L61.534 85.897L65.783 85.897L65.783 75.024L65.902 75.024L69.623 85.897L72.911 85.897L76.632 75.024L76.752 75.024L76.752 85.897L81 85.897L81 69.094L75.023 69.094ZM88.394 79.223L95.355 79.223L95.355 75.646L88.394 75.646L88.394 72.911L95.835 72.911L95.835 69.093L84.073 69.093L84.073 85.896L96.076 85.896L96.076 82.08L88.394 82.08ZM108.293 76.524C107.492 76.243 106.485 75.983 105.268 75.743C104.164 75.535 103.356 75.319 102.844 75.095C102.331 74.872 102.076 74.503 102.076 73.991C102.076 73.575 102.259 73.231 102.628 72.959C102.996 72.687 103.547 72.55 104.284 72.55C104.956 72.55 105.5 72.691 105.916 72.971C106.332 73.251 106.565 73.639 106.613 74.136L110.933 74.136C110.821 72.503 110.185 71.215 109.025 70.27C107.865 69.327 106.244 68.854 104.164 68.854C102.996 68.854 101.916 69.039 100.924 69.406C99.931 69.775 99.135 70.343 98.535 71.111C97.935 71.879 97.635 72.839 97.635 73.991C97.635 75.272 97.931 76.268 98.523 76.979C99.115 77.692 99.816 78.188 100.623 78.468C101.431 78.748 102.451 78.992 103.684 79.2C104.756 79.377 105.54 79.572 106.037 79.789C106.532 80.004 106.781 80.352 106.781 80.833C106.781 81.905 105.908 82.44 104.164 82.44C103.315 82.44 102.648 82.272 102.16 81.936C101.672 81.6 101.404 81.144 101.355 80.568L97.035 80.568C97.146 82.376 97.859 83.757 99.172 84.709C100.484 85.661 102.148 86.136 104.164 86.136C105.652 86.136 106.925 85.904 107.981 85.44C109.037 84.976 109.841 84.337 110.393 83.52C110.945 82.704 111.221 81.785 111.221 80.76C111.221 79.56 110.933 78.624 110.357 77.952C109.781 77.28 109.092 76.804 108.293 76.524M117.678 71.446C118.51 70.918 119.47 70.653 120.559 70.653C121.662 70.653 122.602 70.887 123.379 71.351C124.155 71.815 124.775 72.542 125.239 73.534L127.4 73.534C126.807 71.983 125.928 70.814 124.759 70.03C123.591 69.246 122.19 68.854 120.559 68.854C119.07 68.854 117.754 69.185 116.61 69.85C115.466 70.514 114.577 71.494 113.945 72.79C113.313 74.086 112.998 75.655 112.998 77.495C112.998 79.336 113.313 80.903 113.945 82.2C114.577 83.496 115.466 84.476 116.61 85.14C117.754 85.804 119.07 86.136 120.559 86.136C122.19 86.136 123.591 85.744 124.759 84.96C125.928 84.177 126.807 83.008 127.4 81.455L125.239 81.455C124.775 82.448 124.155 83.176 123.379 83.64C122.602 84.104 121.662 84.336 120.559 84.336C119.47 84.336 118.51 84.071 117.678 83.543C116.846 83.015 116.198 82.24 115.734 81.216C115.27 80.191 115.038 78.951 115.038 77.495C115.038 76.039 115.27 74.798 115.734 73.775C116.198 72.75 116.846 71.974 117.678 71.446M141.584 81.216C141.12 82.241 140.472 83.016 139.64 83.544C138.807 84.072 137.847 84.336 136.759 84.336C135.671 84.336 134.71 84.072 133.879 83.544C133.047 83.016 132.399 82.241 131.935 81.216C131.471 80.191 131.239 78.951 131.239 77.495C131.239 76.039 131.471 74.799 131.935 73.775C132.399 72.751 133.047 71.974 133.879 71.446C134.71 70.918 135.671 70.654 136.759 70.654C137.847 70.654 138.807 70.918 139.64 71.446C140.472 71.974 141.12 72.751 141.584 73.775C142.048 74.799 142.28 76.039 142.28 77.495C142.28 78.951 142.048 80.191 141.584 81.216M140.708 69.85C139.563 69.186 138.248 68.854 136.759 68.854C135.271 68.854 133.955 69.186 132.811 69.85C131.667 70.514 130.778 71.494 130.146 72.791C129.514 74.086 129.198 75.655 129.198 77.495C129.198 79.336 129.514 80.904 130.146 82.2C130.778 83.496 131.667 84.476 132.811 85.141C133.955 85.804 135.271 86.136 136.759 86.136C138.248 86.136 139.563 85.804 140.708 85.141C141.852 84.476 142.74 83.496 143.372 82.2C144.004 80.904 144.32 79.336 144.32 77.495C144.32 75.655 144.004 74.086 143.372 72.791C142.74 71.494 141.852 70.514 140.708 69.85M161.771 79.992L165.66 79.992C165.452 80.712 165.059 81.28 164.484 81.696C163.907 82.113 163.211 82.32 162.395 82.32C161.115 82.32 160.127 81.912 159.43 81.096C158.734 80.279 158.386 79.079 158.386 77.495C158.386 75.991 158.715 74.811 159.371 73.955C160.027 73.099 160.971 72.67 162.204 72.67C163.003 72.67 163.667 72.859 164.195 73.234C164.723 73.61 165.116 74.135 165.372 74.807L169.74 74.807C169.389 73.015 168.584 71.574 167.327 70.486C166.071 69.398 164.363 68.854 162.204 68.854C160.587 68.854 159.174 69.19 157.967 69.862C156.758 70.535 155.819 71.518 155.147 72.815C154.474 74.111 154.138 75.671 154.138 77.495C154.138 79.32 154.474 80.88 155.147 82.176C155.819 83.472 156.758 84.457 157.967 85.129C159.174 85.8 160.587 86.136 162.204 86.136C163.788 86.136 165.163 85.804 166.332 85.141C167.5 84.476 168.4 83.544 169.032 82.344C169.664 81.143 169.981 79.744 169.981 78.143L169.981 76.751L161.771 76.751ZM172.333 85.897L176.654 85.897L176.654 69.094L172.333 69.094ZM191.895 77.952C191.318 77.28 190.63 76.804 189.831 76.524C189.029 76.243 188.022 75.983 186.806 75.743C185.702 75.535 184.893 75.32 184.382 75.095C183.869 74.872 183.614 74.503 183.614 73.991C183.614 73.575 183.797 73.231 184.166 72.959C184.533 72.687 185.085 72.551 185.821 72.551C186.494 72.551 187.038 72.691 187.454 72.971C187.869 73.251 188.102 73.639 188.15 74.136L192.471 74.136C192.359 72.503 191.723 71.215 190.563 70.27C189.402 69.327 187.782 68.855 185.702 68.855C184.533 68.855 183.453 69.039 182.461 69.406C181.468 69.775 180.673 70.343 180.073 71.111C179.472 71.879 179.173 72.839 179.173 73.991C179.173 75.272 179.469 76.268 180.061 76.979C180.653 77.692 181.353 78.188 182.161 78.468C182.969 78.748 183.989 78.992 185.222 79.2C186.294 79.377 187.078 79.572 187.574 79.789C188.07 80.004 188.318 80.352 188.318 80.833C188.318 81.905 187.445 82.441 185.702 82.441C184.853 82.441 184.185 82.273 183.697 81.936C183.21 81.6 182.942 81.144 182.893 80.568L178.572 80.568C178.684 82.377 179.396 83.757 180.709 84.709C182.021 85.661 183.685 86.137 185.702 86.137C187.19 86.137 188.462 85.905 189.518 85.441C190.574 84.976 191.379 84.337 191.931 83.52C192.483 82.704 192.759 81.785 192.759 80.76C192.759 79.56 192.471 78.624 191.895 77.952"/><path id="lg-p-bar" d="M149.479 65.521C148.865 65.521 148.369 66.018 148.369 66.631L148.369 90.568C148.369 91.181 148.865 91.678 149.479 91.678C150.093 91.678 150.589 91.181 150.589 90.568L150.589 66.631C150.589 66.018 150.093 65.521 149.479 65.521"/><symbol id="lg-full" viewBox="12.46 10.02 180.60 81.96"><use href="#lg-p-str" style="fill:var(--lg-acc)"/><use href="#lg-p-bar" style="fill:var(--lg-acc)"/><use href="#lg-p-pin" style="fill:var(--lg-ink)"/><use href="#lg-p-txt" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-icon" viewBox="67.87 10.02 69.78 49.75"><use href="#lg-p-str" style="fill:var(--lg-acc)"/><use href="#lg-p-pin" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-word" viewBox="12.46 65.22 180.60 26.76"><use href="#lg-p-bar" style="fill:var(--lg-acc)"/><use href="#lg-p-txt" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-pin" viewBox="85.31 9.12 19.24 26.50"><use href="#lg-p-pin" style="fill:var(--lg-ink)"/></symbol></defs></svg>
 <main class="wrap">
   <div class="page-h">
     <div class="eyebrow">HubMigration · concept · October 29, 2026 · layouts and colors added November 3</div>
@@ -513,7 +529,6 @@ const I = {
   photo: sv('<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 16l5-5 4 4 2.5-2.5 5.5 5.5"/><circle cx="15.5" cy="9.5" r="1.5"/>'),
   help: sv('<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.6"/><path d="M12 17.2h.01"/>'),
 };
-const markSVG = `<svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><path class="m1" d="M6 27c6-5 10-5 14-2s9 3 14-1" fill="none" stroke-width="2.4" stroke-linecap="round"/><path class="m2" d="M6 20c6-5 10-5 14-2s9 3 14-1" fill="none" stroke-width="2" stroke-linecap="round" opacity=".75"/><path class="m2" d="M8 13c5-4 9-4 12-2s8 2 12-1" fill="none" stroke-width="1.6" stroke-linecap="round" opacity=".45"/></svg>`;
 
 /* ======================================================================
    EDIT HERE: the content of the mockup lives in the lists below.
@@ -659,6 +674,9 @@ function mapSVG(o){
     s += GEO.townships.map(t => { const n = TWP_NUDGE[t.n] || [0,0]; return `<text class="tl" x="${t.c[0]+n[0]}" y="${t.c[1]+n[1]}">${esc(t.n)}</text>`; }).join('');
     s += GEO.villages.map(v => { const n = VIL_NUDGE[v.n] || [9,4,'start']; return `<text class="vl" x="${v.c[0]+n[0]}" y="${v.c[1]+n[1]}" text-anchor="${n[2]}">${esc(v.n)}</text>`; }).join('');
   }
+  const pinT = pickable && o.pick && GEO.townships.find(t => t.n === o.pick);
+  if (pinT){ const n = TWP_NUDGE[pinT.n] || [0,0], h = 46, w = h * .72; // the logo's own pin marks the chosen township
+    s += `<use href="#lg-pin" class="pinm" x="${(pinT.c[0]+n[0]-w/2).toFixed(1)}" y="${(pinT.c[1]+n[1]-16-h).toFixed(1)}" width="${w.toFixed(1)}" height="${h}"/>`; }
   return s + '</svg>';
 }
 function parcelSVG(){
@@ -681,7 +699,7 @@ const NAV = [['home','Home','home'],['apps','Apps','app'],['data','Data','layers
 function navItems(){ const nav = NAV.slice(); if (signedIn()) nav.push(['staff','Staff','lock']); return nav; }
 const curNav = () => ({dataset:'data', collection:'collections'}[st.page] || st.page);
 const navBtn = ([k,l]) => `<button data-go="${k}"${curNav()===k?' aria-current="page"':''}>${k==='staff'?`<span class="lockd">${I.lock}${l}</span>`:l}</button>`;
-const brand = () => `<button class="s-brand" data-go="home" aria-label="Holmes County GIS Hub home"><span class="s-mark">${markSVG}</span><span><b>Holmes County GIS Hub</b><small>Maps · Apps · Data</small></span></button>`;
+const brand = () => `<button class="s-brand" data-go="home" aria-label="Holmes County GIS Hub home"><svg class="lg lg-i" aria-hidden="true"><use href="#lg-icon"/></svg><span class="s-bt"><svg class="lg lg-w" aria-hidden="true"><use href="#lg-word"/></svg><small>Hub · Maps · Apps · Data</small></span></button>`;
 function userBtn(){
   const P = PERSONAS[st.p];
   return signedIn() ? `<button class="s-user" data-act="signout" title="Sign out"><i>${P.ini}</i><span>${esc(P.acct)}</span></button>` : `<button class="s-signin" data-act="signin">Sign in</button>`;
@@ -712,7 +730,7 @@ function sideNav(){
 }
 function footer(){
   return `<footer class="s-foot"><div class="s-in">
-    <div class="col"><b>Holmes County GIS Office</b><p>75 E. Clinton St., Suite 112, Millersburg, OH 44654<br>(330) 674-2083 · Mon–Fri 8:30–4:30</p></div>
+    <div class="col"><svg class="lg lg-f" role="img" aria-label="Holmes County GIS logo"><use href="#lg-full"/></svg><b>Holmes County GIS Office</b><p>75 E. Clinton St., Suite 112, Millersburg, OH 44654<br>(330) 674-2083 · Mon–Fri 8:30–4:30</p>${pn('The county GIS logo from the official files. Each color scheme uses an official version (navy and light blue, black and green, white) or a recolored one. The header puts the icon beside the wordmark because the stacked logo is too small to read in a 64-pixel bar. Sites takes the header logo as an uploaded image, so each scheme needs its own logo file.')}</div>
     <div class="col"><b>Using our data</b><button data-go="help">Disclaimer &amp; terms</button><button data-go="developers">Services &amp; open data feed</button><button data-go="help">Accessibility</button></div>
     <div class="col"><b>County staff &amp; partners</b>${signedIn()?`<button data-go="staff">Your workspace</button><button data-act="signout">Sign out</button>`:`<button data-act="signin">Sign in with your county account</button><button data-go="help">Request an account</button>`}</div>
   </div><div class="s-in s-legal">Data is provided as-is for general reference. Holmes County, OH makes no warranty as to its accuracy or completeness.</div></footer>`;
@@ -795,7 +813,7 @@ function homeClassic(){
 function homeSearch(){
   const popular = POPULAR.map(id => APPS.find(a=>a.id===id));
   return `<div class="s-sf"><div class="s-in">
-      <div class="ey">Holmes County GIS Hub</div><h1>What are you looking for?</h1>
+      <svg class="lg lg-big" role="img" aria-label="Holmes County GIS"><use href="#lg-full"/></svg><h1>What are you looking for?</h1>
       ${heroSearch('Try “parcels”, “sewer”, “precincts” or an app name')}
       ${popChips()}
       <div class="s-quick">${TASKS.map(([ic,t,,go])=>`<button data-task="${go}">${I[ic]}${t}</button>`).join('')}</div>

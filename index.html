@@ -168,6 +168,15 @@ main.wrap{padding-bottom:48px}
   --s-hero-bg:#23224f; --s-hero-fg:#ffffff; --s-hero-ink:#dad9ee; --s-hero-ey:#f4a46a; --s-hero-vl:#ffd2b0; --s-hm-water:#9db7f0; --s-hm-road:#f4a46a;
   --s-foot-bg:#1b1a3d; --s-foot-fg:#ffffff; --s-foot-ink:#dad9ee; --s-foot-mute:#a9a7c7;
   --s-map-bg:#f3f2f8; --s-map-water:#8aa6e0; --s-map-road:#d98a50 }
+.site[data-colors="mono"]{ /* Monochrome: black, white and grays only; a neutral base that one highlight color could be added to */
+  --s-soft:#f2f2f2; --s-ink:#111111; --s-ink2:#3d3d3d; --s-muted:#616161; --s-line:#d9d9d9;
+  --s-pri:#2b2b2b; --s-pri-d:#111111; --s-pri-l:#ececec;
+  --s-acc:#d6d6d6; --s-on-acc:#111111; --s-acc-l:#efefef; --s-acc-ink:#2e2e2e; --s-acc-line:#c4c4c4;
+  --s-acc-dk:#ffffff; --s-on-acc-dk:#111111; --s-ok:#111111; --s-sf:#6b6b6b;
+  --s-logo-lt-ink:#111111; --s-logo-lt-acc:#8a8a8a; --s-logo-dk-acc:#a8a8a8;
+  --s-hero-bg:#141414; --s-hero-fg:#ffffff; --s-hero-ink:#cfcfcf; --s-hero-ey:#a8a8a8; --s-hero-vl:#e0e0e0; --s-hm-water:#8c8c8c; --s-hm-road:#bdbdbd;
+  --s-foot-bg:#1c1c1c; --s-foot-fg:#ffffff; --s-foot-ink:#d9d9d9; --s-foot-mute:#a3a3a3;
+  --s-map-bg:#f3f3f3; --s-map-water:#9a9a9a; --s-map-road:#7a7a7a }
 
 .site a{color:var(--s-pri)}
 :where(.site) button{font:inherit;color:inherit}
@@ -229,7 +238,7 @@ main.wrap{padding-bottom:48px}
 .map.lite .tl{fill:var(--s-muted);font-family:var(--f-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-anchor:middle}
 .map.lite .vl{fill:var(--s-ink2);font-family:var(--f-body);font-size:12.5px;font-weight:600}
 .map .sg{fill:none;stroke:var(--s-pri);stroke-width:2;stroke-linecap:round}
-.map .sf{fill:none;stroke:#c2410c;stroke-width:2;stroke-dasharray:5 3}
+.map .sf{fill:none;stroke:var(--s-sf,#c2410c);stroke-width:2;stroke-dasharray:5 3}
 .map .mh{fill:none;stroke:var(--s-pri);stroke-width:3.2;stroke-linecap:round;opacity:.55}
 .map .ls{fill:var(--s-acc);stroke:var(--s-pri-d);stroke-width:1.4}
 .map .wt{fill:var(--s-pri-d);stroke:#fff;stroke-width:1.2}
@@ -328,7 +337,7 @@ main.wrap{padding-bottom:48px}
 .s-tw{overflow-x:auto;border:1px solid var(--s-line);border-radius:8px}
 .s-incl td,.s-incl th{text-align:center}.s-incl td:first-child,.s-incl th:first-child{text-align:left}
 .s-incl td:first-child{font-family:var(--f-body);font-size:.86rem}
-.s-ck{color:#17703f;font-weight:700}.s-dash{color:#9aa5b1}
+.s-ck{color:var(--s-ok,#17703f);font-weight:700}.s-dash{color:#9aa5b1}
 .s-locked{border:1px dashed var(--s-acc-line);background:var(--s-acc-l);border-radius:10px;padding:14px 16px;display:grid;gap:8px;font-size:.9rem;color:var(--s-acc-ink)}
 .s-edition{border:1px solid var(--s-line);border-radius:10px;padding:16px;display:grid;gap:10px;background:var(--s-bg)}
 .s-edition h3{font-family:var(--f-display);font-weight:500;font-size:1.15rem;margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -517,6 +526,7 @@ main.wrap{padding-bottom:48px}
         <button type="button" role="radio" aria-checked="false" data-v="pumpkin" data-desc="From fall produce stands and apple butter: burnt orange and deep brown on cream."><span class="sw" aria-hidden="true"><i style="background:#3d2414"></i><i style="background:#ab420c"></i><i style="background:#a8430f"></i><i style="background:#fffbf5"></i></span>Harvest pumpkin</button>
         <button type="button" role="radio" aria-checked="false" data-v="stone" data-desc="From old fieldstone walls and pasture: warm stone gray, muted sage and sandstone. The quietest scheme."><span class="sw" aria-hidden="true"><i style="background:#3e403b"></i><i style="background:#4a6650"></i><i style="background:#d9b98a"></i><i style="background:#e9e6df"></i></span>Stone &amp; sage</button>
         <button type="button" role="radio" aria-checked="false" data-v="dusk" data-desc="From the evening sky over the rolling hills: deep indigo with soft apricot."><span class="sw" aria-hidden="true"><i style="background:#23224f"></i><i style="background:#4b48a8"></i><i style="background:#f4a46a"></i></span>Dusk over the hills</button>
+        <button type="button" role="radio" aria-checked="false" data-v="mono" data-desc="Black, white and grays only. A neutral base: one highlight color, such as the logo lime or Hub gold, could be added later by changing the highlight values."><span class="sw" aria-hidden="true"><i style="background:#111111"></i><i style="background:#616161"></i><i style="background:#d6d6d6"></i><i style="background:#ffffff"></i></span>Monochrome</button>
       </div></div>
       <label class="tgl"><input type="checkbox" id="notes-toggle" checked> Show planner notes</label>
       <p class="ctl-cap" id="style-cap" aria-live="polite"></p>

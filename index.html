@@ -99,7 +99,7 @@ main.wrap{padding-bottom:48px}
   --s-acc:#f0bf13; --s-on-acc:#012f50; --s-acc-l:#fdf2cc; --s-acc-ink:#5c4600; --s-acc-line:#e3c552;
   --s-hdr-bg:var(--s-bg); --s-hdr-fg:var(--s-ink); --s-hdr-nav:var(--s-ink2); --s-hdr-mute:var(--s-muted); --s-hdr-line:var(--s-line);
   --s-hdr-cur:var(--s-pri); --s-hdr-curtext:var(--s-pri); --s-signin-bg:var(--s-pri); --s-signin-fg:#ffffff;
-  --s-side-bg:var(--s-pri-d);
+  --s-side-bg:var(--s-pri-d); --s-acc-dk:var(--s-acc); --s-on-acc-dk:var(--s-on-acc);
   --s-logo-lt-ink:#00204e; --s-logo-lt-acc:#639dc7; --s-logo-dk-ink:#ffffff; --s-logo-dk-acc:#639dc7;
   --s-logo-hdr-ink:var(--s-logo-lt-ink); --s-logo-hdr-acc:var(--s-logo-lt-acc);
   --s-hero-bg:#012f50; --s-hero-fg:#ffffff; --s-hero-ink:#cfe0ee; --s-hero-ey:#f0bf13; --s-hero-vl:#ffe48a; --s-hm-water:#6fb4e8; --s-hm-road:#f0bf13;
@@ -107,24 +107,16 @@ main.wrap{padding-bottom:48px}
   --s-map-bg:#eef3f7; --s-map-water:#86bfe6; --s-map-road:#c99a00;
   --s-n-bg:#fff1b5; --s-n-ink:#463600; --s-n-line:#dcb93a;
   background:var(--s-bg);color:var(--s-ink);font-family:var(--f-body);font-size:15px;line-height:1.5;color-scheme:light;position:relative}
-.site[data-colors="flag"]{ /* County flag: light blue field, gold sunrise, brown border */
-  --s-soft:#eef4fa; --s-ink:#13243a; --s-ink2:#3e5064; --s-muted:#5b6b7c; --s-line:#d3dde8;
-  --s-pri:#1e5f9c; --s-pri-d:#123d66; --s-pri-l:#e1edf8;
-  --s-acc:#f5c330; --s-on-acc:#123d66; --s-acc-l:#fdf1c9; --s-acc-ink:#5a4300; --s-acc-line:#e2bd4a;
-  --s-logo-dk-acc:#f5c330;
-  --s-hero-bg:#cfe4f6; --s-hero-fg:#0f2f4f; --s-hero-ink:#2b4865; --s-hero-ey:#7b4a1c; --s-hero-vl:#6a4510; --s-hm-water:#2f78bd; --s-hm-road:#b9852a;
-  --s-foot-bg:#5a3a1f; --s-foot-fg:#ffffff; --s-foot-ink:#f2e6d6; --s-foot-mute:#dcc7ab;
-  --s-map-bg:#eef4fa; --s-map-water:#7fb3e0; --s-map-road:#c9962a }
-.site[data-colors="green"]{ /* County green: the county website's green menu bar and sunflower banner */
-  --s-soft:#f1f6ee; --s-ink:#182417; --s-ink2:#43523f; --s-muted:#5d6b59; --s-line:#d6e0d1;
-  --s-pri:#1a7a0c; --s-pri-d:#15501a; --s-pri-l:#e3f1dc;
-  --s-acc:#f2c21b; --s-on-acc:#15501a; --s-acc-l:#fdf3cc; --s-acc-ink:#594400; --s-acc-line:#e0c04a;
-  --s-hdr-bg:#1a7a0c; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#e6f3e0; --s-hdr-line:#15501a;
-  --s-hdr-cur:#f2c21b; --s-hdr-curtext:#ffffff; --s-signin-bg:#f2c21b; --s-signin-fg:#15501a;
+.site[data-colors="lime"]{ /* Logo charcoal & lime: the GIS office's own green logo */
+  --s-soft:#f2f5ee; --s-ink:#1b1d1a; --s-ink2:#454a42; --s-muted:#5d6459; --s-line:#d9dfd2;
+  --s-pri:#3c6e00; --s-pri-d:#232822; --s-pri-l:#eaf4d9;
+  --s-acc:#8fd300; --s-on-acc:#1b1d1a; --s-acc-l:#eef8d6; --s-acc-ink:#3a5200; --s-acc-line:#b5df5c;
+  --s-hdr-bg:#232822; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#c8cfc3; --s-hdr-line:#161a15;
+  --s-hdr-cur:#8fd300; --s-hdr-curtext:#ffffff; --s-signin-bg:#8fd300; --s-signin-fg:#1b1d1a;
   --s-logo-lt-ink:#000000; --s-logo-lt-acc:#8fd300; --s-logo-dk-acc:#8fd300; --s-logo-hdr-ink:var(--s-logo-dk-ink); --s-logo-hdr-acc:var(--s-logo-dk-acc);
-  --s-hero-bg:#15501a; --s-hero-fg:#ffffff; --s-hero-ink:#d6e9cf; --s-hero-ey:#f2c21b; --s-hero-vl:#ffe38a; --s-hm-water:#7cc0ea; --s-hm-road:#f2c21b;
-  --s-foot-bg:#1a7a0c; --s-foot-fg:#ffffff; --s-foot-ink:#ffffff; --s-foot-mute:#e6f3e0;
-  --s-map-bg:#f1f6ee; --s-map-water:#7fb8e0; --s-map-road:#c79c0a }
+  --s-hero-bg:#eef5e1; --s-hero-fg:#1b1d1a; --s-hero-ink:#3d4538; --s-hero-ey:#3c6e00; --s-hero-vl:#3c6e00; --s-hm-water:#3f88c5; --s-hm-road:#6f9c1a;
+  --s-foot-bg:#232822; --s-foot-fg:#ffffff; --s-foot-ink:#dfe5da; --s-foot-mute:#b0b8aa;
+  --s-map-bg:#f2f5ee; --s-map-water:#7fb3e0; --s-map-road:#7aa61f }
 .site[data-colors="barn"]{ /* Barn red & cream: red barns, hay and black buggies */
   --s-bg:#fdfaf3; --s-soft:#f4ede0; --s-ink:#231c18; --s-ink2:#4d433c; --s-muted:#6b5f56; --s-line:#e2d8c8;
   --s-pri:#9a2b1f; --s-pri-d:#5e1a13; --s-pri-l:#f6e3dc;
@@ -144,6 +136,38 @@ main.wrap{padding-bottom:48px}
   --s-hero-bg:#2f3c47; --s-hero-fg:#ffffff; --s-hero-ink:#d9e1e7; --s-hero-ey:#f0a46e; --s-hero-vl:#f6c59c; --s-hm-water:#8cc5d6; --s-hm-road:#e08a52;
   --s-foot-bg:#2f3c47; --s-foot-fg:#ffffff; --s-foot-ink:#d9e1e7; --s-foot-mute:#aab6c0;
   --s-map-bg:#f1efe9; --s-map-water:#8cc5d6; --s-map-road:#c06a35 }
+.site[data-colors="marsh"]{ /* Killbuck Marsh: the wetlands' deep teal water and sedge green */
+  --s-soft:#eff5f5; --s-ink:#142427; --s-ink2:#3f5156; --s-muted:#5a6b70; --s-line:#d3e0e1;
+  --s-pri:#136b78; --s-pri-d:#0d4651; --s-pri-l:#e0eff1;
+  --s-acc:#9cbf62; --s-on-acc:#142427; --s-acc-l:#edf4e0; --s-acc-ink:#3f5a1a; --s-acc-line:#b9d38c;
+  --s-logo-lt-ink:#0d4651; --s-logo-lt-acc:#5f8a2e; --s-logo-dk-acc:#b7d98a;
+  --s-hero-bg:#0d4651; --s-hero-fg:#ffffff; --s-hero-ink:#d3e6e8; --s-hero-ey:#b7d98a; --s-hero-vl:#f0e3a6; --s-hm-water:#8fd0e0; --s-hm-road:#b7d98a;
+  --s-foot-bg:#0b3a43; --s-foot-fg:#ffffff; --s-foot-ink:#d3e6e8; --s-foot-mute:#9fbcc0;
+  --s-map-bg:#eef5f5; --s-map-water:#6fb3cf; --s-map-road:#8aa64a }
+.site[data-colors="pumpkin"]{ /* Harvest pumpkin: fall produce stands and apple butter */
+  --s-bg:#fffbf5; --s-soft:#f8efe2; --s-ink:#2a1d14; --s-ink2:#54443a; --s-muted:#6b5b4f; --s-line:#eadfce;
+  --s-pri:#ab420c; --s-pri-d:#3d2414; --s-pri-l:#fbe6d8;
+  --s-acc:#4a2c17; --s-on-acc:#ffffff; --s-acc-dk:var(--s-pri); --s-on-acc-dk:#ffffff; --s-acc-l:#f3e3cf; --s-acc-ink:#4a2c17; --s-acc-line:#d9b892;
+  --s-logo-lt-ink:#3d2414; --s-logo-lt-acc:#c4551a; --s-logo-dk-ink:#fffbf5; --s-logo-dk-acc:#f5a25d;
+  --s-hero-bg:#a8430f; --s-hero-fg:#ffffff; --s-hero-ink:#ffe8d4; --s-hero-ey:#ffe0b0; --s-hero-vl:#fff1d6; --s-hm-water:#ffd2a8; --s-hm-road:#ffe0b0;
+  --s-foot-bg:#3d2414; --s-foot-fg:#ffffff; --s-foot-ink:#f2e3d3; --s-foot-mute:#c9b29b;
+  --s-map-bg:#f8efe2; --s-map-water:#8ab8de; --s-map-road:#c96a2a }
+.site[data-colors="stone"]{ /* Stone & sage: old fieldstone walls and pasture */
+  --s-bg:#fbfaf8; --s-soft:#f1efea; --s-ink:#252622; --s-ink2:#4c4d47; --s-muted:#64655d; --s-line:#dedcd4;
+  --s-pri:#4a6650; --s-pri-d:#3e403b; --s-pri-l:#e6ece6;
+  --s-acc:#d9b98a; --s-on-acc:#252622; --s-acc-l:#f4ebdc; --s-acc-ink:#5c4421; --s-acc-line:#dcc39d;
+  --s-logo-lt-ink:#3e403b; --s-logo-lt-acc:#6f8a74; --s-logo-dk-ink:#fbfaf8; --s-logo-dk-acc:#d9b98a;
+  --s-hero-bg:#e9e6df; --s-hero-fg:#252622; --s-hero-ink:#4c4d47; --s-hero-ey:#4a6650; --s-hero-vl:#5c4421; --s-hm-water:#5f8fb3; --s-hm-road:#a6824a;
+  --s-foot-bg:#3e403b; --s-foot-fg:#ffffff; --s-foot-ink:#e3e2dc; --s-foot-mute:#b3b2aa;
+  --s-map-bg:#f1efea; --s-map-water:#8fb1c9; --s-map-road:#b39364 }
+.site[data-colors="dusk"]{ /* Dusk over the hills: deep indigo evening sky with soft apricot */
+  --s-soft:#f3f2f8; --s-ink:#1c1b2e; --s-ink2:#454460; --s-muted:#605d76; --s-line:#dcdbe8;
+  --s-pri:#4b48a8; --s-pri-d:#23224f; --s-pri-l:#e8e7f6;
+  --s-acc:#f4a46a; --s-on-acc:#23224f; --s-acc-l:#fde9da; --s-acc-ink:#7a3a12; --s-acc-line:#f0bf98;
+  --s-logo-lt-ink:#23224f; --s-logo-lt-acc:#e08a4f; --s-logo-dk-acc:#f4a46a;
+  --s-hero-bg:#23224f; --s-hero-fg:#ffffff; --s-hero-ink:#dad9ee; --s-hero-ey:#f4a46a; --s-hero-vl:#ffd2b0; --s-hm-water:#9db7f0; --s-hm-road:#f4a46a;
+  --s-foot-bg:#1b1a3d; --s-foot-fg:#ffffff; --s-foot-ink:#dad9ee; --s-foot-mute:#a9a7c7;
+  --s-map-bg:#f3f2f8; --s-map-water:#8aa6e0; --s-map-road:#d98a50 }
 
 .site a{color:var(--s-pri)}
 :where(.site) button{font:inherit;color:inherit}
@@ -359,15 +383,15 @@ main.wrap{padding-bottom:48px}
 .s-ssearch input{flex:1;min-width:0;border:0;padding:9px 10px;font:inherit;font-size:.9rem;color:var(--s-ink);background:#fff}
 .s-ssearch input:focus{outline:none}
 .s-ssearch:focus-within{outline:3px solid var(--s-acc)}
-.s-ssearch button{border:0;background:var(--s-acc);color:var(--s-on-acc);padding:0 11px;cursor:pointer;display:grid;place-items:center}
+.s-ssearch button{border:0;background:var(--s-acc-dk);color:var(--s-on-acc-dk);padding:0 11px;cursor:pointer;display:grid;place-items:center}
 .s-snav{display:grid;gap:2px}
 .s-snav button{display:flex;align-items:center;gap:10px;background:none;border:0;border-radius:7px;padding:9px 10px;cursor:pointer;color:rgba(255,255,255,.92);font-weight:500;text-align:left}
 .s-snav button:hover{background:rgba(255,255,255,.1);color:#fff}
-.s-snav button[aria-current="page"]{background:var(--s-acc);color:var(--s-on-acc)}
+.s-snav button[aria-current="page"]{background:var(--s-acc-dk);color:var(--s-on-acc-dk)}
 .s-side-h{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:rgba(255,255,255,.75);margin:4px 0 -10px 10px}
 .s-scats button{font-size:.86rem;padding:6px 10px}
 .s-side-foot{margin-top:auto;display:grid;gap:10px}
-.s-side .s-signin,.s-hdr2-top .s-signin{margin-left:0;background:var(--s-acc)!important;color:var(--s-on-acc)!important;font-weight:600}
+.s-side .s-signin,.s-hdr2-top .s-signin{margin-left:0;background:var(--s-acc-dk)!important;color:var(--s-on-acc-dk)!important;font-weight:600}
 .s-side .s-user{margin-left:0;width:100%}
 .s-shell-main{min-width:0;display:flex;flex-direction:column}
 .s-shell-main #s-body{flex:1}
@@ -486,10 +510,13 @@ main.wrap{padding-bottom:48px}
       <div class="ctl-row"><span class="lbl" id="colors-lbl">Colors</span>
       <div class="seg" role="radiogroup" aria-labelledby="colors-lbl" id="colors">
         <button type="button" role="radio" aria-checked="true" data-v="blue" data-desc="Today’s AGOL hub colors, kept for continuity."><span class="sw" aria-hidden="true"><i style="background:#012f50"></i><i style="background:#035691"></i><i style="background:#f0bf13"></i></span>Hub blue &amp; gold</button>
-        <button type="button" role="radio" aria-checked="false" data-v="flag" data-desc="From the county flag: its light blue field, gold sunrise and brown border."><span class="sw" aria-hidden="true"><i style="background:#cfe4f6"></i><i style="background:#1e5f9c"></i><i style="background:#f5c330"></i><i style="background:#5a3a1f"></i></span>County flag</button>
-        <button type="button" role="radio" aria-checked="false" data-v="green" data-desc="From the county website (co.holmes.oh.us): its green menu bar and sunflower banner."><span class="sw" aria-hidden="true"><i style="background:#15501a"></i><i style="background:#1a7a0c"></i><i style="background:#f2c21b"></i></span>County green</button>
+        <button type="button" role="radio" aria-checked="false" data-v="lime" data-desc="From the GIS office’s own green logo: charcoal and lime, with the official green logo as is."><span class="sw" aria-hidden="true"><i style="background:#232822"></i><i style="background:#3c6e00"></i><i style="background:#8fd300"></i></span>Logo charcoal &amp; lime</button>
         <button type="button" role="radio" aria-checked="false" data-v="barn" data-desc="From the landscape: red barns, hay and black buggies on cream."><span class="sw" aria-hidden="true"><i style="background:#2a2320"></i><i style="background:#9a2b1f"></i><i style="background:#e3a83a"></i><i style="background:#fdfaf3"></i></span>Barn red &amp; cream</button>
         <button type="button" role="radio" aria-checked="false" data-v="slate" data-desc="From the Amish Country tourism site (visitamishcountry.com): slate, teal and rust, like the hills in fall."><span class="sw" aria-hidden="true"><i style="background:#3b4a57"></i><i style="background:#2b6964"></i><i style="background:#b4501a"></i></span>Valley slate &amp; rust</button>
+        <button type="button" role="radio" aria-checked="false" data-v="marsh" data-desc="From the Killbuck Marsh wetlands in the north of the county: deep marsh teal with sedge green."><span class="sw" aria-hidden="true"><i style="background:#0d4651"></i><i style="background:#136b78"></i><i style="background:#9cbf62"></i></span>Killbuck Marsh</button>
+        <button type="button" role="radio" aria-checked="false" data-v="pumpkin" data-desc="From fall produce stands and apple butter: burnt orange and deep brown on cream."><span class="sw" aria-hidden="true"><i style="background:#3d2414"></i><i style="background:#ab420c"></i><i style="background:#a8430f"></i><i style="background:#fffbf5"></i></span>Harvest pumpkin</button>
+        <button type="button" role="radio" aria-checked="false" data-v="stone" data-desc="From old fieldstone walls and pasture: warm stone gray, muted sage and sandstone. The quietest scheme."><span class="sw" aria-hidden="true"><i style="background:#3e403b"></i><i style="background:#4a6650"></i><i style="background:#d9b98a"></i><i style="background:#e9e6df"></i></span>Stone &amp; sage</button>
+        <button type="button" role="radio" aria-checked="false" data-v="dusk" data-desc="From the evening sky over the rolling hills: deep indigo with soft apricot."><span class="sw" aria-hidden="true"><i style="background:#23224f"></i><i style="background:#4b48a8"></i><i style="background:#f4a46a"></i></span>Dusk over the hills</button>
       </div></div>
       <label class="tgl"><input type="checkbox" id="notes-toggle" checked> Show planner notes</label>
       <p class="ctl-cap" id="style-cap" aria-live="polite"></p>

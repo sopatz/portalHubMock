@@ -118,7 +118,7 @@ main.wrap{padding-bottom:48px}
 .s-brand small{display:block;font-size:.7rem;color:var(--s-hdr-mute);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
 .lg-f{width:176px;height:80px;margin-bottom:10px}
 .s-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;align-items:center}
-.s-nav button{background:none;border:0;padding:8px 11px;border-radius:6px;cursor:pointer;color:var(--s-hdr-nav);font-weight:500;font-size:.93rem}
+.s-nav button{background:none;border:0;padding:8px 11px;border-radius:6px;cursor:pointer;color:var(--s-hdr-nav);font-weight:500;font-size:.93rem;white-space:nowrap;flex:none}
 .s-nav button:hover{background:color-mix(in srgb,var(--s-hdr-nav) 9%,transparent);color:var(--s-hdr-fg)}
 .s-nav button[aria-current="page"]{color:var(--s-hdr-curtext);box-shadow:inset 0 -2px 0 var(--s-hdr-cur);border-radius:0}
 .s-nav .lockd{display:inline-flex;align-items:center;gap:5px}
@@ -255,7 +255,7 @@ main.wrap{padding-bottom:48px}
 .s-dlrow b{font-weight:600;font-size:.92rem}
 .s-dlrow small{display:block;color:var(--s-muted);font-family:var(--f-mono);font-size:.74rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .s-url{display:flex;gap:0;border:1px solid var(--s-line);border-radius:8px;overflow:hidden}
-.s-url code{flex:1;min-width:0;padding:9px 10px;font-size:.76rem;background:var(--s-soft);overflow-x:auto;white-space:nowrap}
+.s-url code{flex:1;min-width:0;padding:9px 10px;font-size:.76rem;background:var(--s-soft);overflow-wrap:anywhere}
 .s-url button{border:0;border-left:1px solid var(--s-line);background:var(--s-bg);padding:0 12px;cursor:pointer;color:var(--s-pri);font-weight:600;font-size:.82rem}
 .s-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:.88rem}
 .s-kv dt{color:var(--s-muted)}.s-kv dd{margin:0}
@@ -287,6 +287,37 @@ main.wrap{padding-bottom:48px}
 #browser{scroll-margin-top:72px}
 
 .s-foot{--lg-ink:var(--s-logo-dk-ink);--lg-acc:var(--s-logo-dk-acc)}
+
+/* data & services */
+.s-viewtog{display:inline-flex;flex-wrap:wrap;gap:2px;border:1px solid var(--s-line);border-radius:999px;padding:3px;background:var(--s-bg);margin-top:8px;width:max-content;max-width:100%}
+.s-viewtog button{display:inline-flex;align-items:center;gap:7px;border:0;background:none;border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:600;color:var(--s-ink2)}
+.s-viewtog button span{font-weight:400;font-size:.8rem;color:var(--s-muted)}
+.s-viewtog button[aria-selected="true"]{background:var(--s-pri-d);color:#fff}
+.s-viewtog button[aria-selected="true"] span{color:#c9d1c4}
+.s-viewtog .ic{width:16px;height:16px}
+.s-live{display:inline-flex;align-items:center;gap:4px;color:var(--s-pri);font-weight:600;margin-right:8px}
+.s-live .ic{width:14px;height:14px}
+.s-links{display:flex;gap:6px 18px;flex-wrap:wrap}
+.s-connect{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:12px 28px;background:var(--s-soft);border:1px solid var(--s-line);border-radius:12px;padding:20px 22px;align-items:start}
+.s-connect h2{font-family:var(--f-display);font-weight:500;font-size:1.35rem;margin:0 0 6px}
+.s-connect p{color:var(--s-ink2);font-size:.92rem}
+.s-connect .pn{grid-column:1/-1}
+.s-connect code{overflow-wrap:anywhere}
+.s-svcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.s-svc{border:1px solid var(--s-line);border-radius:10px;padding:16px;display:grid;gap:10px;align-content:start;background:var(--s-bg);scroll-margin-top:16px}
+.s-svc header{display:grid;gap:6px}
+.s-svc h3{font-family:var(--f-mono);font-weight:500;font-size:1rem;margin:0}
+.s-svc p{font-size:.88rem;color:var(--s-ink2)}
+.s-svc.flash{animation:flash 1.4s ease 2}
+.s-svl-h{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:var(--s-muted);margin-bottom:-6px}
+.s-svl{margin:0;padding-left:2.3em;font-size:.86rem;color:var(--s-ink2);display:grid;gap:2px}
+.s-svl li::marker{font-family:var(--f-mono);font-size:.78rem;color:var(--s-muted)}
+.s-svl .s-link{font-weight:500}
+.s-svc .s-svnote{font-size:.8rem;color:var(--s-muted)}
+.s-lead{font-size:.95rem}
+.s-sub{font-size:.86rem;color:var(--s-ink2)}
+.s-livebox{border-color:var(--s-acc-line);background:var(--s-acc-l)}
+.s-livebox h3 .ic{width:18px;height:18px;color:var(--s-pri)}
 
 /* featured app (home page) */
 .s-feat-ctl{display:flex;align-items:center;gap:4px}
@@ -341,7 +372,7 @@ main.wrap{padding-bottom:48px}
   .s-heromap{order:-1;max-width:560px}
   .s-tasks{grid-template-columns:repeat(2,minmax(0,1fr))}
   .s-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .s-cat,.s-item,.s-feat,.s-bull-grid{grid-template-columns:1fr}
+  .s-cat,.s-item,.s-feat,.s-bull-grid,.s-svcs,.s-connect{grid-template-columns:1fr}
   .s-feat-pic{border-right:0;border-bottom:1px solid var(--s-line)}
   .s-foot .s-in{grid-template-columns:1fr}
 }
@@ -368,6 +399,7 @@ main.wrap{padding-bottom:48px}
     <h1>Holmes County GIS Hub: site mockup</h1>
     <p>The proposed hub as an ArcGIS Enterprise Site on Portal. It's the same site in all three views: switch who's looking and watch the search results, rows, downloads and the Staff page change. Yellow notes explain how each part would be built. Layer names and counts are real; links and downloads are placeholders.</p>
     <p>The chosen design: the classic layout in Black &amp; lime (November 17, 2026). The colors would mostly go in Sites' own color settings (header, body, buttons and row backgrounds), and all text colors meet WCAG 2.1 AA contrast.</p>
+    <p><b>Services first (November 24):</b> every layer is a live service, and downloads are the backup. The Data &amp; Services page lists the 26 draft services from the groupings workbook (subject to change), and each layer page leads with “Use it live”.</p>
   </div>
     <div class="ctl">
       <div class="ctl-row"><span class="lbl" id="persona-lbl">View as</span>
@@ -420,6 +452,7 @@ const I = {
    CATEGORIES         the 8 data categories (the Data page filter)
    DATA               one D(...) per layer: id, title, category, geometry, count, update, collections,
                       then {aud: group key (omit for public), d: description, pop: 1 = popular}
+   HUBSVC             the 26 draft services (groupings workbook, 17 Nov): name, description, audience, layers in layer-ID order
    COLS               the 8 collections (layers, staff edition, update, users)
    APPS               one A(...) per app: id, title, description, Apps-page section, kind, audience, note
    TASKS / FEATURED   the home page's task cards and its rotating featured apps (just above the home page function)
@@ -441,7 +474,6 @@ const CATEGORIES = [
   ['roads','Roads & Bridges'],['sewer','Sewer & Wastewater'],['environment','Environment & Agriculture'],
   ['elevation','Imagery & Elevation'],['permits','Health & Permits']];
 const CAT = Object.fromEntries(CATEGORIES);
-const SVC = {property:'Property',addresses:'Addresses',boundaries:'Boundaries',roads:'Roads_Bridges',sewer:'Sewer_Public',environment:'Environment',elevation:'Contours',permits:'Permits'};
 
 const D = (id,t,cat,g,n,upd,col,extra={}) => Object.assign({id,t,cat,g,n,upd,col,aud:'public'},extra);
 const DATA = [
@@ -477,9 +509,21 @@ const DATA = [
   D('contours','2-ft contours','elevation','Lines',13668169,'Static',['elevation'],{d:'Two-foot contours for the whole county. Too large for one live download, so they come as one file per township.',pop:1,big:1}),
   D('ortho2026','2026 aerial imagery (EagleView)','elevation','Imagery',null,'Annual',['elevation'],{svc:1,d:'Countywide orthoimagery flown in 2026. Available as a map service for viewing; not downloadable under the EagleView license.'}),
   D('ortho2025','2025 aerial imagery (EagleView)','elevation','Imagery',null,'Annual',['elevation'],{svc:1}),
+  // public layers that the 26 services add (no collection yet)
+  D('cctv','Sewer inspection videos','sewer','Table',null,'Nightly',[],{d:'Links from each inspected gravity main to its CCTV inspection video.'}),
+  D('zip','ZIP codes','addresses','Polygons',16,'On change',[]),
+  D('fire','Fire districts','boundaries','Polygons',null,'On change',[]),
+  D('ems','EMS districts','boundaries','Polygons',null,'On change',[]),
+  D('police','Police jurisdictions','boundaries','Polygons',null,'On change',[]),
+  D('stations','Fire stations','boundaries','Points',null,'On change',[]),
+  D('paving','Paving & chip seal projects','roads','Lines',null,'Weekly',[]),
+  D('cemeteries','Cemeteries','property','Polygons',null,'On change',[]),
+  D('trail','Holmes County Trail','roads','Lines',null,'On change',[]),
+  D('stspub','Septic permit locations (public fields)','permits','Points',null,'Nightly',[],{d:'Where household sewage treatment system permits have been issued, with only the fields that are public record.'}),
+  D('installers','Registered septic installers','permits','Table',null,'On change',[]),
+  D('designers','Septic system designers','permits','Table',null,'On change',[]),
   // group-only
-  D('accounts','Sewer accounts & customers','sewer','Points',null,'Nightly',['sewer:staff'],{aud:'sewer'}),
-  D('cctv','Sewer CCTV inspection links','sewer','Table',null,'Nightly',['sewer:staff'],{aud:'sewer'}),
+  D('accounts','Sewer accounts & customers','sewer','Points',null,'Nightly',['sewer:staff'],{aud:'sewer',host:'Hosted/Sewer_Customers_STAFF_VIEW'}),
   D('tieins','Sewer tie-in permits','sewer','Points',null,'Nightly',['sewer:staff'],{aud:'sewer'}),
   D('esn','Emergency service zones (ESN)','addresses','Polygons',null,'On change',['addresses:staff'],{aud:'e911'}),
   D('access','Access locations (driveways)','addresses','Points',null,'Nightly',['addresses:staff'],{aud:'e911'}),
@@ -487,6 +531,36 @@ const DATA = [
   D('cpt','Conservation practices (CPT)','environment','Polygons',null,'Weekly',['environment:staff'],{aud:'swcd'}),
 ];
 const DI = Object.fromEntries(DATA.map(d=>[d.id,d]));
+
+/* ---------- the 26 draft services (outputs\Hub_Service_Groupings_DRAFT_20261116.xlsx; subject to change) ----------
+   One per database theme. Public and group editions are separate services because sharing applies to a whole service.
+   layers: DATA ids (linked to their pages) or plain names, in layer-ID order. aud: who can see the service. */
+const REST = 'https://gis.co.holmes.oh.us/server/rest/services';
+const S = (n,d,aud,layers,extra={}) => Object.assign({n,d,aud,layers,type:'FeatureServer'},extra);
+const HUBSVC = [
+  S('Parcels','Tax parcels joined to the Auditor’s CAMA records: owner, mailing address, acreage, values and last sale.','public',['parcels'],{pool:1}),
+  S('Property','The survey and tax framework around the parcels.','public',['future','plss','subdiv','row','mineral','sales','Tax map pages','Land hooks']),
+  S('Addresses','Address points, road centerlines and ZIP codes.','public',['address','roads','zip']),
+  S('Boundaries','Townships, villages and every district a parcel or address falls in.','public',['political','precincts','schools','taxdist','zoning','electric','PLSS','Tax map grid','Unincorporated villages','Surrounding counties']),
+  S('Emergency_Services','Fire, EMS and police districts and fire stations.','public',['fire','ems','police','stations']),
+  S('Appraisal','CAUV land use, conservation areas and building footprints.','public',['cauv','landuse','buildings']),
+  S('Sewer','The sanitary sewer network and its inspection videos.','public',['grav','force','mh','lift','wwtp','valves','cctv','Taps','Grease traps','Vaults','Service connections','Proposed new sewer lines']),
+  S('Roads_Bridges','Bridges and culverts, mile posts, signals, signs, guardrails and paving projects.','public',['bridges','paving','Mile posts','Traffic & flashing signals','County, speed limit, stop & yield signs','Guardrails (Cyvl 2026)']),
+  S('Environment','Streams, lakes and ponds, soils and FEMA flood layers.','public',['streams','lakes','soils','flood','FEMA base flood elevations','FEMA FIRM panels','Killbuck Creek 100-year floodplain (2017)']),
+  S('Contours','2-ft contours for the whole county (13.7 million lines).','public',['contours'],{pool:1,note:'For viewing and small areas. Whole-county copies come as township downloads.'}),
+  S('Community','Cemeteries and electric substations.','public',['cemeteries','Electric substations']),
+  S('Parks_Trails','The Holmes County Trail and its mileposts.','public',['trail','Trail mileposts']),
+  S('STS_Public','Septic permit locations with public fields only, plus the installer and designer lists.','public',['stspub','installers','designers']),
+  S('TaxMap_Drawing','Tax-map annotation and linework, for display.','org',['Tax-map linework','Annotation'],{type:'MapServer',note:'A map image service: it draws the tax maps rather than serving data. Public or signed-in only is still open.'}),
+  S('Sewer_Staff','Tie-in permits and meter locations.','sewer',['tieins','Meter locations'],{note:'Sewer accounts stay the hosted Muni-Link layer (Hosted/Sewer_Customers_STAFF_VIEW), updated nightly.'}),
+  S('Addresses_E911','Access locations (driveways) and proposed access locations.','e911',['access','Proposed access locations','ESN zones (addressing copy)']),
+  S('E911_Response','Fire and EMS box alarm areas, ESN zones and the PSAP boundary.','e911',['esn','Fire box alarm areas','EMS box areas','PSAP boundary']),
+  S('Pavement_Condition','Cyvl 2026 pavement survey: segments, distresses, inspection cells and street images.','engineer',['Pavement segments','Distresses (811,777)','Inspection cells','Street images'],{pool:1}),
+  S('Health_STS','Septic permits, inspections and lookup tables.','health',['sts','Inspections','Lookup tables']),
+  S('SWCD_Conservation','Conservation practices, farms, land unit practices and CLUs.','swcd',['cpt','Farms','Land unit practices','CLUs (USDA: never public)'])];
+const NOT_LISTED = ['TaxMap_Editing','Sewer_Permit_Intake','STS_Permit_Intake','Wastewater_Sampling','Payments','Appraisal_Internal']; // editing and form services, plus one undecided
+const svcOf = d => { for (const sv of HUBSVC) { const i = sv.layers.indexOf(d.id); if (i >= 0) return {s:sv, i}; } return null; };
+const svcUrl = sv => `${REST}/Hub/${sv.n}/${sv.type}`;
 
 const COLS = [
   {id:'property',t:'Property & Land Records',why:'Parcels with the survey and tax framework around them.',users:'Surveyors, title companies, appraisers, realtors',upd:'Nightly'},
@@ -580,12 +654,12 @@ const slug = s => s.replace(/[^A-Za-z0-9]+/g,'');
 const updLabel = d => ({Nightly:'Updated ' + AS_OF, Weekly:'Updated weekly', Monthly:'Updated monthly', Annual:'Updated yearly', 'On change':'Updated when it changes', Static:'Static'})[d.upd];
 let toastT;
 function toast(msg){ const t = site.querySelector('.s-toast'); if(!t) return; t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove('on'), 2600); }
-const ADDR = {home:'', apps:'/pages/apps', data:'/search', dataset:'/datasets/', collections:'/pages/collections', collection:'/pages/collections/', developers:'/pages/developers', help:'/pages/help', staff:'/pages/staff'};
+const ADDR = {home:'', apps:'/pages/apps', data:'/search', services:'/search?view=services', dataset:'/datasets/', collections:'/pages/collections', collection:'/pages/collections/', help:'/pages/help', staff:'/pages/staff'};
 
 /* ---------- chrome ---------- */
-const NAV = [['home','Home','home'],['apps','Apps','app'],['data','Data','layers'],['collections','Collections','dl'],['developers','Developers','plug'],['help','Help','help']];
+const NAV = [['home','Home','home'],['apps','Apps','app'],['data','Data &amp; Services','layers'],['collections','Collections','dl'],['help','Help','help']];
 function navItems(){ const nav = NAV.slice(); if (signedIn()) nav.push(['staff','Staff','lock']); return nav; }
-const curNav = () => ({dataset:'data', collection:'collections'}[st.page] || st.page);
+const curNav = () => ({dataset:'data', services:'data', collection:'collections'}[st.page] || st.page);
 const navBtn = ([k,l]) => `<button data-go="${k}"${curNav()===k?' aria-current="page"':''}>${k==='staff'?`<span class="lockd">${I.lock}${l}</span>`:l}</button>`;
 const brand = () => `<button class="s-brand" data-go="home" aria-label="Holmes County GIS Hub home"><svg class="lg lg-i" aria-hidden="true"><use href="#lg-icon"/></svg><span class="s-bt"><svg class="lg lg-w" aria-hidden="true"><use href="#lg-word"/></svg><small>Hub · Maps · Apps · Data</small></span></button>`;
 function userBtn(){
@@ -602,7 +676,7 @@ function header(){
 function footer(){
   return `<footer class="s-foot"><div class="s-in">
     <div class="col"><svg class="lg lg-f" role="img" aria-label="Holmes County GIS logo"><use href="#lg-full"/></svg><b>Holmes County GIS Office</b><p>75 E. Clinton St., Suite 112, Millersburg, OH 44654<br>(330) 674-2083 · Mon–Fri 8:30–4:30</p>${pn('The county GIS logo from the official files, in its black-and-green version: white text and lime stripes on the dark bars, black text on light backgrounds. The header puts the icon beside the wordmark because the stacked logo is too small to read in a 64-pixel bar. Sites takes the header logo as an uploaded image, so the white-and-lime file is the one to upload.')}</div>
-    <div class="col"><b>Using our data</b><button data-go="help">Disclaimer &amp; terms</button><button data-go="developers">Services &amp; open data feed</button><button data-go="help">Accessibility</button><button data-act="bulletin">Get GIS updates by email</button></div>
+    <div class="col"><b>Using our data</b><button data-go="help">Disclaimer &amp; terms</button><button data-go="services">Live services &amp; open data feed</button><button data-go="help">Accessibility</button><button data-act="bulletin">Get GIS updates by email</button></div>
     <div class="col"><b>County staff &amp; partners</b>${signedIn()?`<button data-go="staff">Your workspace</button><button data-act="signout">Sign out</button>`:`<button data-act="signin">Sign in with your county account</button><button data-go="help">Request an account</button>`}</div>
   </div><div class="s-in s-legal">Data is provided as-is for general reference. Holmes County, OH makes no warranty as to its accuracy or completeness.</div></footer>`;
 }
@@ -612,7 +686,7 @@ function appCard(a){
   return `<button class="s-card" data-app="${a.id}"><b>${esc(a.t)}</b><p>${esc(a.d)}</p><div class="s-meta"><span class="s-pill">${esc(a.kind)}</span>${lockPill(a.aud)}</div>${a.note?pn(esc(a.note)):''}</button>`;
 }
 function dataRow(d){
-  return `<button class="s-row" data-ds="${d.id}"><div><b>${esc(d.t)}</b><div class="s-meta">${meta(d)}</div></div><div class="r">${updLabel(d)}</div></button>`;
+  return `<button class="s-row" data-ds="${d.id}"><div><b>${esc(d.t)}</b><div class="s-meta">${meta(d)}</div></div><div class="r"><span class="s-live">${I.plug}Live</span>${updLabel(d)}</div></button>`;
 }
 const nLayers = c => c.id === 'snapshot' ? 37 : c.layers.length; // snapshot count from the manifest (doc 05, Appendix A)
 function colCard(c){
@@ -632,8 +706,8 @@ function myTools(){
 const TASKS = [
   ['home','Look up a property','Owner, value, sales and aerials for any parcel.','app:gisonline','t-prop'],
   ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address applications.','apps:permits','t-permit'],
-  ['dl','Download data','Single layers or ready-made collections, refreshed nightly.','collections',''],
-  ['plug','Connect from ArcGIS Pro or QGIS','Live service URLs and the open data feed.','developers','']];
+  ['plug','Connect to live data','Always-current services for ArcGIS Pro, QGIS and web maps.','services',''],
+  ['dl','Download a copy','Single layers or ready-made collections, refreshed nightly.','collections','']];
 const POPULAR = ['gisonline','luvc','sts','paving','roadrec','plats'];
 const RECENT = ['parcels','address','grav','ortho2026','precincts'];
 const heroSearch = ph => `<form class="s-search" data-form="hero" role="search"><label for="s-hero-q" class="sr" style="position:absolute;left:-9999px">Search</label><input id="s-hero-q" type="search" placeholder="${ph || 'Search data and apps: parcels, sewer, precincts…'}" autocomplete="off"><button type="submit">${I.search}Search</button></form>`;
@@ -727,16 +801,16 @@ function homeRest(){
   return `${signedIn() ? myTools() : signBand()}
       <section class="s-sec"><div class="s-sec-h"><h2>Popular apps</h2><button class="s-link" data-go="apps">All apps ${I.arrow}</button></div>
         <div class="s-grid">${popular.map(appCard).join('')}</div></section>
-      <section class="s-sec"><div class="s-sec-h"><h2>Data collections</h2><button class="s-link" data-go="collections">All 8 collections ${I.arrow}</button></div>
-        <div class="s-grid">${['property','sewer','addresses'].map(id=>colCard(CI[id])).join('')}</div>
-        ${pn('Gallery card of the collections’ File Geodatabase items (tag: collection). Each collection page is a Sites page.')}</section>
+      <section class="s-sec"><div class="s-sec-h"><h2>Live data</h2><div class="s-links"><button class="s-link" data-go="services">All live services ${I.arrow}</button><button class="s-link" data-go="collections">Downloads &amp; collections ${I.arrow}</button></div></div>
+        <div class="s-grid">${['Parcels','Addresses','Sewer'].map(n=>svcMini(HUBSVC.find(x=>x.n===n))).join('')}</div>
+        ${pn('Services first: a map connected to a service always shows the latest data, while a download is frozen the day it’s taken. A gallery card of the Hub/ service items; collections are one click away.')}</section>
       <section class="s-sec"><div class="s-sec-h"><h2>Recently updated</h2><button class="s-link" data-go="data">Browse all data ${I.arrow}</button></div>
         <div class="s-list">${recent.map(dataRow).join('')}</div></section>`;
 }
 function homeClassic(){
   return `<div class="s-heroband"><div class="s-in s-hero">
       <div><div class="ey">Holmes County, Ohio</div><h1>Maps, apps and data for Holmes County</h1>
-      <p>Look up a property, apply for a permit, or download the county's GIS data. It all comes from the county's own GIS and is updated as it changes.</p>
+      <p>Look up a property, apply for a permit, or use the county's GIS data live in your own maps. It all comes straight from the county's own GIS.</p>
       ${heroSearch()}
       ${popChips()}
       ${pn('Sites search card. It searches the site catalog as the visitor, so signed-in accounts also find what their groups can see.')}</div>
@@ -765,22 +839,55 @@ function matches(d){
   if (F.acc.size && !F.acc.has(d.aud === 'public' ? 'public' : 'shared')) return false;
   return true;
 }
-function pageData(){
+const visSvcs = () => HUBSVC.filter(sv => can(sv.aud));
+function viewTabs(view){
+  return `<div class="s-viewtog" role="tablist" aria-label="Show"><button role="tab" aria-selected="${view!=='services'}" data-go="data">${I.layers}Layers <span>${visData().length}</span></button><button role="tab" aria-selected="${view==='services'}" data-go="services">${I.plug}Live services <span>${visSvcs().length}</span></button></div>`;
+}
+function svcMini(sv){
+  return `<button class="s-card" data-svc="${sv.n}"><b>Hub/${esc(sv.n)}</b><p>${esc(sv.d)}</p><div class="s-meta"><span class="s-pill bl">${I.plug}Live service</span><span>${sv.layers.length} layer${sv.layers.length===1?'':'s'}</span></div></button>`;
+}
+function svcCard(sv){
+  return `<article class="s-svc" id="svc-${sv.n}"><header><h3>Hub/${esc(sv.n)}</h3><div class="s-meta"><span class="s-pill bl">${sv.type==='MapServer'?'Map image service':'Feature service'}</span><span>${sv.layers.length} layer${sv.layers.length===1?'':'s'}</span>${sv.pool?'<span class="s-pill">Own instance pool</span>':''}${lockPill(sv.aud)}</div></header>
+    <p>${esc(sv.d)}</p>
+    <div class="s-url"><code>${esc(svcUrl(sv))}</code><button data-act="copy">Copy</button></div>
+    <div class="s-svl-h">Layers, by layer ID</div>
+    <ol class="s-svl" start="0">${sv.layers.map(l => DI[l] ? `<li><button class="s-link" data-ds="${l}">${esc(DI[l].t)}</button></li>` : `<li>${esc(l)}</li>`).join('')}</ol>
+    ${sv.note?`<p class="s-svnote">${esc(sv.note)}</p>`:''}</article>`;
+}
+function servicesView(){
+  const mine = visSvcs(), hidden = HUBSVC.length - mine.length;
+  const nPub = HUBSVC.filter(x=>x.aud==='public').length, nGrp = HUBSVC.filter(x=>!['public','org'].includes(x.aud)).length;
+  return `<div class="s-connect">
+      <div><h2>Connect once, stay current</h2><p>Paste a service address into your software and its layers keep themselves up to date. No re-downloading. Need a copy instead? Every layer page and the Collections page have downloads.</p></div>
+      <dl class="s-kv"><dt>ArcGIS Pro</dt><dd>Insert › Connections › Add ArcGIS Server, or paste an address into Add Data › Data from Path.</dd>
+        <dt>QGIS</dt><dd>Browser › ArcGIS REST Servers › New Connection, then paste an address.</dd>
+        <dt>Web maps</dt><dd>Map Viewer › Add layer from URL, or use it in your own app.</dd>
+        <dt>Catalog feed</dt><dd><code>https://gis.co.holmes.oh.us/hub/data.json</code> (DCAT-US 1.1, read by catalogs such as the BTAA Geoportal)</dd>
+        <dt>Fair use</dt><dd>Please don’t page through whole layers with <code>/query</code> or scrape on a schedule. For a full copy, use the downloads.</dd></dl>
+      ${pn('The old Developers page, folded in here so the data and its services are in one place. The feed is written nightly by the hub publisher job, because Sites has no catalog feed.')}</div>
+    <div class="s-svcs">${mine.map(svcCard).join('')}</div>
+    ${hidden && !signedIn() ? `<div class="s-signband"><span>${hidden} more services are shared with county departments and partners. Sign in to see the ones your group can use.</span><button class="s-btn ghost" data-act="signin">${I.lock}Sign in</button></div>` : ''}
+    ${pn(`The ${HUBSVC.length + NOT_LISTED.length} draft services from the groupings workbook (17 Nov, subject to change): ${nPub} public, ${nGrp} for groups, TaxMap_Drawing (public or not still open), and ${NOT_LISTED.length} never listed here: ${NOT_LISTED.join(', ')} (editing and form services, plus Appraisal_Internal, still undecided). The listed ones are read-only (Query only) services in a Hub/ folder; Parcels, Contours and Pavement_Condition get their own instance pools. In Sites this view is a gallery of the Hub/ service items.`)}`;
+}
+function pageData(view){
   const vis = visData();
+  const head = `<div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<span>Data &amp; Services</span></div><h1>Data &amp; Services</h1>
+    <p>Every layer is a live service you can connect to, so your maps always show the county’s latest data. Most layers can also be downloaded as a copy.</p>${viewTabs(view)}</div>`;
+  if (view === 'services') return `<div class="s-in s-main">${head}${servicesView()}</div>`;
   const res = vis.filter(matches);
   const cnt = (fn) => vis.filter(fn).length;
   const box = (grp,val,label,n) => `<label><input type="checkbox" data-facet="${grp}" value="${esc(val)}" ${st.facets[grp].has(val)?'checked':''}>${esc(label)}<span>${n}</span></label>`;
   const shared = vis.filter(d=>d.aud!=='public').length;
-  return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<span>Data</span></div><h1>Data</h1><p>${fmt(vis.length)} datasets${shared?`, including ${shared} shared with your groups`:''}. Each one has a map preview, a download and a live service URL.</p></div>
+  return `<div class="s-in s-main">${head}
     <div class="s-cat"><div class="s-facets">
       <fieldset><legend>Category</legend>${CATEGORIES.map(([k,l])=>cnt(d=>d.cat===k)?box('cat',k,l,cnt(d=>d.cat===k)):'').join('')}</fieldset>
       <fieldset><legend>Updated</legend>${['Nightly','Weekly','Monthly','Annual','On change','Static'].map(u=>cnt(d=>d.upd===u)?box('upd',u,u,cnt(d=>d.upd===u)):'').join('')}</fieldset>
       ${signedIn()?`<fieldset><legend>Access</legend>${box('acc','public','Public',cnt(d=>d.aud==='public'))}${box('acc','shared','Shared with my groups',shared)}</fieldset>`:''}
       ${pn('Category filter: one Portal category schema with 8 categories, replacing today’s 11 (three of them hold only the Data Extraction Tool).')}
     </div><div>
-      <form class="s-qbar" data-form="data" role="search"><span>${I.search}</span><label for="s-data-q" style="position:absolute;left:-9999px">Search data</label><input id="s-data-q" type="search" value="${esc(st.q)}" placeholder="Search datasets"></form>
-      <div class="s-count">${res.length} result${res.length===1?'':'s'}${st.q?` for “${esc(st.q)}”`:''}</div>
-      <div class="s-list">${res.length?res.map(dataRow).join(''):`<div class="s-row" style="cursor:default"><div>No datasets match. Try fewer filters.</div></div>`}</div>
+      <form class="s-qbar" data-form="data" role="search"><span>${I.search}</span><label for="s-data-q" style="position:absolute;left:-9999px">Search data</label><input id="s-data-q" type="search" value="${esc(st.q)}" placeholder="Search layers"></form>
+      <div class="s-count">${res.length} layer${res.length===1?'':'s'}${st.q?` for “${esc(st.q)}”`:''}${shared?` · ${shared} shared with your groups`:''}</div>
+      <div class="s-list">${res.length?res.map(dataRow).join(''):`<div class="s-row" style="cursor:default"><div>No layers match. Try fewer filters.</div></div>`}</div>
     </div></div></div>`;
 }
 const FIELDS = {
@@ -804,29 +911,47 @@ function dlRows(d){
   return fm.map(([l,ext])=>`<div class="s-dlrow"><div><b>${l}</b><small>${base}${ext} · ${updLabel(d)}</small></div><button class="s-btn" data-act="dl" data-what="${esc(l)} for ${esc(d.t)}">${I.dl}Download</button></div>`).join('') +
     pn('A Portal file item rebuilt by the nightly hub publisher job. Sites shows these as ordinary downloads, with no export running on APP1.');
 }
+function livePanel(d){
+  if (d.svc) return `<p class="s-lead"><b>View and stream.</b> This imagery comes from EagleView as a tile service. Its license doesn’t allow downloads.</p><div class="s-url"><code>https://svc.pictometry.com/Image/…/wmts (EagleView)</code><button data-act="copy">Copy</button></div>`;
+  const o = svcOf(d);
+  const url = d.host ? `${REST}/${d.host}/FeatureServer/0` : o ? `${svcUrl(o.s)}/${o.i}` : `${REST}/Hub/…`;
+  const part = d.host ? `A hosted layer kept current by the nightly Muni-Link sync, shared only with the ${esc(GROUPS[d.aud])}.`
+    : o ? `Layer ${o.i} of the <button class="s-link" data-svc="${o.s.n}">Hub/${esc(o.s.n)}</button> service${o.s.layers.length>1?`, alongside ${o.s.layers.length-1} related layer${o.s.layers.length===2?'':'s'}`:''}.` : '';
+  return `<p class="s-lead"><b>Always the latest data.</b> Connect once and your map or app shows the county’s current data every time it opens. No re-downloading.</p>
+    <div class="s-url"><code id="svcurl">${esc(url)}</code><button data-act="copy">Copy</button></div>
+    <p class="s-sub">${part}</p>
+    ${d.big?`<p class="s-sub">Fine for viewing and small areas. For the whole county, use the township files on the <button class="s-link" data-tab="download">Download a copy</button> tab.</p>`:''}
+    <dl class="s-kv"><dt>ArcGIS Pro</dt><dd>Add Data › Data from Path, then paste the address.</dd><dt>QGIS</dt><dd>Browser › ArcGIS REST Servers › New Connection.</dd><dt>Web map</dt><dd>Map Viewer › Add layer from URL.</dd></dl>
+    ${pn('Sites’ item page shows this address in its API panel next to the downloads, and may not let us put it first, so item descriptions and the Data &amp; Services page carry the live-first message. It is the read-only Hub/ service (Query only, trimmed fields), never the editing service.')}`;
+}
 function pageDataset(){
   const d = DI[st.arg]; if (!d || !can(d.aud)) return pageData();
   const cols = d.col.map(c=>c.split(':')[0]).filter((c,i,a)=>a.indexOf(c)===i).map(c=>CI[c]).filter(Boolean);
-  const url = d.svc ? 'https://svc.pictometry.com/Image/…/wmts (EagleView)' : `https://gis.co.holmes.oh.us/server/rest/services/Hub/${d.aud==='public'?SVC[d.cat]:SVC[d.cat].replace('_Public','')+'_Staff'}/FeatureServer`;
-  const tabs = [['download','Download'],['connect','Connect'],['fields','Fields'],['about','About']];
+  const tabs = [['live','Use it live'],['download','Download a copy'],['fields','Fields'],['about','About']];
   let panel = '';
-  if (st.tab==='download') panel = `<div class="s-dl">${dlRows(d)}</div>${cols.length?`<p style="font-size:.88rem;color:var(--s-ink2)">Also in: ${cols.map(c=>`<button class="s-link" data-col="${c.id}">${esc(c.t)}</button>`).join(' · ')}</p>`:''}`;
-  if (st.tab==='connect') panel = `<p style="font-size:.9rem">Use the live service when you want current data in a map or app.</p><div class="s-url"><code id="svcurl">${esc(url)}</code><button data-act="copy">Copy</button></div>
-    <dl class="s-kv"><dt>ArcGIS Pro</dt><dd>Insert › Connections › Add ArcGIS Server, or paste the URL into Add Data › Data from Path.</dd><dt>QGIS</dt><dd>Browser › ArcGIS REST Servers › New Connection.</dd><dt>Please</dt><dd>don't page through whole layers with <code>/query</code>. Download the file instead; it's the same data.</dd></dl>
-    ${pn('A new read-only “Hub” service (Query only, trimmed fields) from the *_publish database, in its own instance pool. Internal editing services are never exposed.')}`;
+  if (st.tab==='live') panel = livePanel(d);
+  if (st.tab==='download') panel = `${d.svc?'':`<p class="s-sub">A copy as of last night. It won’t update itself; for that, use the <button class="s-link" data-tab="live">live service</button>.</p>`}<div class="s-dl">${dlRows(d)}</div>${cols.length?`<p style="font-size:.88rem;color:var(--s-ink2)">Also in: ${cols.map(c=>`<button class="s-link" data-col="${c.id}">${esc(c.t)}</button>`).join(' · ')}</p>`:''}`;
   if (st.tab==='fields') panel = FIELDS[d.id] ? `<div class="s-tw"><table class="s-fields"><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>${FIELDS[d.id].map(([f,l])=>`<tr><td>${f}</td><td>${l}</td></tr>`).join('')}</tbody></table></div><p style="font-size:.85rem;color:var(--s-muted)">${FIELDNOTE[d.id]}</p>` : `<p style="font-size:.9rem;color:var(--s-ink2)">Sites builds this table from the service's field list and descriptions.</p>`;
   if (st.tab==='about') panel = `<dl class="s-kv"><dt>Source</dt><dd>Holmes County GIS${d.cat==='environment'?' and Holmes SWCD':''}</dd><dt>Updated</dt><dd>${esc(d.upd)}</dd><dt>Shared with</dt><dd>${esc(GROUPS[d.aud])}</dd><dt>Terms</dt><dd>Provided as-is for reference; see the county disclaimer.</dd><dt>Contact</dt><dd>GIS Office, (330) 674-2083</dd></dl>`;
-  return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<button data-go="data">Data</button>›<span>${esc(CAT[d.cat])}</span></div>
+  return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<button data-go="data">Data &amp; Services</button>›<span>${esc(CAT[d.cat])}</span></div>
     <h1>${esc(d.t)}</h1><div class="s-meta">${meta(d)}</div><p>${esc(d.d || 'Maintained by Holmes County GIS from the county\'s authoritative data.')}</p>
     ${pn('Sites’ built-in explore and details pages. They follow the site theme, but their layout isn’t configurable. This is an approximation.')}</div>
     <div class="s-item"><div>${preview(d)}</div><div><div class="s-tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${st.tab===k}" data-tab="${k}">${l}</button>`).join('')}</div><div class="s-panel" role="tabpanel">${panel}</div></div></div></div>`;
 }
 function pageCollections(){
   return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<span>Collections</span></div><h1>Data collections</h1>
-    <p>Some layers are only useful together. Each collection is one download with everything you need for a common job. Every layer is also available on its own from <button class="s-link" data-go="data">Data</button>.</p></div>
+    <p>Collections are for when you need an offline copy: one download with everything for a common job. If you want current data, <button class="s-link" data-go="services">connect to the live services</button> instead. Every layer in a collection is also a live service.</p></div>
     <div class="s-grid">${COLS.map(colCard).join('')}</div>
     ${!signedIn()?`<div class="s-signband"><span>Staff and partner editions of some collections include restricted layers. Sign in to see the ones your group can use.</span><button class="s-btn ghost" data-act="signin">${I.lock}Sign in</button></div>`:''}
     ${pn('A Sites page: a text card and a gallery card of items tagged “collection”. Built-in cards may cover this; if they can’t, this is the one page worth building custom.')}</div>`;
+}
+function liveBlock(ids){
+  const seen = [];
+  ids.forEach(id => { const o = svcOf(DI[id]); if (o && can(o.s.aud) && !seen.includes(o.s)) seen.push(o.s); });
+  if (!seen.length) return '';
+  const body = seen.length > 4 ? `<div><button class="s-btn ghost" data-go="services">${I.plug}See all ${seen.length} live services</button></div>`
+    : seen.map(sv => `<div class="s-url"><code>${esc(svcUrl(sv))}</code><button data-act="copy">Copy</button></div>`).join('');
+  return `<div class="s-edition s-livebox"><h3>${I.plug}Use it live</h3><p class="s-sub">Always the latest data. These layers come from ${seen.length===1?'one service':seen.length+' services'}; connect to ${seen.length===1?'it':'them'} instead of downloading.</p>${body}</div>`;
 }
 function editionBlock(c, staff){
   const fname = `HolmesCo_${slug(c.t.split('&')[0])}${staff?'_'+slug(c.staff.t.split(' ')[0]):''}`;
@@ -845,10 +970,10 @@ function pageCollection(){
     <div class="s-meta"><span class="s-pill bl">${nLayers(c)} layers</span><span>Refreshed ${esc(c.upd.toLowerCase())}</span><span>· For ${esc(c.users.toLowerCase())}</span></div></div>
     <div class="s-item"><figure class="s-prev" style="margin:0">${mapHtml}<figcaption>${c.id==='sewer'?'Gravity mains (solid), force mains (dashed), lift stations (circles), treatment plants (squares)':'Preview'}</figcaption></figure>
     <div style="display:grid;gap:14px">
-      <div class="s-edition"><h3>Public edition</h3>${editionBlock(c,false)}</div>
+      ${liveBlock(c.layers.concat(mine ? c.adds : []))}
+      <div class="s-edition"><h3>Download a copy: public edition</h3>${editionBlock(c,false)}</div>
       ${hasStaff ? (mine ? `<div class="s-edition" style="border-color:var(--s-acc-line);background:var(--s-acc-l)"><h3>${esc(c.staff.t)} <span class="s-pill lk">${I.lock}${esc(GROUPS[c.staff.grp])}</span></h3><p style="font-size:.88rem;color:var(--s-ink2)">Adds ${adds.map(d=>d.t.toLowerCase()).join(', ')}.</p>${editionBlock(c,true)}${pn('Same job, second export from the department database. The file item is shared only to this group, so Portal enforces it.')}</div>`
         : `<div class="s-locked"><b>${I.lock} ${esc(c.staff.t)}</b><span>Adds restricted layers for the ${esc(GROUPS[c.staff.grp])}. ${signedIn()?'Your account isn’t in that group.':'Sign in with an account in that group to download it.'}</span>${signedIn()?'':`<div><button class="s-btn ghost" data-act="signin">Sign in</button></div>`}</div>`) : ''}
-      <div class="s-edition"><h3>Live service</h3><div class="s-url"><code>https://gis.co.holmes.oh.us/server/rest/services/Hub/${SVC[c.id]||'Snapshot'}/FeatureServer</code><button data-act="copy">Copy</button></div><p style="font-size:.85rem;color:var(--s-muted)">One multi-layer service. Each layer is also available at /FeatureServer/&lt;n&gt;.</p></div>
     </div></div>
     <section class="s-sec"><div class="s-sec-h"><h2>What's inside</h2></div><div class="s-tw"><table class="s-fields s-incl"><thead><tr><th>Layer</th><th>Type</th><th>Features</th><th>Public</th>${hasStaff?`<th>${esc(c.staff.t)}</th>`:''}</tr></thead><tbody>${rows}</tbody></table></div>
     ${c.id==='sewer'?pn('Exported as one feature dataset with relationship classes and domains kept, so a downloaded network still traces in Pro. Shapefiles would lose that; this is why sewer is a collection.'):''}</section></div>`;
@@ -867,17 +992,10 @@ function pageElevation(c){
       <div class="s-edition"><h3>LiDAR &amp; elevation models</h3><p style="font-size:.9rem;color:var(--s-ink2)">Statewide LiDAR and DEMs come from Ohio's OGRIP program.</p><div><button class="s-btn ghost" data-act="ext" data-what="OGRIP's statewide LiDAR downloads">Go to OGRIP ${I.arrow}</button></div></div>
     </div></div></div>`;
 }
-function pageDevelopers(){
-  const svcs = ['Property','Addresses','Boundaries','Sewer_Public','Roads_Bridges','Environment','Contours'];
-  return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<span>Developers</span></div><h1>Services &amp; open data feed</h1><p>Every public dataset is also a live service. Use the services for maps and apps that should always be current, and the downloads when you need a copy.</p></div>
-    <section class="s-sec"><div class="s-sec-h"><h2>Map and feature services</h2></div><div class="s-list">${svcs.map(s=>`<div class="s-row" style="cursor:default"><div><b>Hub/${s}</b><div class="s-meta"><code style="font-size:.76rem">https://gis.co.holmes.oh.us/server/rest/services/Hub/${s}/MapServer</code></div></div><div class="r">Query only</div></div>`).join('')}</div>
-    ${pn('A new “Hub” folder of read-only services, separate from the internal editing services. Their own instance pool (min 1 / max 2–4) means a download storm can’t starve permits and field apps.')}</section>
-    <section class="s-sec"><div class="s-sec-h"><h2>Open data feed</h2></div><div class="s-url"><code>https://gis.co.holmes.oh.us/hub/data.json</code><button data-act="copy">Copy</button></div><p style="font-size:.9rem;color:var(--s-ink2)">DCAT-US 1.1, refreshed nightly. Catalogs such as the Big Ten Academic Alliance Geoportal use it to list Holmes County data.</p>
-    ${pn('Generated by the hub publisher job, because Enterprise Sites has no catalog feed. The current AGOL hub’s feed lists 27 datasets.')}</section>
-    <section class="s-sec"><div class="s-sec-h"><h2>Fair use</h2></div><p style="max-width:720px;color:var(--s-ink2)">The county runs these services on its own servers. Please don't page through whole layers with <code>/query</code> or scrape them on a schedule. The downloads are the same data, refreshed nightly, and much faster for you.</p></section></div>`;
-}
 function pageHelp(){
   const faq = [
+    ["Live service or download: which should I use?", "Use the live service whenever you can: your map always shows the latest county data. Download a copy when you need to work offline, edit the data, or hand it to someone without internet access."],
+    ["How do I add county data to ArcGIS Pro or QGIS?", "Open Data & Services, choose Live services, and copy a service address. In Pro use Add Data › Data from Path; in QGIS add an ArcGIS REST Server connection."],
     ["Why do some items say “Sign in”?", "They’re shared with county departments or partner agencies. The public sees everything that’s public; signed-in accounts also see what their groups are allowed to."],
     ["How do I get an account?", "County departments and partner agencies (villages, townships, fire and EMS, schools) can request one from the GIS Office."],
     ["Is this data official?", "It comes from the county’s working GIS and is updated as it changes, but it isn’t a survey or a legal record. Check with the responsible office before relying on it."],
@@ -903,7 +1021,7 @@ function pageStaff(){
 }
 
 /* ---------- render & routing ---------- */
-const PAGES = {home:pageHome, apps:pageApps, data:pageData, dataset:pageDataset, collections:pageCollections, collection:pageCollection, developers:pageDevelopers, help:pageHelp, staff:pageStaff};
+const PAGES = {home:pageHome, apps:pageApps, data:pageData, dataset:pageDataset, collections:pageCollections, collection:pageCollection, services:()=>pageData('services'), help:pageHelp, staff:pageStaff};
 function render(scroll){
   site.innerHTML = header() + `<div id="s-body">${PAGES[st.page]()}</div>` + footer()
     + '<div class="s-toast" role="status" aria-live="polite"></div>';
@@ -914,7 +1032,7 @@ function render(scroll){
 }
 function go(page, arg, opts){
   st.page = page; st.arg = arg === undefined ? null : arg;
-  if (page === 'dataset') st.tab = (opts && opts.tab) || 'download';
+  if (page === 'dataset') st.tab = (opts && opts.tab) || 'live';
   render(true);
 }
 function goCat(k){ st.q = ''; st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); st.facets.cat.add(k); go('data'); }
@@ -937,6 +1055,7 @@ site.addEventListener('click', e => {
       document.getElementById('twp-name').textContent = st.twp; document.getElementById('twp-file').textContent = `HolmesCo_Contours_${slug(st.twp)}.gdb.zip`; }
     return; }
   if (ds.feat !== undefined) return featCtl(ds.feat);
+  if (ds.svc) { go('services'); const el = site.querySelector('#svc-' + CSS.escape(ds.svc)); if (el) { el.scrollIntoView({block:'start'}); el.classList.add('flash'); } return; }
   if (ds.act === 'bulletin') return toBulletin();
   if (ds.go) return go(ds.go);
   if (ds.ds) return go('dataset', ds.ds);

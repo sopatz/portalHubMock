@@ -1,22 +1,18 @@
 <!doctype html>
 <html lang="en">
 <!--
-  Holmes County GIS Hub: clickable site mockup (concept, Oct 29, 2026; layouts and colors added Nov 3, 2026).
+  Holmes County GIS Hub: clickable site mockup (concept, Oct 29, 2026; design chosen Nov 17, 2026: classic layout, Black & lime colors).
   One self-contained file: open it in Edge or Chrome, edit it in VS Code or any text editor,
   share it by email, Teams or a file share. No server needed.
 
   Where to edit:
     - Site content (layers, collections, apps, groups): the "EDIT HERE" block in the main script below.
     - Page wording: the page functions in the same script (pageHome, pageApps, pageData, ...).
-    - Layouts: each layout's home page is a home... function (homeClassic, homeSearch, homeSide, homeTiles, homeMap);
-      the top bars are header() and headerTiles(), and the side menu is sideNav().
-    - Site colors: the --s-* variables under ".site" (Logo charcoal & lime) and the .site[data-colors="..."] blocks after it.
-      To add a color scheme, copy a block, rename it, and add a matching button under "Colors" further down.
+    - Home page: homeClassic() (banner with search beside the county map, then the task cards); the top bar is header().
+    - Site colors (Black & lime): the --s-* variables under ".site".
     - Logo: the hidden SVG right after <body>, converted from the official files in "Holmes County GIS logos".
-      Its colors in each scheme are the --s-logo-* variables (lt = on light backgrounds, dk = on dark ones).
+      Its colors are the --s-logo-* variables (lt = on light backgrounds, dk = on dark ones).
     - Map shapes: the GEO script at the very end. It is generated from the county layers; don't hand-edit it.
-  Link to one design by adding #layout=tiles&colors=flag (for example) to the file's address.
-  The last layout and colors you picked are remembered in your browser.
   Fonts load from Google Fonts when online and fall back to Arial / Segoe UI offline.
   Full plan: 05_Hub_Concept_and_Recommendations.md.
 -->
@@ -79,8 +75,6 @@ main.wrap{padding-bottom:48px}
 .seg button[aria-checked="true"]{background:var(--blue);color:var(--on-blue)}
 .tgl{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--ink2);cursor:pointer}
 .tgl input{width:18px;height:18px;accent-color:var(--blue)}
-.seg .sw{display:inline-flex;vertical-align:-2px;margin-right:7px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(127,127,127,.4)}
-.seg .sw i{display:block;width:7px;height:13px}
 
 /* browser frame */
 .browser{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:0 18px 40px -24px rgba(10,30,50,.35)}
@@ -90,45 +84,23 @@ main.wrap{padding-bottom:48px}
 .btag{flex:none;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-family:var(--f-display);color:var(--note-ink);background:var(--note);border:1px solid var(--note-line);padding:3px 8px;border-radius:4px}
 
 /* ================= PROTOTYPE (always light: a picture of a web page) ================= */
-/* Colors: the .site block is "Logo charcoal & lime"; each .site[data-colors="..."] block below it overrides some values.
+/* Colors: Black & lime (chosen Nov 17, 2026): near-black top bar and footer, graphite banner, lime highlights, like the logo's dark version.
    --s-pri links and buttons · --s-pri-d dark bands · --s-acc highlight (search button, staff rows, focus ring)
    --s-hdr-* top bar · --s-hero-* home page banner · --s-foot-* footer · --s-map-* map previews */
 .site{
   --s-bg:#ffffff; --s-soft:#f2f5ee; --s-ink:#1b1d1a; --s-ink2:#454a42; --s-muted:#5d6459; --s-line:#d9dfd2;
-  --s-pri:#3c6e00; --s-pri-d:#232822; --s-pri-l:#eaf4d9;
+  --s-pri:#3c6e00; --s-pri-d:#080908; --s-pri-l:#eaf4d9;
   --s-acc:#8fd300; --s-on-acc:#1b1d1a; --s-acc-l:#eef8d6; --s-acc-ink:#3a5200; --s-acc-line:#b5df5c;
-  --s-hdr-bg:#232822; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#c8cfc3; --s-hdr-line:#161a15;
+  --s-hdr-bg:#080908; --s-hdr-fg:#ffffff; --s-hdr-nav:#ffffff; --s-hdr-mute:#bfc6ba; --s-hdr-line:#000000;
   --s-hdr-cur:#8fd300; --s-hdr-curtext:#ffffff; --s-signin-bg:#8fd300; --s-signin-fg:#1b1d1a;
-  --s-side-bg:var(--s-pri-d); --s-acc-dk:var(--s-acc); --s-on-acc-dk:var(--s-on-acc);
   --s-logo-lt-ink:#000000; --s-logo-lt-acc:#8fd300; --s-logo-dk-ink:#ffffff; --s-logo-dk-acc:#8fd300;
   --s-logo-hdr-ink:var(--s-logo-dk-ink); --s-logo-hdr-acc:var(--s-logo-dk-acc);
-  --s-hero-bg:#eef5e1; --s-hero-fg:#1b1d1a; --s-hero-ink:#3d4538; --s-hero-ey:#3c6e00; --s-hero-vl:#3c6e00; --s-hm-water:#3f88c5; --s-hm-road:#6f9c1a;
+  --s-hero-bg:#3e443a; --s-hero-fg:#ffffff; --s-hero-ink:#d3dacd; --s-hero-ey:#8fd300; --s-hero-vl:#c9ef7a; --s-hm-water:#6fa8d6; --s-hm-road:#8fd300;
   --s-hero-btn:var(--s-acc); --s-hero-btn-fg:var(--s-on-acc); --s-hm-vil:var(--s-acc);
-  --s-foot-bg:#232822; --s-foot-fg:#ffffff; --s-foot-ink:#dfe5da; --s-foot-mute:#b0b8aa;
+  --s-foot-bg:#080908; --s-foot-fg:#ffffff; --s-foot-ink:#d6dcd2; --s-foot-mute:#a3ab9e;
   --s-map-bg:#f2f5ee; --s-map-water:#7fb3e0; --s-map-road:#7aa61f;
   --s-n-bg:#fff1b5; --s-n-ink:#463600; --s-n-line:#dcb93a;
   background:var(--s-bg);color:var(--s-ink);font-family:var(--f-body);font-size:15px;line-height:1.5;color-scheme:light;position:relative}
-.site[data-colors="black"]{ /* Black & lime: near-black top bar and footer, graphite banner; like the logo's dark version */
-  --s-pri-d:#080908;
-  --s-hdr-bg:#080908; --s-hdr-line:#000000; --s-hdr-mute:#bfc6ba;
-  --s-hero-bg:#3e443a; --s-hero-fg:#ffffff; --s-hero-ink:#d3dacd; --s-hero-ey:#8fd300; --s-hero-vl:#c9ef7a; --s-hm-water:#6fa8d6; --s-hm-road:#8fd300;
-  --s-foot-bg:#080908; --s-foot-ink:#d6dcd2; --s-foot-mute:#a3ab9e }
-.site[data-colors="forest"]{ /* Forest & lime: deep evergreen top bar and footer, brighter forest-green banner, lime highlights */
-  --s-soft:#eff5ec; --s-line:#d5e0cf;
-  --s-pri:#2e6b34; --s-pri-d:#0f2213; --s-pri-l:#e4f0df;
-  --s-hdr-bg:#0f2213; --s-hdr-line:#0a170d; --s-hdr-mute:#c6dbc2;
-  --s-hero-bg:#2d5e33; --s-hero-fg:#ffffff; --s-hero-ink:#d9eada; --s-hero-ey:#b5ec5a; --s-hero-vl:#e3f7b5; --s-hm-water:#9fd3ec; --s-hm-road:#b5ec5a;
-  --s-foot-bg:#0f2213; --s-foot-ink:#d6e5d1; --s-foot-mute:#a7bfa2;
-  --s-map-bg:#eff5ec }
-.site[data-colors="pine"]{ /* Black & pine: near-black top bar and footer, deep pine-green banner, spring-green highlights */
-  --s-soft:#eff5f1; --s-line:#d3e2d8;
-  --s-pri:#1d6f45; --s-pri-d:#070908; --s-pri-l:#e1f2e8;
-  --s-acc:#5ee08f; --s-on-acc:#0b1f13; --s-acc-l:#e2f8ea; --s-acc-ink:#17592f; --s-acc-line:#a3e6bb;
-  --s-hdr-bg:#070908; --s-hdr-line:#000000; --s-hdr-mute:#b9c2bc; --s-hdr-cur:#5ee08f; --s-signin-bg:#5ee08f; --s-signin-fg:#0b1f13;
-  --s-logo-lt-ink:#070908; --s-logo-lt-acc:#1d8a52; --s-logo-dk-acc:#5ee08f;
-  --s-hero-bg:#1d4c39; --s-hero-fg:#ffffff; --s-hero-ink:#cfe3d8; --s-hero-ey:#7ee8a6; --s-hero-vl:#c8f5d8; --s-hm-water:#7fc4e0; --s-hm-road:#5ee08f;
-  --s-foot-bg:#070908; --s-foot-ink:#d6ddd8; --s-foot-mute:#a1aca5;
-  --s-map-bg:#eff5f1; --s-map-water:#7fb8e0; --s-map-road:#4f9a6a }
 
 .site a{color:var(--s-pri)}
 :where(.site) button{font:inherit;color:inherit}
@@ -314,103 +286,46 @@ main.wrap{padding-bottom:48px}
 .s-foot .s-legal{display:block;border-top:1px solid color-mix(in srgb,var(--s-foot-fg) 15%,transparent);padding-block:12px;font-size:.76rem;color:var(--s-foot-mute)}
 #browser{scroll-margin-top:72px}
 
-/* ---------- layout: Search first ---------- */
-.s-sf{background:var(--s-soft);border-bottom:1px solid var(--s-line)}
-.s-sf .s-in{padding-block:44px 34px;display:grid;justify-items:center;text-align:center;gap:6px}
-.s-sf .lg-big{width:250px;height:113px;margin-bottom:10px;--lg-ink:var(--s-logo-lt-ink);--lg-acc:var(--s-logo-lt-acc)}
-.s-sf h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.1;margin:4px 0 6px;text-wrap:balance}
-.s-sf .s-search{width:100%;max-width:680px;margin-top:10px;box-shadow:0 0 0 1px var(--s-line),0 12px 28px -20px color-mix(in srgb,var(--s-pri-d) 70%,transparent)}
-.s-sf .s-search input{padding:16px;font-size:1.05rem}
-.s-sf .s-pop{justify-content:center;color:var(--s-muted)}
-.s-sf .s-pop button{background:var(--s-bg);border-color:var(--s-line);color:var(--s-ink2)}
-.s-sf .s-pop button:hover{border-color:var(--s-pri);color:var(--s-pri);background:var(--s-bg)}
-.s-sf .pn{text-align:left;max-width:680px;margin-top:10px}
-.s-quick{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;margin-top:16px}
-.s-quick button{display:inline-flex;align-items:center;gap:8px;background:var(--s-bg);border:1px solid var(--s-line);border-radius:8px;padding:9px 14px;cursor:pointer;color:var(--s-ink);font-weight:600;font-size:.92rem}
-.s-quick button .ic{color:var(--s-pri)}
-.s-quick button:hover{border-color:var(--s-pri)}
-.s-cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.s-catb{display:flex;align-items:center;gap:12px;text-align:left;background:var(--s-bg);border:1px solid var(--s-line);border-radius:10px;padding:12px 14px;cursor:pointer;min-width:0}
-.s-catb:hover{border-color:var(--s-pri)}
-.s-catb .ti{width:38px;height:38px;border-radius:50%;background:var(--s-pri-l);color:var(--s-pri);display:grid;place-items:center;flex:none}
-.s-catb b{display:block;font-weight:600;font-size:.95rem;line-height:1.25}
-.s-catb small{display:block;color:var(--s-muted);font-size:.8rem}
-.s-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+.s-foot{--lg-ink:var(--s-logo-dk-ink);--lg-acc:var(--s-logo-dk-acc)}
 
-/* ---------- layout: Side menu ---------- */
-.s-shell{display:grid;grid-template-columns:236px minmax(0,1fr);align-items:stretch}
-.s-side{background:var(--s-side-bg);color:#fff;padding:18px 14px 20px;display:flex;flex-direction:column;gap:16px;min-width:0}
-.s-side .s-brand{color:#fff}
-.s-side .lg-i{width:44px;height:31px}
-.s-side .lg-w{width:132px;height:19.5px}
-.s-side .s-brand small{color:rgba(255,255,255,.75);letter-spacing:.05em}
-.s-side .s-brand,.s-hdr2-top .s-brand,.s-foot{--lg-ink:var(--s-logo-dk-ink);--lg-acc:var(--s-logo-dk-acc)}
-.s-ssearch{display:flex;background:#fff;border-radius:8px;overflow:hidden}
-.s-ssearch input{flex:1;min-width:0;border:0;padding:9px 10px;font:inherit;font-size:.9rem;color:var(--s-ink);background:#fff}
-.s-ssearch input:focus{outline:none}
-.s-ssearch:focus-within{outline:3px solid var(--s-acc)}
-.s-ssearch button{border:0;background:var(--s-acc-dk);color:var(--s-on-acc-dk);padding:0 11px;cursor:pointer;display:grid;place-items:center}
-.s-snav{display:grid;gap:2px}
-.s-snav button{display:flex;align-items:center;gap:10px;background:none;border:0;border-radius:7px;padding:9px 10px;cursor:pointer;color:rgba(255,255,255,.92);font-weight:500;text-align:left}
-.s-snav button:hover{background:rgba(255,255,255,.1);color:#fff}
-.s-snav button[aria-current="page"]{background:var(--s-acc-dk);color:var(--s-on-acc-dk)}
-.s-side-h{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:rgba(255,255,255,.75);margin:4px 0 -10px 10px}
-.s-scats button{font-size:.86rem;padding:6px 10px}
-.s-side-foot{margin-top:auto;display:grid;gap:10px}
-.s-side .s-signin,.s-hdr2-top .s-signin{margin-left:0;background:var(--s-acc-dk)!important;color:var(--s-on-acc-dk)!important;font-weight:600}
-.s-side .s-user{margin-left:0;width:100%}
-.s-shell-main{min-width:0;display:flex;flex-direction:column}
-.s-shell-main #s-body{flex:1}
-.s-sidehero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center;background:var(--s-soft);border:1px solid var(--s-line);border-radius:14px;padding:24px 26px}
-.s-sidehero .ey{color:var(--s-muted)}
-.s-sidehero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;margin:8px 0 10px;text-wrap:balance}
-.s-sidehero p{color:var(--s-ink2)}
-.s-sidehero .map{border-radius:10px}
+/* featured app (home page) */
+.s-feat-ctl{display:flex;align-items:center;gap:4px}
+.s-feat-ctl button{border:1px solid var(--s-line);background:var(--s-bg);border-radius:999px;width:32px;height:32px;display:grid;place-items:center;cursor:pointer;color:var(--s-ink2);padding:0}
+.s-feat-ctl button:hover{border-color:var(--s-pri);color:var(--s-pri)}
+.s-feat-ctl button[data-feat="prev"] svg{transform:scaleX(-1)}
+.s-feat-ctl .s-dots{display:flex;align-items:center}
+.s-feat-ctl .s-dot{border:0;width:24px;height:24px;background:none}
+.s-feat-ctl .s-dot::before{content:"";display:block;width:9px;height:9px;border-radius:999px;background:var(--s-line);transition:width .2s}
+.s-feat-ctl .s-dot[aria-current="true"]::before{width:20px;background:var(--s-pri)}
+.s-feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);border:1px solid var(--s-line);border-radius:12px;overflow:hidden;background:var(--s-bg);min-height:230px}
+.s-feat-pic{background:var(--s-soft);border-right:1px solid var(--s-line);display:grid;place-items:center;padding:14px}
+.s-feat-pic svg{width:100%;height:auto;max-height:230px}
+.s-feat-txt{padding:22px 26px;display:grid;gap:10px;align-content:center;justify-items:start}
+.s-feat-txt h3{font-family:var(--f-display);font-weight:500;font-size:1.65rem;line-height:1.1;margin:0}
+.s-feat-txt p{color:var(--s-ink2);max-width:52ch}
+.s-feat-ey{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.8rem;color:var(--s-muted)}
+.s-pill.tag{background:var(--s-acc);color:var(--s-on-acc);font-weight:600}
+.s-feat-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
 
-/* ---------- layout: Big buttons ---------- */
-.s-hdr2-top{background:var(--s-pri-d);color:#fff}
-.s-hdr2-top .s-in{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;min-height:72px;padding-block:10px}
-.s-hdr2-top .s-brand{color:#fff}
-.s-hdr2-top .s-brand small{color:rgba(255,255,255,.78)}
-.s-hdr2-top .s-ssearch{margin-left:auto;width:min(340px,100%)}
-.s-hdr2-nav{background:var(--s-pri)}
-.s-hdr2-nav .s-in{display:flex;flex-wrap:wrap;gap:2px}
-.s-hdr2-nav button{background:none;border:0;color:#fff;padding:11px 14px;cursor:pointer;font-family:var(--f-display);font-size:1.02rem;letter-spacing:.05em;text-transform:uppercase}
-.s-hdr2-nav button:hover{background:rgba(0,0,0,.16)}
-.s-hdr2-nav button[aria-current="page"]{background:rgba(0,0,0,.24);box-shadow:inset 0 -3px 0 var(--s-acc)}
-.s-hdr2-nav .lockd{display:inline-flex;align-items:center;gap:5px}
-.s-tband{background:var(--s-soft);border-bottom:1px solid var(--s-line)}
-.s-tband .s-in{padding-block:32px 30px;display:grid;gap:16px}
-.s-tband h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.8rem,3.6vw,2.5rem);line-height:1.1;margin:0}
-.s-tband p{color:var(--s-ink2);margin-top:-8px}
-.s-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.s-tile{display:grid;gap:10px;align-content:start;justify-items:start;text-align:left;min-height:150px;background:var(--s-bg);border:1px solid var(--s-line);border-top:4px solid var(--s-pri);border-radius:10px;padding:18px;cursor:pointer;transition:background .15s,color .15s}
-.s-tile .ti{width:46px;height:46px;border-radius:50%;background:var(--s-pri-l);color:var(--s-pri);display:grid;place-items:center}
-.s-tile .ti .ic{width:24px;height:24px}
-.s-tile b{font-family:var(--f-display);font-weight:500;font-size:1.25rem;line-height:1.15}
-.s-tile span{font-size:.86rem;color:var(--s-ink2)}
-.s-tile:hover{background:var(--s-pri);border-color:var(--s-pri);color:#fff}
-.s-tile:hover span{color:#fff}
-.s-tile:hover .ti{background:rgba(255,255,255,.16);color:#fff}
-
-/* ---------- layout: Map first ---------- */
-.s-mf{background:var(--s-hero-bg);color:var(--s-hero-fg)}
-.s-mf>.s-in{padding-block:26px 28px;display:grid;gap:16px}
-.s-mf-top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
-.s-mf-top .ey{color:var(--s-hero-ey)}
-.s-mf-top h1{font-family:var(--f-display);font-weight:500;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.08;margin:6px 0 0}
-.s-mf-top .s-search{margin-top:0;flex:1 1 320px;max-width:460px}
-.s-mf-grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr);gap:20px;align-items:start}
-.s-mf-panel{background:var(--s-bg);color:var(--s-ink);border-radius:12px;padding:18px;display:grid;gap:12px;box-shadow:0 18px 40px -26px rgba(0,0,0,.55)}
-.s-mf-panel .ey{color:var(--s-muted);font-size:.74rem;letter-spacing:.14em}
-.s-mf-panel h2{font-family:var(--f-display);font-weight:500;font-size:1.45rem;margin:0}
-.s-mf-panel h2:focus{outline:none}
-.s-mf-panel p{font-size:.9rem;color:var(--s-ink2)}
-.s-mf-panel .s-row{grid-template-columns:auto minmax(0,1fr);padding:10px 12px}
-.s-mf-panel .s-row .ic{color:var(--s-pri);width:1.3em;height:1.3em}
-.s-twps{display:flex;flex-wrap:wrap;gap:6px}
-.s-twps button{background:var(--s-soft);border:1px solid var(--s-line);border-radius:999px;padding:4px 10px;cursor:pointer;font-size:.84rem;color:var(--s-ink2)}
-.s-twps button:hover{border-color:var(--s-pri);color:var(--s-pri)}
+/* GIS bulletin sign-up (home page) */
+.s-bull{background:var(--s-soft);border:1px solid var(--s-line);border-radius:12px;padding:24px 26px}
+.s-bull-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.s-bull-l{display:grid;gap:10px}
+.s-bull h2{font-family:var(--f-display);font-weight:500;font-size:1.45rem;margin:0}
+.s-bull h3{font-family:var(--f-display);font-weight:500;font-size:1.05rem;letter-spacing:.04em;text-transform:uppercase;color:var(--s-muted);margin:8px 0 0}
+.s-bull-l p{color:var(--s-ink2)}
+.s-notices{list-style:none;margin:0;padding:0;display:grid}
+.s-notices li{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;font-size:.9rem;color:var(--s-ink2);border-top:1px solid var(--s-line);padding-block:8px}
+.s-notices .d{font-family:var(--f-mono);font-size:.78rem;color:var(--s-muted);padding-top:2px}
+.s-bullform{background:var(--s-bg);border:1px solid var(--s-line);border-radius:10px;padding:18px;display:grid;gap:14px;justify-items:start}
+.s-bullform .em{display:grid;gap:5px;font-weight:600;font-size:.9rem;width:100%}
+.s-bullform input[type="email"]{font:inherit;font-weight:400;padding:10px 12px;border:1px solid #8a9285;border-radius:6px;color:var(--s-ink);background:var(--s-bg);width:100%}
+.s-bullform input[type="email"]:focus{outline:3px solid var(--s-acc);outline-offset:1px;border-color:var(--s-pri)}
+.s-bullform fieldset{border:0;margin:0;padding:0;display:grid;gap:7px}
+.s-bullform legend{font-weight:600;font-size:.9rem;margin-bottom:6px;padding:0}
+.s-bullform .ck{display:flex;gap:9px;align-items:flex-start;font-size:.9rem;color:var(--s-ink2);cursor:pointer}
+.s-bullform .ck input{width:17px;height:17px;margin:2px 0 0;accent-color:var(--s-pri);flex:none}
+.s-bullform small{color:var(--s-muted);font-size:.8rem}
 
 /* planner notes */
 .pn{display:block;background:var(--s-n-bg);color:var(--s-n-ink);border:1px solid var(--s-n-line);border-radius:6px;padding:7px 10px 7px 30px;font-size:.8rem;line-height:1.4;position:relative;font-family:var(--f-body);text-align:left}
@@ -424,22 +339,18 @@ main.wrap{padding-bottom:48px}
 @media (max-width:900px){
   .s-hero{grid-template-columns:1fr}
   .s-heromap{order:-1;max-width:560px}
-  .s-tasks,.s-tiles,.s-cats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .s-tasks{grid-template-columns:repeat(2,minmax(0,1fr))}
   .s-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .s-cat,.s-item,.s-two,.s-mf-grid,.s-sidehero{grid-template-columns:1fr}
+  .s-cat,.s-item,.s-feat,.s-bull-grid{grid-template-columns:1fr}
+  .s-feat-pic{border-right:0;border-bottom:1px solid var(--s-line)}
   .s-foot .s-in{grid-template-columns:1fr}
-  .s-shell{grid-template-columns:1fr}
-  .s-side{gap:10px;padding:12px 14px}
-  .s-snav{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto}
-  .s-side-h,.s-scats,.s-side .pn{display:none}
-  .s-side-foot{margin-top:0}
 }
 @media (max-width:560px){
   .s-in{padding-inline:14px}
-  .s-tasks,.s-grid,.s-tiles,.s-cats{grid-template-columns:1fr}
-  .s-tile{min-height:0}
+  .s-tasks,.s-grid{grid-template-columns:1fr}
+  .s-bull{padding:16px}
+  .s-feat-txt{padding:18px}
   .s-nav{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
-  .s-hdr2-nav .s-in{flex-wrap:nowrap;overflow-x:auto}
   .s-user span{display:none}
   .lg-i{width:42px;height:30px}
   .lg-w{width:124px;height:18px}
@@ -449,14 +360,14 @@ main.wrap{padding-bottom:48px}
 </style>
 </head>
 <body>
-<!-- Holmes County GIS logo, converted from the official vector file ("Holmes County GIS logos" folder). Pin and text use --lg-ink, stripes and divider use --lg-acc; the --s-logo-* variables set them per color scheme. -->
+<!-- Holmes County GIS logo, converted from the official vector file ("Holmes County GIS logos" folder). Pin and text use --lg-ink, stripes and divider use --lg-acc; the --s-logo-* variables set them. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><path id="lg-p-pin" d="M90.635 21.317C88.221 16.688 92.875 12.035 97.503 14.448C98.211 14.818 98.81 15.398 99.189 16.101C100.378 18.3 99.981 20.696 98.431 22.245C96.882 23.794 94.487 24.191 92.287 23.002C91.585 22.623 91.004 22.025 90.635 21.317M96.515 33.257C99.11 29.184 103.349 22.026 103.35 18.743C103.349 14.099 99.572 10.322 94.929 10.322C92.607 10.322 90.502 11.266 88.978 12.791C87.453 14.316 86.509 16.421 86.509 18.742C86.509 22.026 90.749 29.184 93.343 33.257C94.082 34.416 95.776 34.416 96.515 33.257"/><path id="lg-p-str" d="M134.9 58.893C135.147 59.228 135.53 59.405 135.917 59.405C136.178 59.405 136.442 59.325 136.668 59.157C137.23 58.741 137.348 57.949 136.932 57.388L107.283 17.341C106.869 16.779 106.077 16.661 105.515 17.077C104.953 17.493 104.835 18.285 105.252 18.846ZM130.757 59.157C131.319 58.741 131.437 57.949 131.02 57.388L105.517 22.943C105.101 22.381 104.31 22.265 103.749 22.679C103.187 23.095 103.069 23.887 103.485 24.448L128.989 58.893C129.237 59.228 129.619 59.405 130.006 59.405C130.267 59.405 130.53 59.324 130.757 59.157M124.094 59.405C124.355 59.405 124.619 59.324 124.845 59.156C125.407 58.741 125.525 57.949 125.109 57.388L103.554 28.277C103.138 27.715 102.347 27.597 101.786 28.013C101.224 28.428 101.106 29.221 101.522 29.782L123.077 58.893C123.325 59.228 123.707 59.405 124.094 59.405M99.43 32.819C98.868 33.234 98.75 34.026 99.167 34.587L117.166 58.893C117.415 59.228 117.796 59.405 118.183 59.405C118.445 59.405 118.708 59.324 118.935 59.156C119.496 58.741 119.614 57.949 119.198 57.388L101.198 33.082C100.782 32.521 99.991 32.402 99.43 32.819M113.287 57.388L98.149 36.953C97.733 36.391 96.943 36.272 96.381 36.689C95.82 37.105 95.702 37.896 96.118 38.457L111.255 58.893C111.504 59.228 111.885 59.405 112.272 59.405C112.533 59.405 112.797 59.324 113.024 59.156C113.585 58.741 113.702 57.949 113.287 57.388M69.601 59.465C69.983 59.465 70.36 59.293 70.608 58.965L89.227 34.487C89.65 33.93 89.543 33.138 88.986 32.715C88.431 32.291 87.637 32.4 87.215 32.956L68.596 57.434C68.173 57.989 68.28 58.784 68.837 59.206C69.065 59.38 69.334 59.465 69.601 59.465M90.201 36.881L74.568 57.435C74.145 57.99 74.253 58.784 74.809 59.206C75.037 59.38 75.306 59.465 75.573 59.465C75.955 59.465 76.332 59.292 76.58 58.965L92.213 38.412C92.636 37.856 92.529 37.063 91.973 36.64C91.416 36.217 90.623 36.326 90.201 36.881M94.91 40.629C94.354 40.206 93.56 40.314 93.138 40.87L80.54 57.434C80.117 57.99 80.225 58.783 80.781 59.206C81.01 59.38 81.278 59.464 81.545 59.464C81.927 59.464 82.304 59.292 82.552 58.965L95.151 42.401C95.574 41.845 95.466 41.051 94.91 40.629M96.083 44.85L86.556 57.375C86.133 57.931 86.241 58.724 86.797 59.147C87.026 59.321 87.295 59.405 87.561 59.405C87.943 59.405 88.32 59.233 88.568 58.906L98.095 46.381C98.518 45.825 98.411 45.032 97.855 44.609C97.298 44.187 96.505 44.295 96.083 44.85M99.027 48.83L92.483 57.434C92.06 57.99 92.167 58.783 92.724 59.206C92.952 59.38 93.221 59.464 93.488 59.464C93.869 59.464 94.247 59.292 94.495 58.965L101.039 50.361C101.462 49.805 101.355 49.012 100.799 48.589C100.242 48.166 99.449 48.274 99.027 48.83M102.144 52.583L98.454 57.434C98.032 57.99 98.139 58.784 98.695 59.206C98.924 59.38 99.194 59.464 99.46 59.464C99.841 59.464 100.218 59.292 100.467 58.965L104.156 54.114C104.579 53.558 104.472 52.765 103.916 52.342C103.359 51.919 102.566 52.028 102.144 52.583M105.432 59.465C105.814 59.465 106.191 59.293 106.439 58.965L107.274 57.867C107.697 57.312 107.59 56.519 107.033 56.096C106.477 55.675 105.685 55.782 105.262 56.337L104.427 57.434C104.004 57.989 104.111 58.784 104.668 59.206C104.896 59.38 105.165 59.465 105.432 59.465"/><path id="lg-p-txt" d="M22.793 75.455L17.079 75.455L17.079 69.094L12.76 69.094L12.76 85.897L17.079 85.897L17.079 79.344L22.793 79.344L22.793 85.897L27.114 85.897L27.114 69.094L22.793 69.094ZM40.315 80.987C39.674 81.827 38.746 82.248 37.531 82.248C36.314 82.248 35.386 81.827 34.745 80.987C34.106 80.148 33.786 78.983 33.786 77.495C33.786 76.007 34.106 74.843 34.745 74.003C35.386 73.162 36.314 72.743 37.531 72.743C38.746 72.743 39.674 73.162 40.315 74.003C40.955 74.843 41.275 76.007 41.275 77.495C41.275 78.983 40.955 80.148 40.315 80.987M41.767 69.862C40.559 69.19 39.146 68.854 37.531 68.854C35.914 68.854 34.502 69.19 33.294 69.862C32.085 70.534 31.146 71.518 30.474 72.814C29.802 74.111 29.465 75.671 29.465 77.495C29.465 79.32 29.802 80.88 30.474 82.175C31.146 83.472 32.085 84.456 33.294 85.129C34.502 85.8 35.914 86.136 37.531 86.136C39.146 86.136 40.559 85.8 41.767 85.129C42.975 84.456 43.916 83.472 44.588 82.175C45.259 80.88 45.595 79.32 45.595 77.495C45.595 75.671 45.259 74.111 44.588 72.814C43.916 71.518 42.975 70.534 41.767 69.862M52.269 69.094L47.948 69.094L47.948 85.897L59.518 85.897L59.518 82.008L52.269 82.008ZM71.375 79.896L71.255 79.896L67.582 69.094L61.534 69.094L61.534 85.897L65.783 85.897L65.783 75.024L65.902 75.024L69.623 85.897L72.911 85.897L76.632 75.024L76.752 75.024L76.752 85.897L81 85.897L81 69.094L75.023 69.094ZM88.394 79.223L95.355 79.223L95.355 75.646L88.394 75.646L88.394 72.911L95.835 72.911L95.835 69.093L84.073 69.093L84.073 85.896L96.076 85.896L96.076 82.08L88.394 82.08ZM108.293 76.524C107.492 76.243 106.485 75.983 105.268 75.743C104.164 75.535 103.356 75.319 102.844 75.095C102.331 74.872 102.076 74.503 102.076 73.991C102.076 73.575 102.259 73.231 102.628 72.959C102.996 72.687 103.547 72.55 104.284 72.55C104.956 72.55 105.5 72.691 105.916 72.971C106.332 73.251 106.565 73.639 106.613 74.136L110.933 74.136C110.821 72.503 110.185 71.215 109.025 70.27C107.865 69.327 106.244 68.854 104.164 68.854C102.996 68.854 101.916 69.039 100.924 69.406C99.931 69.775 99.135 70.343 98.535 71.111C97.935 71.879 97.635 72.839 97.635 73.991C97.635 75.272 97.931 76.268 98.523 76.979C99.115 77.692 99.816 78.188 100.623 78.468C101.431 78.748 102.451 78.992 103.684 79.2C104.756 79.377 105.54 79.572 106.037 79.789C106.532 80.004 106.781 80.352 106.781 80.833C106.781 81.905 105.908 82.44 104.164 82.44C103.315 82.44 102.648 82.272 102.16 81.936C101.672 81.6 101.404 81.144 101.355 80.568L97.035 80.568C97.146 82.376 97.859 83.757 99.172 84.709C100.484 85.661 102.148 86.136 104.164 86.136C105.652 86.136 106.925 85.904 107.981 85.44C109.037 84.976 109.841 84.337 110.393 83.52C110.945 82.704 111.221 81.785 111.221 80.76C111.221 79.56 110.933 78.624 110.357 77.952C109.781 77.28 109.092 76.804 108.293 76.524M117.678 71.446C118.51 70.918 119.47 70.653 120.559 70.653C121.662 70.653 122.602 70.887 123.379 71.351C124.155 71.815 124.775 72.542 125.239 73.534L127.4 73.534C126.807 71.983 125.928 70.814 124.759 70.03C123.591 69.246 122.19 68.854 120.559 68.854C119.07 68.854 117.754 69.185 116.61 69.85C115.466 70.514 114.577 71.494 113.945 72.79C113.313 74.086 112.998 75.655 112.998 77.495C112.998 79.336 113.313 80.903 113.945 82.2C114.577 83.496 115.466 84.476 116.61 85.14C117.754 85.804 119.07 86.136 120.559 86.136C122.19 86.136 123.591 85.744 124.759 84.96C125.928 84.177 126.807 83.008 127.4 81.455L125.239 81.455C124.775 82.448 124.155 83.176 123.379 83.64C122.602 84.104 121.662 84.336 120.559 84.336C119.47 84.336 118.51 84.071 117.678 83.543C116.846 83.015 116.198 82.24 115.734 81.216C115.27 80.191 115.038 78.951 115.038 77.495C115.038 76.039 115.27 74.798 115.734 73.775C116.198 72.75 116.846 71.974 117.678 71.446M141.584 81.216C141.12 82.241 140.472 83.016 139.64 83.544C138.807 84.072 137.847 84.336 136.759 84.336C135.671 84.336 134.71 84.072 133.879 83.544C133.047 83.016 132.399 82.241 131.935 81.216C131.471 80.191 131.239 78.951 131.239 77.495C131.239 76.039 131.471 74.799 131.935 73.775C132.399 72.751 133.047 71.974 133.879 71.446C134.71 70.918 135.671 70.654 136.759 70.654C137.847 70.654 138.807 70.918 139.64 71.446C140.472 71.974 141.12 72.751 141.584 73.775C142.048 74.799 142.28 76.039 142.28 77.495C142.28 78.951 142.048 80.191 141.584 81.216M140.708 69.85C139.563 69.186 138.248 68.854 136.759 68.854C135.271 68.854 133.955 69.186 132.811 69.85C131.667 70.514 130.778 71.494 130.146 72.791C129.514 74.086 129.198 75.655 129.198 77.495C129.198 79.336 129.514 80.904 130.146 82.2C130.778 83.496 131.667 84.476 132.811 85.141C133.955 85.804 135.271 86.136 136.759 86.136C138.248 86.136 139.563 85.804 140.708 85.141C141.852 84.476 142.74 83.496 143.372 82.2C144.004 80.904 144.32 79.336 144.32 77.495C144.32 75.655 144.004 74.086 143.372 72.791C142.74 71.494 141.852 70.514 140.708 69.85M161.771 79.992L165.66 79.992C165.452 80.712 165.059 81.28 164.484 81.696C163.907 82.113 163.211 82.32 162.395 82.32C161.115 82.32 160.127 81.912 159.43 81.096C158.734 80.279 158.386 79.079 158.386 77.495C158.386 75.991 158.715 74.811 159.371 73.955C160.027 73.099 160.971 72.67 162.204 72.67C163.003 72.67 163.667 72.859 164.195 73.234C164.723 73.61 165.116 74.135 165.372 74.807L169.74 74.807C169.389 73.015 168.584 71.574 167.327 70.486C166.071 69.398 164.363 68.854 162.204 68.854C160.587 68.854 159.174 69.19 157.967 69.862C156.758 70.535 155.819 71.518 155.147 72.815C154.474 74.111 154.138 75.671 154.138 77.495C154.138 79.32 154.474 80.88 155.147 82.176C155.819 83.472 156.758 84.457 157.967 85.129C159.174 85.8 160.587 86.136 162.204 86.136C163.788 86.136 165.163 85.804 166.332 85.141C167.5 84.476 168.4 83.544 169.032 82.344C169.664 81.143 169.981 79.744 169.981 78.143L169.981 76.751L161.771 76.751ZM172.333 85.897L176.654 85.897L176.654 69.094L172.333 69.094ZM191.895 77.952C191.318 77.28 190.63 76.804 189.831 76.524C189.029 76.243 188.022 75.983 186.806 75.743C185.702 75.535 184.893 75.32 184.382 75.095C183.869 74.872 183.614 74.503 183.614 73.991C183.614 73.575 183.797 73.231 184.166 72.959C184.533 72.687 185.085 72.551 185.821 72.551C186.494 72.551 187.038 72.691 187.454 72.971C187.869 73.251 188.102 73.639 188.15 74.136L192.471 74.136C192.359 72.503 191.723 71.215 190.563 70.27C189.402 69.327 187.782 68.855 185.702 68.855C184.533 68.855 183.453 69.039 182.461 69.406C181.468 69.775 180.673 70.343 180.073 71.111C179.472 71.879 179.173 72.839 179.173 73.991C179.173 75.272 179.469 76.268 180.061 76.979C180.653 77.692 181.353 78.188 182.161 78.468C182.969 78.748 183.989 78.992 185.222 79.2C186.294 79.377 187.078 79.572 187.574 79.789C188.07 80.004 188.318 80.352 188.318 80.833C188.318 81.905 187.445 82.441 185.702 82.441C184.853 82.441 184.185 82.273 183.697 81.936C183.21 81.6 182.942 81.144 182.893 80.568L178.572 80.568C178.684 82.377 179.396 83.757 180.709 84.709C182.021 85.661 183.685 86.137 185.702 86.137C187.19 86.137 188.462 85.905 189.518 85.441C190.574 84.976 191.379 84.337 191.931 83.52C192.483 82.704 192.759 81.785 192.759 80.76C192.759 79.56 192.471 78.624 191.895 77.952"/><path id="lg-p-bar" d="M149.479 65.521C148.865 65.521 148.369 66.018 148.369 66.631L148.369 90.568C148.369 91.181 148.865 91.678 149.479 91.678C150.093 91.678 150.589 91.181 150.589 90.568L150.589 66.631C150.589 66.018 150.093 65.521 149.479 65.521"/><symbol id="lg-full" viewBox="12.46 10.02 180.60 81.96"><use href="#lg-p-str" style="fill:var(--lg-acc)"/><use href="#lg-p-bar" style="fill:var(--lg-acc)"/><use href="#lg-p-pin" style="fill:var(--lg-ink)"/><use href="#lg-p-txt" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-icon" viewBox="67.87 10.02 69.78 49.75"><use href="#lg-p-str" style="fill:var(--lg-acc)"/><use href="#lg-p-pin" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-word" viewBox="12.46 65.22 180.60 26.76"><use href="#lg-p-bar" style="fill:var(--lg-acc)"/><use href="#lg-p-txt" style="fill:var(--lg-ink)"/></symbol><symbol id="lg-pin" viewBox="85.31 9.12 19.24 26.50"><use href="#lg-p-pin" style="fill:var(--lg-ink)"/></symbol></defs></svg>
 <main class="wrap">
   <div class="page-h">
-    <div class="eyebrow">HubMigration · concept · October 29, 2026 · layouts and colors added November 3</div>
+    <div class="eyebrow">HubMigration · concept · October 29, 2026 · design chosen November 17: classic layout, Black &amp; lime</div>
     <h1>Holmes County GIS Hub: site mockup</h1>
     <p>The proposed hub as an ArcGIS Enterprise Site on Portal. It's the same site in all three views: switch who's looking and watch the search results, rows, downloads and the Staff page change. Yellow notes explain how each part would be built. Layer names and counts are real; links and downloads are placeholders.</p>
-    <p>Layout and Colors switch the design. Any layout works with any colors. The colors would mostly go in Sites' own color settings (header, body, buttons and row backgrounds), and every scheme's text colors meet WCAG 2.1 AA contrast.</p>
+    <p>The chosen design: the classic layout in Black &amp; lime (November 17, 2026). The colors would mostly go in Sites' own color settings (header, body, buttons and row backgrounds), and all text colors meet WCAG 2.1 AA contrast.</p>
   </div>
     <div class="ctl">
       <div class="ctl-row"><span class="lbl" id="persona-lbl">View as</span>
@@ -465,23 +376,7 @@ main.wrap{padding-bottom:48px}
         <button type="button" role="radio" aria-checked="false" data-p="partner">Partner · fire district</button>
         <button type="button" role="radio" aria-checked="false" data-p="staff">County staff · Sanitary Engineer</button>
       </div></div>
-      <div class="ctl-row"><span class="lbl" id="layout-lbl">Layout</span>
-      <div class="seg" role="radiogroup" aria-labelledby="layout-lbl" id="layout">
-        <button type="button" role="radio" aria-checked="true" data-v="classic" data-desc="Today’s concept. The menu runs across the top, then a banner with search beside the county map, then four task cards.">Classic</button>
-        <button type="button" role="radio" aria-checked="false" data-v="search" data-desc="One big search box with the four tasks as links under it, then data by category. The plainest layout and the least custom work in Sites.">Search first</button>
-        <button type="button" role="radio" aria-checked="false" data-v="side" data-desc="The menu, search and data categories stay in a sidebar on every page, like a staff app. Sites has no side-menu setting, so this is the most custom option.">Side menu</button>
-        <button type="button" role="radio" aria-checked="false" data-v="tiles" data-desc="Eight large “How can we help?” buttons, with search in a two-row header. Easiest for first-time and occasional visitors.">Big buttons</button>
-        <button type="button" role="radio" aria-checked="false" data-v="map" data-desc="A large county map. Pick a township to see its parcels, contours and districts beside the map.">Map first</button>
-      </div></div>
-      <div class="ctl-row"><span class="lbl" id="colors-lbl">Colors</span>
-      <div class="seg" role="radiogroup" aria-labelledby="colors-lbl" id="colors">
-        <button type="button" role="radio" aria-checked="true" data-v="lime" data-desc="The current pick: charcoal top bar and footer, a pale lime banner and lime highlights."><span class="sw" aria-hidden="true"><i style="background:#232822"></i><i style="background:#eef5e1"></i><i style="background:#3c6e00"></i><i style="background:#8fd300"></i></span>Logo charcoal &amp; lime</button>
-        <button type="button" role="radio" aria-checked="false" data-v="black" data-desc="Near-black top bar and footer, a graphite banner and lime highlights. The boldest, and the closest to the logo’s dark version."><span class="sw" aria-hidden="true"><i style="background:#080908"></i><i style="background:#3e443a"></i><i style="background:#8fd300"></i></span>Black &amp; lime</button>
-        <button type="button" role="radio" aria-checked="false" data-v="forest" data-desc="Deep evergreen top bar and footer, a brighter forest-green banner, forest-green buttons and lime highlights."><span class="sw" aria-hidden="true"><i style="background:#0f2213"></i><i style="background:#2d5e33"></i><i style="background:#2e6b34"></i><i style="background:#8fd300"></i></span>Forest &amp; lime</button>
-        <button type="button" role="radio" aria-checked="false" data-v="pine" data-desc="Near-black top bar and footer, a deep pine-green banner and spring-green highlights. A darker, cooler green; the logo stripes are recolored to match."><span class="sw" aria-hidden="true"><i style="background:#070908"></i><i style="background:#1d4c39"></i><i style="background:#5ee08f"></i></span>Black &amp; pine</button>
-      </div></div>
       <label class="tgl"><input type="checkbox" id="notes-toggle" checked> Show planner notes</label>
-      <p class="ctl-cap" id="style-cap" aria-live="polite"></p>
     </div>
     <div class="browser" id="browser">
       <div class="bbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><div class="addr" id="addr">gis.co.holmes.oh.us/portal/apps/sites/#/hub</div><span class="btag">Concept · sample links</span></div>
@@ -527,8 +422,9 @@ const I = {
                       then {aud: group key (omit for public), d: description, pop: 1 = popular}
    COLS               the 8 collections (layers, staff edition, update, users)
    APPS               one A(...) per app: id, title, description, Apps-page section, kind, audience, note
-   TASKS / TILES      the home page's task cards and big buttons (just above the home page functions)
-   Page wording is in the page functions further down (search for "function page" and "function home").
+   TASKS / FEATURED   the home page's task cards and its rotating featured apps (just above the home page function)
+   NOTICES            the GIS bulletin's recent notices, and BULLETIN_TOPICS its sign-up choices (same place)
+   Page wording is in the page functions further down (search for "function page" and "function homeClassic").
    Yellow planner notes are the pn(...) calls; delete one to remove that note.
    ====================================================================== */
 /* ---------- people & groups ---------- */
@@ -632,7 +528,7 @@ const APPS = [
 const APPSEC = [['property','Property & land'],['permits','Permits & applications'],['roads','Roads & bridges'],['data','Data tools'],['stories','Stories']];
 
 /* ---------- state ---------- */
-const st = {p:'public', page:'home', arg:null, q:'', facets:{cat:new Set(), upd:new Set(), acc:new Set()}, tab:'download', twp:'Berlin', layout:'classic', colors:'lime', mtwp:null};
+const st = {p:'public', page:'home', arg:null, q:'', facets:{cat:new Set(), upd:new Set(), acc:new Set()}, tab:'download', twp:'Berlin'};
 const can = aud => PERSONAS[st.p].groups.includes(aud);
 const signedIn = () => st.p !== 'public';
 const visData = () => DATA.filter(d => can(d.aud));
@@ -696,34 +592,17 @@ function userBtn(){
   const P = PERSONAS[st.p];
   return signedIn() ? `<button class="s-user" data-act="signout" title="Sign out"><i>${P.ini}</i><span>${esc(P.acct)}</span></button>` : `<button class="s-signin" data-act="signin">Sign in</button>`;
 }
-const miniSearch = (id, form) => `<form class="s-ssearch" data-form="${form}" role="search"><label for="${id}" style="position:absolute;left:-9999px">Search</label><input id="${id}" type="search" placeholder="Search data and apps" autocomplete="off"><button type="submit" aria-label="Search">${I.search}</button></form>`;
 function header(){
-  if (st.layout === 'tiles') return headerTiles();
   return `<header class="s-hdr"><div class="s-in">
     ${brand()}
     <nav class="s-nav" aria-label="Site">${navItems().map(navBtn).join('')}
     ${userBtn()}
     </nav></div></header>`;
 }
-function headerTiles(){
-  return `<header><div class="s-hdr2-top"><div class="s-in">${brand()}${miniSearch('s-hdr-q','hdr')}${userBtn()}</div></div>
-    <nav class="s-hdr2-nav" aria-label="Site"><div class="s-in">${navItems().map(navBtn).join('')}</div></nav></header>`;
-}
-function sideNav(){
-  const catNow = st.page === 'data' && st.facets.cat.size === 1 ? [...st.facets.cat][0] : null;
-  return `<aside class="s-side">
-    ${brand()}
-    ${miniSearch('s-side-q','side')}
-    <nav class="s-snav" aria-label="Site">${navItems().map(([k,l,ic]) => `<button data-go="${k}"${curNav()===k?' aria-current="page"':''}>${I[ic]}${l}</button>`).join('')}</nav>
-    <div class="s-side-h" id="s-side-cats">Data by category</div>
-    <nav class="s-snav s-scats" aria-labelledby="s-side-cats">${visCats().map(([k,l]) => `<button data-catgo="${k}"${catNow===k?' aria-current="page"':''}>${I[CAT_IC[k]]}${esc(l)}</button>`).join('')}</nav>
-    <div class="s-side-foot">${userBtn()}${pn('Sites has no side-menu setting. This needs custom header HTML and CSS on every page: possible, but the most custom of the five layouts and the most likely to need rework after the 12.x upgrade.')}</div>
-  </aside>`;
-}
 function footer(){
   return `<footer class="s-foot"><div class="s-in">
-    <div class="col"><svg class="lg lg-f" role="img" aria-label="Holmes County GIS logo"><use href="#lg-full"/></svg><b>Holmes County GIS Office</b><p>75 E. Clinton St., Suite 112, Millersburg, OH 44654<br>(330) 674-2083 · Mon–Fri 8:30–4:30</p>${pn('The county GIS logo from the official files. Each color scheme uses an official version (navy and light blue, black and green, white) or a recolored one. The header puts the icon beside the wordmark because the stacked logo is too small to read in a 64-pixel bar. Sites takes the header logo as an uploaded image, so each scheme needs its own logo file.')}</div>
-    <div class="col"><b>Using our data</b><button data-go="help">Disclaimer &amp; terms</button><button data-go="developers">Services &amp; open data feed</button><button data-go="help">Accessibility</button></div>
+    <div class="col"><svg class="lg lg-f" role="img" aria-label="Holmes County GIS logo"><use href="#lg-full"/></svg><b>Holmes County GIS Office</b><p>75 E. Clinton St., Suite 112, Millersburg, OH 44654<br>(330) 674-2083 · Mon–Fri 8:30–4:30</p>${pn('The county GIS logo from the official files, in its black-and-green version: white text and lime stripes on the dark bars, black text on light backgrounds. The header puts the icon beside the wordmark because the stacked logo is too small to read in a 64-pixel bar. Sites takes the header logo as an uploaded image, so the white-and-lime file is the one to upload.')}</div>
+    <div class="col"><b>Using our data</b><button data-go="help">Disclaimer &amp; terms</button><button data-go="developers">Services &amp; open data feed</button><button data-go="help">Accessibility</button><button data-act="bulletin">Get GIS updates by email</button></div>
     <div class="col"><b>County staff &amp; partners</b>${signedIn()?`<button data-go="staff">Your workspace</button><button data-act="signout">Sign out</button>`:`<button data-act="signin">Sign in with your county account</button><button data-go="help">Request an account</button>`}</div>
   </div><div class="s-in s-legal">Data is provided as-is for general reference. Holmes County, OH makes no warranty as to its accuracy or completeness.</div></footer>`;
 }
@@ -749,31 +628,94 @@ function myTools(){
     <div class="s-grid">${apps.map(appCard).join('')}${col?`<button class="s-card" data-col="${col.id}"><b>${esc(col.t)}: ${esc(col.staff.t)}</b><p>Everything in the public collection plus ${col.adds.map(i=>DI[i].t.toLowerCase()).join(', ')}.</p><div class="s-meta"><span class="s-pill lk">${I.lock}${esc(GROUPS[col.staff.grp])}</span></div></button>`:''}</div>
     ${pn('A row set to “Limit to group” (this department’s group). Other departments’ rows exist on the same page but never render for this account.')}</section>`;
 }
-/* ---------- home page: shared pieces, then one function per layout ---------- */
+/* ---------- home page ---------- */
 const TASKS = [
   ['home','Look up a property','Owner, value, sales and aerials for any parcel.','app:gisonline','t-prop'],
   ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address applications.','apps:permits','t-permit'],
   ['dl','Download data','Single layers or ready-made collections, refreshed nightly.','collections',''],
   ['plug','Connect from ArcGIS Pro or QGIS','Live service URLs and the open data feed.','developers','']];
-const TILES = [
-  ['home','Look up a property','Owner, value, sales and aerials','app:gisonline'],
-  ['clip','Apply for a permit','Septic, sewer tie-in, driveway and address','apps:permits'],
-  ['bound','Find my districts','Township, precinct, school and tax district','catgo:boundaries'],
-  ['road','Roads & bridges','Road records, paving plans and weight limits','apps:roads'],
-  ['dl','Download data','Single layers or whole collections','collections'],
-  ['photo','Aerial photos & contours','2026 imagery and 2-ft contours by township','collection:elevation'],
-  ['plug','Connect from Pro or QGIS','Live service URLs and the open data feed','developers'],
-  ['help','Help & contact','Questions, accounts and terms of use','help']];
 const POPULAR = ['gisonline','luvc','sts','paving','roadrec','plats'];
 const RECENT = ['parcels','address','grav','ortho2026','precincts'];
-const CAT_IC = {property:'home', addresses:'pin', boundaries:'bound', roads:'road', sewer:'drop', environment:'leaf', elevation:'mountain', permits:'clip'};
-const visCats = () => CATEGORIES.filter(([k]) => visData().some(d => d.cat === k));
-const catBtn = ([k,l]) => { const n = visData().filter(d => d.cat === k).length;
-  return `<button class="s-catb" data-catgo="${k}"><span class="ti">${I[CAT_IC[k]]}</span><span><b>${esc(l)}</b><small>${n} dataset${n===1?'':'s'}</small></span></button>`; };
-const appRow = a => `<button class="s-row" data-app="${a.id}"><div><b>${esc(a.t)}</b><div class="s-meta"><span>${esc(a.d)}</span></div></div><div class="r">${esc(a.kind)}</div></button>`;
 const heroSearch = ph => `<form class="s-search" data-form="hero" role="search"><label for="s-hero-q" class="sr" style="position:absolute;left:-9999px">Search</label><input id="s-hero-q" type="search" placeholder="${ph || 'Search data and apps: parcels, sewer, precincts…'}" autocomplete="off"><button type="submit">${I.search}Search</button></form>`;
 const popChips = () => `<div class="s-pop">Popular: ${['Parcels','Address points','Sewer','Contours','Precincts'].map(q=>`<button data-q="${q}">${q}</button>`).join('')}</div>`;
 const signBand = () => `<div class="s-signband"><span><b>County staff and partners:</b> sign in to see your department's tools and restricted data on these same pages.</span><button class="s-btn ghost" data-act="signin">${I.lock}Sign in</button></div>`;
+/* Featured app: rotates every 8 seconds through new and popular apps; only apps the viewer can see are shown. */
+const FEATURED = [
+  {app:'driveway', tag:'New', pic:'roads', blurb:'Request a driveway permit and a new address number online, and pay the fee by card.'},
+  {app:'gisonline', tag:'Most used', pic:'parcels', blurb:'Look up any parcel by owner, address or parcel number, with aerial photos, zoning, sales and tax maps.'},
+  {app:'paving', tag:'This season', pic:'roads', blurb:'See which county roads are scheduled for paving and chip seal this year.'},
+  {app:'luvc', tag:'Updated', pic:'county', blurb:'Estimate CAUV values for your farm parcels.'},
+  {app:'treaty', tag:'Story', pic:'streams', blurb:'Follow the 1797 Greenville Treaty Line across the county, told by Holmes SWCD.'},
+  {app:'wastewater', tag:'New for your group', pic:'sewer', blurb:'Plant sampling results against permit limits, updated as field data comes in.'}];
+const PAUSE = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" fill="currentColor"/><rect x="9.5" y="2" width="3.5" height="12" fill="currentColor"/></svg>';
+const PLAY = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>';
+let featI = 0, featHold = false, featPaused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const featList = () => FEATURED.filter(f => { const a = APPS.find(x => x.id === f.app); return a && can(a.aud); });
+const featPic = k => k === 'parcels' ? parcelSVG()
+  : k === 'sewer' ? mapSVG({sewer:true, labels:false, roads:false, label:'Sewer lines'})
+  : k === 'streams' ? mapSVG({roads:false, labels:false, label:'Holmes County streams'})
+  : k === 'county' ? mapSVG({labels:false, label:'Holmes County'})
+  : mapSVG({croads:true, streams:false, labels:false, label:'Holmes County roads'});
+function featInner(f){
+  const a = APPS.find(x => x.id === f.app);
+  return `<div class="s-feat-pic" aria-hidden="true">${featPic(f.pic)}</div><div class="s-feat-txt">
+    <div class="s-feat-ey"><span class="s-pill tag">${esc(f.tag)}</span><span>${esc(a.kind)}</span>${lockPill(a.aud)}</div>
+    <h3>${esc(a.t)}</h3><p>${esc(f.blurb)}</p>
+    <div class="s-feat-btns"><button class="s-btn" data-app="${a.id}">Open the app ${I.arrow}</button><button class="s-btn ghost" data-go="apps">All apps</button></div></div>`;
+}
+function featBlock(){
+  const L = featList(); if (!L.length) return '';
+  featI %= L.length;
+  return `<section class="s-sec s-featsec" aria-roledescription="carousel" aria-label="Featured apps"><div class="s-sec-h"><h2>Featured app</h2>
+      <div class="s-feat-ctl"><button data-feat="prev" aria-label="Previous featured app">${I.arrow}</button>
+      <span class="s-dots">${L.map((f, i) => `<button class="s-dot" data-feat="${i}" aria-label="Featured app ${i + 1} of ${L.length}"${i === featI ? ' aria-current="true"' : ''}></button>`).join('')}</span>
+      <button data-feat="next" aria-label="Next featured app">${I.arrow}</button>
+      <button class="s-pause" data-feat="pause" aria-label="${featPaused ? 'Resume' : 'Pause'} rotation">${featPaused ? PLAY : PAUSE}</button></div></div>
+    <div class="s-feat" id="s-feat" aria-live="off">${featInner(L[featI])}</div>
+    ${pn('Sites has no rotating card. Simplest build: a Gallery card showing the one app tagged “featured”; the GIS office moves the tag when an app launches, or monthly. Cycling through several apps like this needs an Embed card holding a small custom page. Either way, visitors only see apps shared with them, so signed-in staff can also get their group’s new apps.')}</section>`;
+}
+function featShow(i, user){
+  const L = featList(), box = site.querySelector('#s-feat'); if (!box || !L.length) return;
+  featI = (i + L.length) % L.length;
+  box.setAttribute('aria-live', user ? 'polite' : 'off');
+  box.innerHTML = featInner(L[featI]);
+  site.querySelectorAll('.s-dot').forEach((d, j) => j === featI ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'));
+}
+function featCtl(v){
+  if (v === 'pause') { featPaused = !featPaused; const b = site.querySelector('.s-pause');
+    b.innerHTML = featPaused ? PLAY : PAUSE; b.setAttribute('aria-label', (featPaused ? 'Resume' : 'Pause') + ' rotation'); return; }
+  featShow(v === 'prev' ? featI - 1 : v === 'next' ? featI + 1 : +v, true);
+}
+function bindFeat(){ // hold the rotation while the pointer or keyboard focus is on it
+  const fs = site.querySelector('.s-featsec'); featHold = false; if (!fs) return;
+  fs.addEventListener('mouseenter', () => featHold = true); fs.addEventListener('mouseleave', () => featHold = false);
+  fs.addEventListener('focusin', () => featHold = true); fs.addEventListener('focusout', e => { if (!fs.contains(e.relatedTarget)) featHold = false; });
+}
+
+/* GIS bulletin: email sign-up for notices about moves and changes, beside the latest notices. */
+const NOTICES = [
+  ['Coming soon', 'The hub is moving to the county’s own Portal. Every new link will be listed here first.'],
+  ['Nov 2026', 'Sewer accounts on the map now update every night from the county’s billing system.'],
+  ['Oct 2026', '2026 aerial photos added to the Data Extraction Tool.']];
+const BULLETIN_TOPICS = [['App and service moves', 'new web addresses, retired apps', true], ['Planned downtime', '', true],
+  ['Data updates', 'parcels, aerial photos, contours', false], ['New apps and features', '', false]];
+function bulletin(){
+  return `<section class="s-sec s-bull" id="s-bull" aria-labelledby="s-bull-h"><div class="s-bull-grid">
+      <div class="s-bull-l"><h2 id="s-bull-h">GIS bulletin</h2><p>Get an email when county maps, apps or data move or change. Only GIS notices; unsubscribe any time.</p>
+        <h3>Recent notices</h3><ul class="s-notices">${NOTICES.map(([d, t]) => `<li><span class="d">${esc(d)}</span><span>${esc(t)}</span></li>`).join('')}</ul></div>
+      <form class="s-bullform" data-form="bulletin" aria-label="Sign up for the GIS bulletin">
+        <label class="em" for="s-bull-email">Email address<input id="s-bull-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+        <fieldset><legend>Send me</legend>${BULLETIN_TOPICS.map(([t, d, on]) => `<label class="ck"><input type="checkbox" value="${esc(t)}"${on ? ' checked' : ''}><span>${esc(t)}${d ? ` (${esc(d)})` : ''}</span></label>`).join('')}</fieldset>
+        <button type="submit" class="s-btn">Sign up</button>
+        <small>Every bulletin has an unsubscribe link. Your address is used only for these notices.</small>
+      </form></div>
+    ${pn('Sites has no newsletter or follow button for the public. Simplest build: a Survey123 sign-up form in an Embed card (submit-only, like the permit forms) that saves to a private table; the GIS office emails each bulletin with an unsubscribe link. Each notice is also posted as a Portal item tagged “notice”, which a Gallery card lists here.')}</section>`;
+}
+function toBulletin(){
+  if (st.page !== 'home') go('home');
+  const i = site.querySelector('#s-bull-email'); if (!i) return;
+  i.scrollIntoView({block:'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); i.focus({preventScroll:true});
+}
 function homeTasks(){
   return `<section class="s-sec" aria-label="What do you need?"><div class="s-sec-h"><h2>What do you need?</h2></div>
         <div class="s-tasks">${TASKS.map(([ic,t,d,go,cl])=>`<button class="s-task ${cl}" data-task="${go}"><span class="ti">${I[ic]}</span><b>${t}</b><span>${d}</span></button>`).join('')}</div>
@@ -800,68 +742,9 @@ function homeClassic(){
       ${pn('Sites search card. It searches the site catalog as the visitor, so signed-in accounts also find what their groups can see.')}</div>
       <div class="s-heromap">${mapSVG({style:'hero',croads:true,label:'Holmes County: 14 townships and 7 villages, with state routes and streams'})}</div>
     </div></div>
-    <div class="s-in s-main">${homeTasks()}${homeRest()}</div>`;
+    <div class="s-in s-main">${homeTasks()}${featBlock()}${homeRest()}${bulletin()}</div>`;
 }
-function homeSearch(){
-  const popular = POPULAR.map(id => APPS.find(a=>a.id===id));
-  return `<div class="s-sf"><div class="s-in">
-      <svg class="lg lg-big" role="img" aria-label="Holmes County GIS"><use href="#lg-full"/></svg><h1>What are you looking for?</h1>
-      ${heroSearch('Try “parcels”, “sewer”, “precincts” or an app name')}
-      ${popChips()}
-      <div class="s-quick">${TASKS.map(([ic,t,,go])=>`<button data-task="${go}">${I[ic]}${t}</button>`).join('')}</div>
-      ${pn('A search card in a plain row, with the four tasks as a text card of links. The least custom work of the five layouts, and it suits visitors who already know what they want.')}
-    </div></div>
-    <div class="s-in s-main">
-      <section class="s-sec"><div class="s-sec-h"><h2>Browse data by category</h2><button class="s-link" data-go="data">All data ${I.arrow}</button></div>
-        <div class="s-cats">${visCats().map(catBtn).join('')}</div>
-        ${pn('Sites’ category card: one icon per category, each opening the search filtered to it. Same 8 categories as the Data page filter; a category shows only when the visitor can see something in it, so the public sees 7 (Health & Permits is all group-only).')}</section>
-      ${signedIn() ? myTools() : signBand()}
-      <div class="s-two">
-        <section class="s-sec"><div class="s-sec-h"><h2>Popular apps</h2><button class="s-link" data-go="apps">All apps ${I.arrow}</button></div><div class="s-list">${popular.map(appRow).join('')}</div></section>
-        <section class="s-sec"><div class="s-sec-h"><h2>Recently updated</h2><button class="s-link" data-go="data">All data ${I.arrow}</button></div><div class="s-list">${RECENT.map(id=>dataRow(DI[id])).join('')}</div></section>
-      </div>
-    </div>`;
-}
-function homeSide(){
-  return `<div class="s-in s-main">
-    <div class="s-sidehero"><div><div class="ey">Holmes County, Ohio</div><h1>Maps, apps and data for Holmes County</h1>
-      <p>Look up a property, apply for a permit, or download the county's GIS data. Search and every part of the site are in the menu on the left.</p></div>
-      <div>${mapSVG({croads:true,label:'Holmes County: 14 townships and 7 villages'})}</div></div>
-    ${homeTasks()}${homeRest()}</div>`;
-}
-function homeTiles(){
-  return `<div class="s-tband"><div class="s-in">
-      <h1>How can we help?</h1><p>Pick what you'd like to do, or search at the top of the page.</p>
-      <div class="s-tiles">${TILES.map(([ic,t,d,go])=>`<button class="s-tile" data-task="${go}"><span class="ti">${I[ic]}</span><b>${t}</b><span>${d}</span></button>`).join('')}</div>
-      ${pn('Eight big buttons as one row of Sites cards with links. Plain words and large targets suit first-time and occasional visitors. The two-row header with a search box probably needs a short custom header; check it against Sites’ header settings during the build.')}
-    </div></div>
-    <div class="s-in s-main">${homeRest()}</div>`;
-}
-function homeMap(){
-  return `<div class="s-mf"><div class="s-in">
-      <div class="s-mf-top"><div><div class="ey">Holmes County, Ohio</div><h1>Explore the county by map</h1></div>${heroSearch()}</div>
-      <div class="s-mf-grid"><div id="mf-map">${mapSVG({style:'hero',croads:true,pick:st.mtwp||'',label:'Map of Holmes County. Choose a township to see its data'})}</div>
-      <div class="s-mf-panel" id="mf-panel">${mfPanel()}</div></div>
-      ${pn('A full-width row with an embedded map (an Instant App or Experience Builder page in an embed card). In the real site, clicking a township would act inside that app, so this side panel is an approximation.')}
-    </div></div>
-    <div class="s-in s-main">${homeTasks()}${homeRest()}</div>`;
-}
-function mfPanel(){
-  if (!st.mtwp) return `<div class="ey">Start here</div><h2 tabindex="-1">Pick a township</h2><p>Click the map, or choose one:</p>
-    <div class="s-twps">${GEO.townships.map(t=>t.n).sort().map(n=>`<button data-twpgo="${esc(n)}">${esc(n)}</button>`).join('')}</div>`;
-  const n = st.mtwp;
-  const rows = [
-    ['home','Parcels & property records','GIS On-Line, zoomed to this township',`data-act="ext" data-what="GIS On-Line zoomed to ${esc(n)} Township"`],
-    ['mountain','2-ft contours',`HolmesCo_Contours_${slug(n)}.gdb.zip`,`data-twpcont="${esc(n)}"`],
-    ['bound','Voting precincts & polling places','Precinct boundaries and where to vote','data-ds="precincts"'],
-    ['bound','School districts','Which district serves which area','data-ds="schools"'],
-    ['pin','Address points','Every addressed structure and site','data-ds="address"']];
-  return `<div class="ey">Township</div><h2 tabindex="-1">${esc(n)} Township</h2>
-    <div class="s-list">${rows.map(([ic,t,d,attr])=>`<button class="s-row" ${attr}>${I[ic]}<div><b>${t}</b><div class="s-meta"><span>${esc(d)}</span></div></div></button>`).join('')}</div>
-    <div><button class="s-link" data-twpgo="">Choose another township</button></div>`;
-}
-const HOMES = {classic:homeClassic, search:homeSearch, side:homeSide, tiles:homeTiles, map:homeMap};
-function pageHome(){ return (HOMES[st.layout] || homeClassic)(); }
+function pageHome(){ return homeClassic(); }
 function pageApps(){
   const f = st.arg;
   const secs = APPSEC.filter(([k]) => !f || k === f);
@@ -1003,7 +886,7 @@ function pageHelp(){
   return `<div class="s-in s-main"><div class="s-page-h"><div class="s-crumb"><button data-go="home">Home</button>›<span>Help</span></div><h1>Help &amp; terms</h1></div>
     <section class="s-sec"><div class="s-list">${faq.map(([q,a])=>`<div class="s-row" style="cursor:default;grid-template-columns:1fr"><b>${q}</b><span style="color:var(--s-ink2);font-size:.92rem">${a}</span></div>`).join('')}</div></section>
     <section class="s-sec"><div class="s-sec-h"><h2>Disclaimer</h2></div><p style="max-width:760px;color:var(--s-ink2);font-style:italic">The data accessed through this website provides a visual display of geographical information. Every reasonable effort has been made to ensure the accuracy of the maps and related data. Holmes County, OH makes no warranty, representation or guarantee of the content, sequence, accuracy, timeliness or completeness of the data provided herein…</p>
-    ${pn('The county’s existing AGOL disclaimer, carried over. Final wording for terms and the accessibility statement should come from the county.')}</section></div>`;
+    ${pn('The county’s existing AGOL disclaimer, carried over. Final wording for terms and the accessibility statement should be finalized at some point.')}</section></div>`;
 }
 function pageStaff(){
   if (!signedIn()) { st.page='home'; return pageHome(); }
@@ -1022,12 +905,9 @@ function pageStaff(){
 /* ---------- render & routing ---------- */
 const PAGES = {home:pageHome, apps:pageApps, data:pageData, dataset:pageDataset, collections:pageCollections, collection:pageCollection, developers:pageDevelopers, help:pageHelp, staff:pageStaff};
 function render(scroll){
-  site.dataset.layout = st.layout; site.dataset.colors = st.colors;
-  const body = `<div id="s-body">${PAGES[st.page]()}</div>`;
-  site.innerHTML = (st.layout === 'side'
-      ? `<div class="s-shell">${sideNav()}<div class="s-shell-main">${body}${footer()}</div></div>`
-      : header() + body + footer())
+  site.innerHTML = header() + `<div id="s-body">${PAGES[st.page]()}</div>` + footer()
     + '<div class="s-toast" role="status" aria-live="polite"></div>';
+  bindFeat();
   const extra = ADDR[st.page] + (['dataset','collection'].includes(st.page) ? st.arg : '');
   document.getElementById('addr').textContent = 'gis.co.holmes.oh.us/portal/apps/sites/#/hub' + extra;
   if (scroll){ const b = document.getElementById('browser'); const top = b.getBoundingClientRect().top; if (top < 0 || top > innerHeight * .6) b.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}); }
@@ -1038,7 +918,6 @@ function go(page, arg, opts){
   render(true);
 }
 function goCat(k){ st.q = ''; st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); st.facets.cat.add(k); go('data'); }
-function pickTwp(n){ st.mtwp = n; render(false); const h = site.querySelector('#mf-panel h2'); if (h) h.focus({preventScroll:true}); }
 function setPersona(p, quiet){
   st.p = p;
   document.querySelectorAll('#persona button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.p === p)));
@@ -1056,15 +935,13 @@ site.addEventListener('click', e => {
       fig.querySelector('svg').outerHTML = mapSVG({pick:st.twp,roads:false,streams:false,label:'Click a township to choose its contour download'});
       const np = fig.querySelector(`path[data-twp="${CSS.escape(st.twp)}"]`); if (np && e.detail === 0) np.focus();
       document.getElementById('twp-name').textContent = st.twp; document.getElementById('twp-file').textContent = `HolmesCo_Contours_${slug(st.twp)}.gdb.zip`; }
-    const mf = document.getElementById('mf-map');
-    if (mf && mf.contains(t)) pickTwp(ds.twp);
     return; }
+  if (ds.feat !== undefined) return featCtl(ds.feat);
+  if (ds.act === 'bulletin') return toBulletin();
   if (ds.go) return go(ds.go);
   if (ds.ds) return go('dataset', ds.ds);
   if (ds.col) return go('collection', ds.col);
   if (ds.catgo) return goCat(ds.catgo);
-  if (ds.twpgo !== undefined) return pickTwp(ds.twpgo || null);
-  if (ds.twpcont) { st.twp = ds.twpcont; return go('collection', 'elevation'); }
   if (ds.tab) { st.tab = ds.tab; return render(false); }
   if (ds.apps !== undefined) return go('apps', ds.apps || null);
   if (ds.q) { st.q = ds.q; st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); return go('data'); }
@@ -1086,6 +963,10 @@ site.addEventListener('keydown', e => {
 site.addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target.dataset.form; const inp = e.target.querySelector('input');
+  if (f === 'bulletin') { const em = inp.value.trim(), topics = [...e.target.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value.toLowerCase());
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { inp.focus(); return toast('Enter an email address to sign up.'); }
+    if (!topics.length) return toast('Pick at least one kind of notice.');
+    e.target.reset(); return toast(`Concept only: this would sign up ${em} for ${topics.join(', ')}.`); }
   st.q = inp.value; if (f !== 'data') { st.facets.cat.clear(); st.facets.upd.clear(); st.facets.acc.clear(); go('data'); }
   else { render(false); const i = document.getElementById('s-data-q'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
 });
@@ -1094,7 +975,7 @@ site.addEventListener('change', e => {
   const set = st.facets[c.dataset.facet]; c.checked ? set.add(c.value) : set.delete(c.value); render(false);
 });
 
-/* ---------- the switches above the mockup: View as, Layout, Colors ---------- */
+/* ---------- the switches above the mockup: View as and planner notes ---------- */
 function radios(id, key, pick){
   const g = document.getElementById(id);
   const btns = () => [...g.querySelectorAll('button[role="radio"]')];
@@ -1107,30 +988,10 @@ function radios(id, key, pick){
   return v => btns().forEach(b => b.setAttribute('aria-checked', String(b.dataset[key] === v)));
 }
 radios('persona', 'p', p => { if (p !== st.p) setPersona(p); });
-const markLayout = radios('layout', 'v', v => { if (v !== st.layout) setStyle(v, null); });
-const markColors = radios('colors', 'v', v => { if (v !== st.colors) setStyle(null, v); });
-const optBtn = (id, v) => document.querySelector(`#${id} button[data-v="${CSS.escape(v)}"]`);
-function setStyle(layout, colors){
-  if (layout) st.layout = layout;
-  if (colors) st.colors = colors;
-  markLayout(st.layout); markColors(st.colors);
-  const line = (what, id, v) => { const b = optBtn(id, v); return `<span><b>${what} · ${esc(b.textContent.trim())}:</b> ${esc(b.dataset.desc)}</span>`; };
-  document.getElementById('style-cap').innerHTML = line('Layout', 'layout', st.layout) + line('Colors', 'colors', st.colors);
-  try { localStorage.setItem('hubLayout', st.layout); localStorage.setItem('hubColors', st.colors); } catch(_){}
-  try { history.replaceState(null, '', '#layout=' + st.layout + '&colors=' + st.colors); } catch(_){}
-  render(false);
-}
 document.getElementById('notes-toggle').addEventListener('change', e => { site.classList.toggle('no-notes', !e.target.checked); try { localStorage.setItem('hubNotes', e.target.checked ? '1' : '0'); } catch(_){} });
 try { if (localStorage.getItem('hubNotes') === '0') { document.getElementById('notes-toggle').checked = false; site.classList.add('no-notes'); } } catch(_){}
-document.addEventListener('DOMContentLoaded', () => {
-  let l = 'classic', c = 'lime';
-  try { l = localStorage.getItem('hubLayout') || l; c = localStorage.getItem('hubColors') || c; } catch(_){}
-  const h = new URLSearchParams(location.hash.slice(1));
-  l = h.get('layout') || l; c = h.get('colors') || c;
-  if (!optBtn('layout', l)) l = 'classic';
-  if (!optBtn('colors', c)) c = 'lime';
-  setStyle(l, c);
-});
+document.addEventListener('DOMContentLoaded', () => render(false)); // after the GEO script below has loaded
+setInterval(() => { if (st.page === 'home' && !featPaused && !featHold && !document.hidden) featShow(featI + 1, false); }, 8000);
 })();
 </script>
 <!-- Generated map shapes (townships, villages, roads, streams, sewer, sample parcels). Don't hand-edit. -->
